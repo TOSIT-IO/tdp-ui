@@ -19,14 +19,8 @@ App should be available at [http://localhost:3000](http://localhost:3000).
 
 ## Contributions
 
-Git hooks are defined using [Husky](https://typicode.github.io/husky/#/) to enforce good coding practice. The `prepare` script initializes Husky:
-
-```bash
-npm run prepare   # Initialize Husky git hooks
-```
-
-For each commit, Husky automatically:
+Git hooks are defined using [Husky](https://typicode.github.io/husky/#/) to enforce good coding practices. For each commit, Husky automatically:
 
 - Lint your staged files (see [ESLint](https://eslint.org/))
 - Format your staged files (see [Prettier](https://prettier.io/))
-- Lint your commit messages according to the [Conventional Commit specification](https://www.conventionalcommits.org/en/v1.0.0/) (see [commitlint](https://github.com/conventional-changelog/commitlint  ))
+- Lint your commit messages according to the [Conventional Commit specification](https://www.conventionalcommits.org/en/v1.0.0/) (see [commitlint](https://github.com/conventional-changelog/commitlint))
