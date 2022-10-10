@@ -10,7 +10,8 @@
     "lint": "next lint",
     "prepare": "husky install",
     "prettier:check": "npx prettier --check .",
-    "prettier:fix": "npx prettier --write ."
+    "prettier:fix": "npx prettier --write .",
+    "postinstall": "./scripts/downloadGenerator.sh"
   },
   "dependencies": {
     "next": "^12.3.1",
