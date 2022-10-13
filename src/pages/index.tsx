@@ -1,5 +1,5 @@
-function HomePage() {
-  return <div>Hello World!</div>
-}
+import Paperbase from 'src/components/Paperbase'
 
-export default HomePage
+export default function HomePage() {
+  return <Paperbase />
+}
