@@ -1,12 +1,11 @@
 import type { AppProps } from 'next/app'
-import { TdpClientContext } from 'src/contexts'
-import { TdpClient } from 'src/clients'
+import { TdpClientContextProvider } from 'src/contexts'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <TdpClientContext.Provider value={TdpClient()}>
+    <TdpClientContextProvider>
       <Component {...pageProps} />
-    </TdpClientContext.Provider>
+    </TdpClientContextProvider>
   )
 }
-export default MyApp
+export default App
