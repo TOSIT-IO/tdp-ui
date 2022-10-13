@@ -11,3 +11,7 @@ export type TdpClientType = {
   deployApi: DeployApi
   servicesApi: ServicesApi
 }
+
+export type TdpClientContextValueType = {
+  isServerRunning: boolean
+}
