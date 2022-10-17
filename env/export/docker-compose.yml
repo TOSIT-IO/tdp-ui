@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  web:
+    image: nginx
+    volumes:
+      - ../../out:/usr/share/nginx/html:ro
+    ports:
+      - "3000:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
