@@ -18,9 +18,9 @@ const TdpClientContextValue = (): TdpClientContextValueType => {
   return { isServerRunning }
 }
 
-export const TdpClientContext = createContext<
-  undefined | TdpClientContextValueType
->(undefined)
+export const TdpClientContext = createContext<null | TdpClientContextValueType>(
+  null
+)
 
 export const TdpClientContextProvider = ({ children }) => {
   const tdpClientContextValue = TdpClientContextValue()
