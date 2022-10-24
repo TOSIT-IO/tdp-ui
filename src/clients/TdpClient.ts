@@ -5,7 +5,7 @@ import {
   DeployApi,
   ServicesApi,
 } from '@/client-sdk'
-import config from 'src/config/api'
+import config from 'src/config'
 
 import type { TdpClientType } from 'src/types'
 
