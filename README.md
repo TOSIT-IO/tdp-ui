@@ -11,16 +11,28 @@ The UI requires the following to work:
 - [Java](https://www.java.com/).  
   _Java is used to [generate the API client SDK](docs/openapi-client.md)._
 
-It also asumes that you are running a [`tdp-server`](https://github.com/TOSIT-IO/tdp-server) with the appropriate `cors` configuration (`BACKEND_CORS_ORIGINS=[...,"http://localhost:3000"]`).
+It also assumes that you are running:
+
+- [`tdp-server`](https://github.com/TOSIT-IO/tdp-server) with the appropriate `cors` configuration (`BACKEND_CORS_ORIGINS=[...,"http://localhost:3000"]`).
+- An identity provider, provisioned to work with `tdp-server`. The idp must contain `http://localhost:3000/*` in its `redirectUris` list.  
+  Note: `tdp_server` provides ready-to-use [docker environment](https://github.com/TOSIT-IO/tdp-server/tree/master/dev) for development and testing purposes.
 
 ## Usage
+
+Use the example `env/.env.dev` file to provide the `tdp-server` and idp informations:
+
+```bash
+cp dev/.env.dev .env
+```
+
+Install and run the client in development mode:
 
 ```bash
 npm install       # Install dependencies
 npm run dev       # Run the app in development mode
 ```
 
-App should be available at [http://localhost:3000](http://localhost:3000).
+App should be available at <http://localhost:3000>.
 
 ### Export
 
