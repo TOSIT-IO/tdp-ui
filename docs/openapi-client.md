@@ -21,10 +21,13 @@ Note: the `postinstall` npm script is automatically ran when doing `npm install`
 ## Manual generation
 
 1. Download the OpenAPI Generator CLI jar:
+
    ```bash
    wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.2.0/openapi-generator-cli-6.2.0.jar -O openapi-generator-cli.jar
    ```
+
 2. Use the `openapi-generator-cli` to generate the API client SDK:
+
    ```bash
    java -jar openapi-generator-cli.jar generate \
      -i schemas/tdp-server_0.1.0_openapi.json \
