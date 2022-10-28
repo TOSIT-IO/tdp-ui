@@ -22,7 +22,7 @@ It also assumes that you are running:
 Use the example `env/.env.dev` file to provide the `tdp-server` and idp informations:
 
 ```bash
-cp dev/.env.dev .env
+cp env/.env.dev .env
 ```
 
 Install and run the client in development mode:
