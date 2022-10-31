@@ -1,40 +1,34 @@
-import { createContext, useState } from 'react'
-import { TdpClient } from 'src/clients'
+import { createContext, useContext } from 'react'
+import {
+  Configuration,
+  DefaultApi,
+  ComponentsApi,
+  DeployApi,
+  ServicesApi,
+} from '@/client-sdk'
+import config from 'src/config/api'
 
-import type { TdpClientContextValueType } from 'src/types'
-
-const TdpClientContextValue = (): TdpClientContextValueType => {
-  const { defaultApi, componentsApi, deployApi, servicesApi } = TdpClient()
-  const [isServerRunning, setIsServerRunning] = useState(null)
-  const [servicesList, setServicesList] = useState([])
-
-  async function getStatus() {
-    setTimeout(async () => {
-      const res = await defaultApi.rootGet()
-      setIsServerRunning(!!res.data)
-    }, 1000)
-  }
-  getStatus()
-
-  async function getServicesList() {
-    const res = await servicesApi.getServicesApiV1ServiceGet()
-    setServicesList(res.data.map((service) => service.id))
-  }
-  getServicesList()
-
-  return { isServerRunning, servicesList }
+type TdpClientType = {
+  defaultApi: DefaultApi
+  componentsApi: ComponentsApi
+  deployApi: DeployApi
+  servicesApi: ServicesApi
 }
 
-export const TdpClientContext = createContext<null | TdpClientContextValueType>(
-  null
-)
+const apiConfig: Configuration = new Configuration({
+  basePath: config.apiBasePath,
+})
 
-export const TdpClientContextProvider = ({ children }) => {
-  const tdpClientContextValue = TdpClientContextValue()
+const TdpClientContext = createContext<TdpClientType>({
+  defaultApi: new DefaultApi(apiConfig),
+  componentsApi: new ComponentsApi(apiConfig),
+  deployApi: new DeployApi(apiConfig),
+  servicesApi: new ServicesApi(apiConfig),
+})
 
-  return (
-    <TdpClientContext.Provider value={tdpClientContextValue}>
-      {children}
-    </TdpClientContext.Provider>
-  )
+export const useTdpClient = (): TdpClientType => {
+  const tdpClient = useContext(TdpClientContext)
+  if (!tdpClient) throw new Error('useTdpClient must be inside a Provider')
+
+  return tdpClient
 }
