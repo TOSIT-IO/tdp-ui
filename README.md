@@ -6,7 +6,7 @@
 
 The UI requires the following to work:
 
-- [Node.js](https://nodejs.org/en/) 12.22.0 or later.  
+- [Node.js](https://nodejs.org/en/) 14.6.0 or later.  
   _The UI is based on [Next.js](https://nextjs.org/), which requires Node.js to be installed._
 - [Java](https://www.java.com/).  
   _Java is used to [generate the API client SDK](docs/openapi-client.md)._
