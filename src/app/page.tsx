@@ -1,12 +1,12 @@
-'use client'
-
-import { useTdpClient } from 'src/hooks/useTdpClient'
+import Link from 'next/link'
 
 export default function App() {
-  const { isServerRunning } = useTdpClient()
   return (
-    <pre className="text-rose-600">
-      {JSON.stringify(isServerRunning, null, 2)}
-    </pre>
+    <>
+      <h1>Login page</h1>
+      <Link href="/dashboard" className="text-blue-800 underline">
+        To the dashboard
+      </Link>
+    </>
   )
 }
