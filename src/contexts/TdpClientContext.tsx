@@ -6,6 +6,7 @@ import type { TdpClientContextValueType } from 'src/types'
 const TdpClientContextValue = (): TdpClientContextValueType => {
   const { defaultApi, componentsApi, deployApi, servicesApi } = TdpClient()
   const [isServerRunning, setIsServerRunning] = useState(null)
+  const [servicesList, setServicesList] = useState([])
 
   async function getStatus() {
     setTimeout(async () => {
@@ -15,7 +16,13 @@ const TdpClientContextValue = (): TdpClientContextValueType => {
   }
   getStatus()
 
-  return { isServerRunning }
+  async function getServicesList() {
+    const res = await servicesApi.getServicesApiV1ServiceGet()
+    setServicesList(res.data.map((service) => service.id))
+  }
+  getServicesList()
+
+  return { isServerRunning, servicesList }
 }
 
 export const TdpClientContext = createContext<null | TdpClientContextValueType>(

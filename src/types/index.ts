@@ -14,4 +14,5 @@ export type TdpClientType = {
 
 export type TdpClientContextValueType = {
   isServerRunning: boolean
+  servicesList: any[]
 }
