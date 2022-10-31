@@ -1,10 +1,10 @@
 'use client'
 
-import { useTdpClient } from 'src/hooks/useTdpClient'
+import { useServicesList } from 'src/hooks'
 import { classNames } from 'src/utils'
 
 export default function Menu() {
-  const { servicesList } = useTdpClient()
+  const servicesList = useServicesList()
 
   const navigation = [
     { name: 'Dashboard', href: '#' },
