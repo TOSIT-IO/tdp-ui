@@ -1,9 +1,8 @@
+'use client'
+
 import { useTdpClient } from 'src/hooks/useTdpClient'
 
-function HomePage() {
+export default function App() {
   const { isServerRunning } = useTdpClient()
-
   return <pre>{JSON.stringify(isServerRunning, null, 2)}</pre>
 }
-
-export default HomePage
