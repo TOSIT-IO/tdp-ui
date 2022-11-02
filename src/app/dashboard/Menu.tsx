@@ -42,7 +42,7 @@ export default function Menu({ className: additionalStyles }) {
   return (
     <nav
       className={classNames(
-        'overflow-y-auto space-y-1 px-2 flex flex-col',
+        'overflow-y-auto gap-1 px-2 flex flex-col',
         additionalStyles
       )}
     >
