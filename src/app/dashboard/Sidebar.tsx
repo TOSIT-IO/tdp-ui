@@ -12,8 +12,7 @@ export default function Sidebar({ className }) {
     <>
       <div
         className={classNames(
-          'bg-slate-700 flex flex-col',
-          !isSidebarOpen && 'hidden',
+          !isSidebarOpen ? 'hidden' : 'bg-slate-700 flex flex-col',
           className
         )}
       >
@@ -27,7 +26,7 @@ export default function Sidebar({ className }) {
         <Menu />
       </div>
       <button
-        className={isSidebarOpen && 'hidden'}
+        className={isSidebarOpen ? 'hidden' : undefined}
         type="button"
         onClick={() => setIsSidebarOpen(true)}
       >
