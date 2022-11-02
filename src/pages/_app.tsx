@@ -1,12 +1,23 @@
+import type { ReactElement, ReactNode } from 'react'
+import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { TdpClientContextProvider, AuthContextProvider } from 'src/contexts'
+import { AuthContextProvider } from 'src/contexts'
+import '../styles/globals.css'
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page)
+  return getLayout(
     <AuthContextProvider>
-      <TdpClientContextProvider>
-        <Component {...pageProps} />
-      </TdpClientContextProvider>
+      <Component {...pageProps} />
     </AuthContextProvider>
   )
 }
