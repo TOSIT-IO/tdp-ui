@@ -12,27 +12,27 @@ export default function Sidebar({ className }) {
     <>
       <div
         className={classNames(
-          'bg-slate-700 flex flex-col',
-          !isSidebarOpen && 'hidden',
+          !isSidebarOpen ? 'hidden' : 'bg-slate-700 relative',
           className
         )}
       >
         <button
-          className="absolute top-0 right-0 p-3"
+          // className="self-end p-2"
+          className="absolute right-1 top-1"
           type="button"
           onClick={() => setIsSidebarOpen(false)}
         >
-          <XMarkIcon className="h-6 w-6 text-red-700" aria-hidden="true" />
+          <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
         </button>
-        <Menu />
+        <Menu className="mt-8" />
       </div>
       <button
-        className={isSidebarOpen && 'hidden'}
+        className={isSidebarOpen ? 'hidden' : undefined}
         type="button"
         onClick={() => setIsSidebarOpen(true)}
       >
         <Bars3CenterLeftIcon
-          className="h-6 w-6 text-red-700"
+          className="h-6 w-6 text-slate-700"
           aria-hidden="true"
         />
       </button>

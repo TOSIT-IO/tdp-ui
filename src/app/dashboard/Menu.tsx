@@ -1,55 +1,80 @@
 'use client'
 
+import {
+  HomeIcon,
+  BeakerIcon,
+  ServerIcon,
+  BellIcon,
+  WrenchIcon,
+} from '@heroicons/react/24/solid'
 import { useServicesList } from 'src/hooks'
 import { classNames } from 'src/utils'
 
-export default function Menu() {
+import type { HeroIcon } from 'src/types'
+
+type navItemType = {
+  name: string
+  href: string
+  icon?: HeroIcon
+  children?: navItemType[]
+  isCurrent?: boolean
+}
+
+export default function Menu({ className: additionalStyles }) {
   const servicesList = useServicesList()
 
-  const navigation = [
-    { name: 'Dashboard', href: '#' },
+  const navigation: navItemType[] = [
+    { name: 'Dashboard', href: '#', icon: HomeIcon },
     {
       name: 'Services',
       href: '#',
+      icon: BeakerIcon,
       children: servicesList?.map((service) => ({
         name: service,
         href: '#',
       })),
     },
-    { name: 'Hosts', href: '#' },
-    { name: 'Alerts', href: '#' },
-    { name: 'Cluster Admin', href: '#' },
+    { name: 'Hosts', href: '#', icon: ServerIcon },
+    { name: 'Alerts', href: '#', icon: BellIcon },
+    { name: 'Cluster Admin', href: '#', icon: WrenchIcon },
   ]
 
   return (
-    <nav className="mt-5 overflow-y-auto space-y-1 px-2 flex flex-col">
-      {navigation.map((service) => (
-        <MenuItem key={service.name} item={service} />
+    <nav
+      className={classNames(
+        'overflow-y-auto gap-1 px-2 flex flex-col',
+        additionalStyles
+      )}
+    >
+      {navigation.map((item) => (
+        <MenuItem key={item.name} item={item} />
       ))}
     </nav>
   )
 }
 
-function MenuItem({ item }) {
-  const { name, href, isCurrent, children } = item
+function MenuItem({ item }: { item: navItemType }) {
   return (
     <>
       <a
-        href={href}
+        href={item.href}
         className={classNames(
-          isCurrent
+          item.isCurrent
             ? 'bg-slate-800 text-white'
             : 'text-slate-100 hover:bg-slate-600',
-          'px-2 py-2 text-base font-medium rounded-md'
+          'px-2 py-2 rounded-md'
         )}
       >
-        {name}
+        <div className="flex items-center gap-2">
+          {item.icon && <item.icon className="h-5 w-5" />}
+          {item.name}
+        </div>
       </a>
-      {children?.map((child) => (
+      {item.children?.map((child) => (
         <a
           key={child.name}
           href={child.href}
-          className="pl-4 text-white hover:bg-slate-600 rounded-md"
+          className="pl-6 text-slate-400 hover:bg-slate-600 rounded-md"
         >
           {child.name}
         </a>
