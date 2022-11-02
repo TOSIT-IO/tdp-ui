@@ -7,8 +7,10 @@ export default function HdfsPage() {
   const hdfsVariables = useHdfsVariables()
 
   return (
-    <pre className="overflow-y-auto h-3/6">
-      {JSON.stringify(hdfsVariables, null, 2)}
-    </pre>
+    <div className="box-border h-32 w-32 p-4 border-4">
+      <pre className="overflow-y-auto h-3/6">
+        {JSON.stringify(hdfsVariables, null, 2)}
+      </pre>
+    </div>
   )
 }
