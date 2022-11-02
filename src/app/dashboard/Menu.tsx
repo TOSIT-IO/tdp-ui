@@ -20,7 +20,7 @@ type navItemType = {
   isCurrent?: boolean
 }
 
-export default function Menu() {
+export default function Menu({ className: additionalStyles }) {
   const servicesList = useServicesList()
 
   const navigation: navItemType[] = [
@@ -40,7 +40,12 @@ export default function Menu() {
   ]
 
   return (
-    <nav className="mt-5 overflow-y-auto space-y-1 px-2 flex flex-col">
+    <nav
+      className={classNames(
+        'overflow-y-auto space-y-1 px-2 flex flex-col',
+        additionalStyles
+      )}
+    >
       {navigation.map((item) => (
         <MenuItem key={item.name} item={item} />
       ))}
