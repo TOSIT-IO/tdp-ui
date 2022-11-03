@@ -23,8 +23,8 @@ type navItemType = {
 export default function Menu({ className: additionalStyles }) {
   const servicesList = useServicesList()
 
-  const navigation: navItemType[] = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon },
+  const menuItems: navItemType[] = [
+    // { name: 'Dashboard', href: '#', icon: HomeIcon },
     {
       name: 'Services',
       href: '#',
@@ -34,9 +34,9 @@ export default function Menu({ className: additionalStyles }) {
         href: '#',
       })),
     },
-    { name: 'Hosts', href: '#', icon: ServerIcon },
-    { name: 'Alerts', href: '#', icon: BellIcon },
-    { name: 'Cluster Admin', href: '#', icon: WrenchIcon },
+    // { name: 'Hosts', href: '#', icon: ServerIcon },
+    // { name: 'Alerts', href: '#', icon: BellIcon },
+    // { name: 'Cluster Admin', href: '#', icon: WrenchIcon },
   ]
 
   return (
@@ -46,14 +46,14 @@ export default function Menu({ className: additionalStyles }) {
         additionalStyles
       )}
     >
-      {navigation.map((item) => (
-        <MenuItem key={item.name} item={item} />
+      {menuItems.map((menuItem) => (
+        <MenuItem key={menuItem.name} menuItem={menuItem} />
       ))}
     </nav>
   )
 }
 
-function MenuItem({ item }: { item: navItemType }) {
+function MenuItem({ menuItem: item }: { menuItem: navItemType }) {
   return (
     <>
       <a

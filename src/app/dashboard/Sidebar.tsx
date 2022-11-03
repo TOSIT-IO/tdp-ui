@@ -17,7 +17,6 @@ export default function Sidebar({ className }) {
         )}
       >
         <button
-          // className="self-end p-2"
           className="absolute right-1 top-1"
           type="button"
           onClick={() => setIsSidebarOpen(false)}
