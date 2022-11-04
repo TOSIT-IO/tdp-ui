@@ -12,7 +12,7 @@ export default function Sidebar({ className }) {
     <>
       <div
         className={classNames(
-          !isSidebarOpen ? 'hidden' : 'bg-slate-700 relative',
+          !isSidebarOpen ? 'hidden' : 'relative bg-slate-700',
           className
         )}
       >
@@ -26,12 +26,12 @@ export default function Sidebar({ className }) {
         <Menu className="mt-8" />
       </div>
       <button
-        className={isSidebarOpen ? 'hidden' : undefined}
+        className={isSidebarOpen ? 'hidden' : 'items-start bg-slate-700'}
         type="button"
         onClick={() => setIsSidebarOpen(true)}
       >
         <Bars3CenterLeftIcon
-          className="h-6 w-6 text-slate-700"
+          className="h-6 w-6 text-white"
           aria-hidden="true"
         />
       </button>

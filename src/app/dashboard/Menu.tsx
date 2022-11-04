@@ -11,6 +11,7 @@ import { useServicesList } from 'src/hooks'
 import { classNames } from 'src/utils'
 
 import type { HeroIcon } from 'src/types'
+import Link from 'next/link'
 
 type navItemType = {
   name: string
@@ -27,11 +28,11 @@ export default function Menu({ className: additionalStyles }) {
     // { name: 'Dashboard', href: '#', icon: HomeIcon },
     {
       name: 'Services',
-      href: '#',
+      href: '/services',
       icon: BeakerIcon,
       children: servicesList?.map((service) => ({
         name: service,
-        href: '#',
+        href: `/services/${service}`,
       })),
     },
     // { name: 'Hosts', href: '#', icon: ServerIcon },
@@ -56,7 +57,7 @@ export default function Menu({ className: additionalStyles }) {
 function MenuItem({ menuItem: item }: { menuItem: navItemType }) {
   return (
     <>
-      <a
+      <Link
         href={item.href}
         className={classNames(
           item.isCurrent
@@ -69,15 +70,15 @@ function MenuItem({ menuItem: item }: { menuItem: navItemType }) {
           {item.icon && <item.icon className="h-5 w-5" />}
           {item.name}
         </div>
-      </a>
+      </Link>
       {item.children?.map((child) => (
-        <a
+        <Link
           key={child.name}
           href={child.href}
           className="pl-6 text-slate-400 hover:bg-slate-600 rounded-md"
         >
           {child.name}
-        </a>
+        </Link>
       ))}
     </>
   )
