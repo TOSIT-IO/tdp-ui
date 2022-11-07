@@ -4,18 +4,18 @@ type TableauType = {
 
 export default function Tableau({ variables }: TableauType) {
   return (
-    <table className="min-w-full divide-y divide-gray-300 mt-5">
+    <table className="min-w-full divide-y divide-gray-300">
       <thead className="bg-gray-50">
         <tr>
           <th
             scope="col"
-            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-700"
           >
             Prop
           </th>
           <th
             scope="col"
-            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-700"
           >
             Value
           </th>
