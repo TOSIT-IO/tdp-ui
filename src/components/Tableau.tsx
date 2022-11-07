@@ -29,7 +29,7 @@ export default function Tableau({ variables }: TableauType) {
                 {k}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                {typeof v === 'object' ? (
+                {['object', 'boolean'].includes(typeof v) ? (
                   <pre>{JSON.stringify(v, null, 2)}</pre>
                 ) : (
                   v
