@@ -3,6 +3,7 @@ import { ReactElement } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import ComponentInfos from 'src/app/services/ComponentInfos'
 import Tableau from 'src/app/services/Tableau'
+import { Disclosure } from 'src/components/Disclosure'
 import { useServiceInfos } from 'src/hooks'
 
 const ServicePage = () => {
@@ -13,6 +14,27 @@ const ServicePage = () => {
     : tempServiceId
   const serviceInfos = useServiceInfos(serviceId)
 
+  if (!serviceInfos) return <p>Loading...</p>
+
+  type ReduceType = {
+    singleValues: string[][]
+    objectValues: any[][]
+  }
+
+  const { singleValues, objectValues } = Object.entries(
+    serviceInfos.variables
+  ).reduce<ReduceType>(
+    (accumulator, currentValue) => {
+      if (typeof currentValue[1] === 'object') {
+        accumulator.objectValues.push(currentValue)
+      } else {
+        accumulator.singleValues.push(currentValue)
+      }
+      return accumulator
+    },
+    { singleValues: [], objectValues: [] }
+  )
+
   return (
     <div className="p-5">
       <div className="border-b border-gray-200 pb-5 mb-5">
@@ -20,18 +42,19 @@ const ServicePage = () => {
           {serviceId}
         </h3>
       </div>
-      <Tableau
-        variables={
-          serviceInfos?.variables && Object.entries(serviceInfos.variables)
-        }
-      />
-      <br />
-      <div className="mt-8 border-b border-gray-200 pb-5 mb-1">
+      <Tableau variables={singleValues} />
+      <div className="flex flex-col gap-2">
+        {objectValues.map(([k, v]) => (
+          <Disclosure key={k} title={k}>
+            <Tableau variables={Object.entries(v)} />
+          </Disclosure>
+        ))}
+      </div>
+      <div className="mt-8 border-b border-gray-200 pb-5 mb-5">
         <h3 className="text-3xl font-medium leading-6 text-gray-900">
           Components
         </h3>
       </div>
-      <br />
       <div className="flex flex-col gap-2">
         {serviceInfos?.components.map((component) => (
           <ComponentInfos
