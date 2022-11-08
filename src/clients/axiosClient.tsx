@@ -1,4 +1,5 @@
-import axios, { CreateAxiosDefaults } from 'axios'
+import axios from 'axios'
+import type { CreateAxiosDefaults } from 'axios'
 
 export function createAxiosInstance(
   config: CreateAxiosDefaults<any>,
