@@ -26,7 +26,7 @@ export function Disclosure({ title, children }: DisclosureType) {
       <div
         className={classNames(
           !isOpen && 'hidden',
-          'px-4 py-2 text-sm text-gray-500'
+          'py-2 text-sm text-gray-500'
         )}
       >
         {children}
