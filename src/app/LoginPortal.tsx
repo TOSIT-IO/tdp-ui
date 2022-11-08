@@ -1,6 +1,8 @@
+'use client'
+
 import { useAuth } from 'react-oidc-context'
 
-function App() {
+export function LoginPortal({ children }) {
   const auth = useAuth()
 
   switch (auth.activeNavigator) {
@@ -19,15 +21,8 @@ function App() {
   }
 
   if (auth.isAuthenticated) {
-    return (
-      <div>
-        Hello {auth.user?.profile.sub}{' '}
-        <button onClick={() => void auth.removeUser()}>Log out</button>
-      </div>
-    )
+    console.log('Authentifié')
+    return <>{children}</>
   }
-
   return <button onClick={() => void auth.signinRedirect()}>Log in</button>
 }
-
-export default App
