@@ -1,12 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from 'react-oidc-context'
 import { Bars3CenterLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { classNames } from 'src/utils'
 import Menu from './Menu'
 
 export default function Sidebar({ className }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const auth = useAuth()
 
   return (
     <>
@@ -16,13 +18,17 @@ export default function Sidebar({ className }) {
           className
         )}
       >
-        <button
-          className="absolute right-1 top-1"
-          type="button"
-          onClick={() => setIsSidebarOpen(false)}
-        >
-          <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
-        </button>
+        <div className="flex justify-between pt-2 px-2">
+          <button
+            className="text-white rounded-md border-white border"
+            onClick={() => auth.signoutRedirect()}
+          >
+            Log out
+          </button>
+          <button type="button" onClick={() => setIsSidebarOpen(false)}>
+            <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+          </button>
+        </div>
         <Menu className="mt-8" />
       </div>
       <button
