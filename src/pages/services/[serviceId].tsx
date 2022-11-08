@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
-import ComponentInfos from 'src/components/ComponentInfos'
-import Tableau from 'src/components/Tableau'
+import ComponentInfos from 'src/app/services/ComponentInfos'
+import Tableau from 'src/app/services/Tableau'
 import { useServiceInfos } from 'src/hooks'
 
 const ServicePage = () => {
