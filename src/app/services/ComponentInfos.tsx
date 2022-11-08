@@ -1,6 +1,6 @@
 import { Disclosure } from 'src/components/Disclosure'
 import { useComponentInfos } from 'src/hooks'
-import Tableau from './Tableau'
+import VariableList from './VariableList'
 
 type ComponentInfosType = {
   serviceId: string
@@ -16,7 +16,7 @@ export default function ComponentInfos({
   return (
     <Disclosure title={componentId}>
       {componentInfos?.variables[0] ? (
-        <Tableau variables={Object.entries(componentInfos.variables)} />
+        <VariableList variables={Object.entries(componentInfos.variables)} />
       ) : (
         <span>no values</span>
       )}

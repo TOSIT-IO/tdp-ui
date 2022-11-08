@@ -13,7 +13,7 @@ export function Disclosure({ title, children }: DisclosureType) {
   return (
     <>
       <button
-        className="flex w-full justify-between rounded-md bg-slate-100 px-4 py-2 text-left text-sm font-medium text-slate-900"
+        className="flex w-full justify-between rounded-md bg-slate-100 px-4 py-2 text-left font-medium text-slate-900"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <span>{title}</span>
@@ -23,12 +23,7 @@ export function Disclosure({ title, children }: DisclosureType) {
           <ChevronDownIcon className="h-5 w-5" />
         )}
       </button>
-      <div
-        className={classNames(
-          !isOpen && 'hidden',
-          'py-2 text-sm text-gray-500'
-        )}
-      >
+      <div className={classNames(!isOpen && 'hidden', 'py-2 text-gray-500')}>
         {children}
       </div>
     </>

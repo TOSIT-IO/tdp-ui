@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import ComponentInfos from 'src/app/services/ComponentInfos'
-import Tableau from 'src/app/services/Tableau'
+import VariableList from 'src/app/services/VariableList'
 import { Disclosure } from 'src/components/Disclosure'
 import { useServiceInfos } from 'src/hooks'
 
@@ -42,13 +42,17 @@ const ServicePage = () => {
           {serviceId}
         </h3>
       </div>
-      <Tableau variables={singleValues} />
+      <div className="mb-3">
+        <VariableList variables={singleValues} />
+      </div>
       <div className="flex flex-col gap-2">
-        {objectValues.map(([k, v]) => (
-          <Disclosure key={k} title={k}>
-            <Tableau variables={Object.entries(v)} />
-          </Disclosure>
-        ))}
+        {objectValues.map(([k, v]) => {
+          return (
+            <Disclosure key={k} title={k}>
+              <VariableList variables={Object.entries(v)} />
+            </Disclosure>
+          )
+        })}
       </div>
       <div className="mt-8 border-b border-gray-200 pb-5 mb-5">
         <h3 className="text-3xl font-medium leading-6 text-gray-900">
