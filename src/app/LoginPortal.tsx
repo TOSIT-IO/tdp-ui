@@ -21,7 +21,6 @@ export function LoginPortal({ children }) {
   }
 
   if (auth.isAuthenticated) {
-    console.log('Authentifié')
     return <>{children}</>
   }
   return <button onClick={() => void auth.signinRedirect()}>Log in</button>
