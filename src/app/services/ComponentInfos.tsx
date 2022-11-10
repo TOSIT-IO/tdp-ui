@@ -13,13 +13,14 @@ export default function ComponentInfos({
 }: ComponentInfosType) {
   const componentInfos = useComponentInfos(serviceId, componentId)
 
-  return (
-    <Disclosure title={componentId}>
-      {componentInfos?.variables[0] ? (
-        <VariableList variables={Object.entries(componentInfos.variables)} />
-      ) : (
-        <span>no values</span>
-      )}
-    </Disclosure>
-  )
+  if (componentInfos) {
+    const { variables } = componentInfos
+    return (
+      <Disclosure title={componentId}>
+        <VariableList variables={variables ? Object.entries(variables) : []} />
+      </Disclosure>
+    )
+  }
+
+  return <></>
 }
