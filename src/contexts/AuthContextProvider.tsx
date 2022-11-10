@@ -6,7 +6,6 @@ import { LoginPortal } from 'src/app/LoginPortal'
 
 export function AuthContextProvider({ children }): JSX.Element {
   const [oidcConfig, setOidcConfig] = useState<AuthProviderProps>(null)
-  console.log('AuthContext Reload')
 
   useEffect(() => {
     async function fetchAuthority() {
