@@ -17,8 +17,8 @@ const ServicePage = () => {
   if (!serviceInfos) return <p>Loading...</p>
 
   type ReduceType = {
-    singleValues: string[][]
-    objectValues: any[][]
+    singleValues: [string, string][]
+    objectValues: [string, Object][]
   }
 
   const { singleValues, objectValues } = Object.entries(
@@ -49,7 +49,7 @@ const ServicePage = () => {
         {objectValues.map(([k, v]) => {
           return (
             <Disclosure key={k} title={k}>
-              <VariableList variables={Object.entries(v)} />
+              <VariableList variables={v ? Object.entries(v) : []} />
             </Disclosure>
           )
         })}
