@@ -63,7 +63,7 @@ const ServicePage = () => {
         {serviceInfos?.components.map((component) => (
           <ComponentInfos
             key={component.id}
-            serviceId={serviceId}
+            serviceId={serviceInfos.id}
             componentId={component.id}
           />
         ))}
