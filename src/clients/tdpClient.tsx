@@ -1,5 +1,5 @@
 import { ComponentsApi, DefaultApi, DeployApi, ServicesApi } from '@/client-sdk'
-import type { Configuration } from '@/client-sdk'
+import type { Configuration, Service, Component } from '@/client-sdk'
 import type { AxiosInstance } from 'axios'
 
 export function createTdpClientInstance(
@@ -14,3 +14,5 @@ export function createTdpClientInstance(
     servicesApi: new ServicesApi(configuration, basePath, axiosInstance),
   }
 }
+
+export type VariablesType = Service['variables'] | Component['variables']
