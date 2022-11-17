@@ -16,3 +16,5 @@ export function createTdpClientInstance(
 }
 
 export type VariablesType = Service['variables'] | Component['variables']
+
+export type { Service, Component }
