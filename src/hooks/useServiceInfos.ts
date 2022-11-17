@@ -6,7 +6,7 @@ import type { HookInfosType } from 'src/types'
 export function useServiceInfos(serviceId: string): HookInfosType<Service> {
   const { servicesApi } = useTdpClient()
   const [initialInfos, setInitialInfos] = useState<Service>(null)
-  const [newVariables, setNewVariables] = useState<Service['variables']>(null)
+  const [newVariables, setNewVariables] = useState<Service['variables']>({})
 
   useEffect(() => {
     async function fetchServiceInfos() {
