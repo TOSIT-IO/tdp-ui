@@ -3,7 +3,7 @@ import { ReactElement } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import ServiceLayout from 'src/app/services/layout'
 import { useServiceInfos } from 'src/hooks'
-import ConfigurationDisplay from 'src/components/ConfigurationDisplay'
+import { VariablesDisplay } from 'src/components'
 
 const ServicePage = () => {
   const router = useRouter()
@@ -11,11 +11,18 @@ const ServicePage = () => {
   const serviceId = Array.isArray(tempServiceId)
     ? tempServiceId[0]
     : tempServiceId
-  const serviceInfos = useServiceInfos(serviceId)
+  const { initialInfos, setNewVariables, sendVariables } =
+    useServiceInfos(serviceId)
 
-  if (!serviceInfos) return <p>Loading</p>
+  if (!initialInfos) return <p>Loading</p>
 
-  return <ConfigurationDisplay values={serviceInfos.variables} />
+  return (
+    <VariablesDisplay
+      initialVariables={initialInfos.variables}
+      setNewVariables={setNewVariables}
+      sendVariables={sendVariables}
+    />
+  )
 }
 
 ServicePage.getLayout = function getLayout(page: ReactElement) {

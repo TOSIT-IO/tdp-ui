@@ -27,10 +27,12 @@ export const TdpClientContextProvider = ({ children }) => {
   )
 }
 
-export const useTdpClient = () => {
+export function useTdpClient() {
   const tdpClient = useContext(TdpClientContext)
   if (!tdpClient)
-    throw new Error('useTdpClient must be inside a TdpClientContextProvider')
+    throw new Error(
+      'useTdpClient() hook must be inside a TdpClientContextProvider'
+    )
 
   return tdpClient
 }
