@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
 import type { Component } from '@/client-sdk'
 
-export function useComponentInfos(
-  serviceId: string,
-  componentId: string
-): Component {
+export function useComponentInfos(serviceId: string, componentId: string) {
   const { componentsApi } = useTdpClient()
-  const [componentInfos, setComponentInfos] = useState(null)
+  const [initialInfos, setInitialInfos] = useState<Component>(null)
+  const [newVariables, setNewVariables] = useState<Component['variables']>(null)
 
   useEffect(() => {
     async function fetchComponentInfos() {
@@ -16,10 +14,20 @@ export function useComponentInfos(
           serviceId,
           componentId
         )
-      setComponentInfos(res.data)
+      setInitialInfos(res.data)
     }
     serviceId && componentId && fetchComponentInfos()
   }, [componentsApi, serviceId, componentId])
 
-  return componentInfos
+  async function sendVariables() {
+    const res =
+      await componentsApi.patchComponentApiV1ServiceServiceIdComponentComponentIdPatch(
+        serviceId,
+        componentId,
+        { message: 'test', variables: newVariables }
+      )
+    //TODO: display success
+  }
+
+  return { initialInfos, setNewVariables, sendVariables }
 }
