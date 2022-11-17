@@ -8,7 +8,7 @@ export default function ServiceLayout({ children }) {
   const serviceId = Array.isArray(tempServiceId)
     ? tempServiceId[0]
     : tempServiceId
-  const serviceInfos = useServiceInfos(serviceId)
+  const { initialInfos } = useServiceInfos(serviceId)
 
   return (
     <div className="p-5">
@@ -17,10 +17,10 @@ export default function ServiceLayout({ children }) {
           {serviceId}
         </h3>
       </div>
-      {serviceInfos ? (
+      {initialInfos ? (
         <ComponentMenu
           serviceId={serviceId}
-          components={serviceInfos.components.map((c) => c.id)}
+          components={initialInfos.components.map((c) => c.id)}
         />
       ) : (
         <p>Loading</p>

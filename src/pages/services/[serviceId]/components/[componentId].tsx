@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import ServiceLayout from 'src/app/services/layout'
-import ConfigurationDisplay from 'src/components/ConfigurationDisplay'
+import VariablesDisplay from 'src/components/ConfigurationDisplay'
 import { useComponentInfos } from 'src/hooks'
 
 const ComponentPage = () => {
@@ -20,7 +20,7 @@ const ComponentPage = () => {
 
   if (!componentInfos) return <p>Loading...</p>
 
-  return <ConfigurationDisplay values={componentInfos.variables} />
+  return <VariablesDisplay values={componentInfos.variables} />
 }
 
 ComponentPage.getLayout = function getLayout(page: ReactElement) {
