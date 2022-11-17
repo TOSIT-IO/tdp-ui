@@ -14,9 +14,8 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
   const inputName = parent ? [parent, prop].join('.') : prop
 
   function handleVariableChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value
     try {
-      const newVariable = typeof value === 'string' ? JSON.parse(value) : value
+      const newVariable = JSON.parse(event.target.value)
       setError(false)
       if (!parent) {
         setNewVariables((prev: any) => ({ ...prev, [prop]: newVariable }))
