@@ -1,12 +1,13 @@
-import { VariablesType } from 'src/clients'
+import { Dispatch, SetStateAction, useState } from 'react'
+import { VariablesType, Service, Component } from 'src/clients'
 import { Button, Disclosure } from 'src/components'
 import { VariablesContextProvider } from './VariablesContext'
 import { VariablesList } from './VariablesList'
 
 type VariablesDisplayType = {
   initialVariables: VariablesType
-  setNewVariables: Function
-  sendVariables: Function
+  setNewVariables: Dispatch<SetStateAction<Service | Component>>
+  sendVariables: (message: string) => void
 }
 
 export function VariablesDisplay({
@@ -14,6 +15,8 @@ export function VariablesDisplay({
   setNewVariables,
   sendVariables,
 }: VariablesDisplayType) {
+  const [validateMessage, setValidateMessage] = useState('')
+
   type ReduceType = {
     simpleVariables: [string, string][]
     objectVariables: [string, Object][]
@@ -33,13 +36,17 @@ export function VariablesDisplay({
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    sendVariables()
+    sendVariables(validateMessage)
   }
 
   return (
     <VariablesContextProvider setNewVariables={setNewVariables}>
       <form onSubmit={handleSubmit}>
         <Button type="submit">Validate</Button>
+        <input
+          onChange={(e) => setValidateMessage(e.target.value)}
+          placeholder="Message..."
+        />
         <div className="mb-3">
           <VariablesList variables={singleVariables} />
         </div>
