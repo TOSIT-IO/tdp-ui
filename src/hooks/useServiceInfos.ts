@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
-import type { Service } from '@/client-sdk'
+import type { Service, ServiceUpdateResponse } from '@/client-sdk'
 import type { HookInfosType } from 'src/types'
 
-export function useServiceInfos(serviceId: string): HookInfosType<Service> {
+export function useServiceInfos(
+  serviceId: string
+): HookInfosType<Service, ServiceUpdateResponse> {
   const { servicesApi } = useTdpClient()
   const [initialInfos, setInitialInfos] = useState<Service>(null)
   const [newVariables, setNewVariables] = useState<Service['variables']>({})
@@ -23,7 +25,7 @@ export function useServiceInfos(serviceId: string): HookInfosType<Service> {
       serviceId,
       { message, variables: newVariables }
     )
-    //TODO: display success
+    return res
   }
 
   return { initialInfos, setNewVariables, sendVariables }
