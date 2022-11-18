@@ -7,7 +7,7 @@ export default function ComponentMenu({
   serviceId: string
   components: string[]
 }) {
-  const menuItems = [{ id: 'commons', link: `/services/${serviceId}` }].concat(
+  const menuItems = [{ id: 'service', link: `/services/${serviceId}` }].concat(
     components.map((component) => ({
       id: component,
       link: `/services/${serviceId}/components/${component}`,
