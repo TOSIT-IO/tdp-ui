@@ -1,3 +1,5 @@
+import { ComponentUpdateResponse, ServiceUpdateResponse } from '@/client-sdk'
+import { AxiosResponse } from 'axios'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { VariablesType, Service, Component } from 'src/clients'
 import { Button, Disclosure } from 'src/components'
@@ -7,7 +9,11 @@ import { VariablesList } from './VariablesList'
 type VariablesDisplayType = {
   initialVariables: VariablesType
   setNewVariables: Dispatch<SetStateAction<Service | Component>>
-  sendVariables: (message: string) => void
+  sendVariables: (
+    message: string
+  ) => Promise<
+    AxiosResponse<ComponentUpdateResponse | ServiceUpdateResponse, any>
+  >
 }
 
 export function VariablesDisplay({
@@ -16,6 +22,7 @@ export function VariablesDisplay({
   sendVariables,
 }: VariablesDisplayType) {
   const [validateMessage, setValidateMessage] = useState('')
+  const [status, setStatus] = useState(null)
 
   type ReduceType = {
     simpleVariables: [string, string][]
@@ -34,9 +41,12 @@ export function VariablesDisplay({
       { simpleVariables: [], objectVariables: [] }
     )
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    sendVariables(validateMessage)
+    const res = await sendVariables(validateMessage)
+    setStatus(res.statusText)
+    setValidateMessage('')
+    setTimeout(() => setStatus(null), 3000)
   }
 
   return (
@@ -44,9 +54,11 @@ export function VariablesDisplay({
       <form onSubmit={handleSubmit}>
         <Button type="submit">Validate</Button>
         <input
+          value={validateMessage}
           onChange={(e) => setValidateMessage(e.target.value)}
           placeholder="Message..."
         />
+        <span className="text-green-800">{status}</span>
         <div className="mb-3">
           <VariablesList variables={singleVariables} />
         </div>
