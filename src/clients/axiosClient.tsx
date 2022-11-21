@@ -1,5 +1,6 @@
 import axios from 'axios'
-import type { CreateAxiosDefaults } from 'axios'
+import { toast } from 'react-toastify'
+import type { CreateAxiosDefaults, AxiosError } from 'axios'
 
 export function createAxiosInstance(
   config: CreateAxiosDefaults<any>,
@@ -16,5 +17,15 @@ export function createAxiosInstance(
     return config
   })
 
+  axiosInstance.interceptors.response.use(null, (err: Error | AxiosError) => {
+    if (axios.isAxiosError(err)) {
+      toast.error(err.response.data.detail, {
+        theme: 'colored',
+      })
+      // Access to config, request, and response
+    } else {
+      // Just a stock error
+    }
+  })
   return axiosInstance
 }
