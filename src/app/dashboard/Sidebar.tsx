@@ -7,7 +7,7 @@ import { classNames } from 'src/utils'
 import Menu from './Menu'
 
 export default function Sidebar({ className }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const auth = useAuth()
 
   return (
