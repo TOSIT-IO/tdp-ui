@@ -3,6 +3,7 @@
 import {
   HomeIcon,
   BeakerIcon,
+  Cog6ToothIcon,
   ServerIcon,
   BellIcon,
   WrenchIcon,
@@ -38,6 +39,17 @@ export default function Menu({ className: additionalStyles }) {
         href: `/services/${service}`,
         isCurrent: service === router.query.serviceId ? true : false,
       })),
+    },
+    {
+      name: 'Deployments',
+      href: '/deploy',
+      icon: Cog6ToothIcon,
+      children: [
+        {
+          name: 'Deploy',
+          href: '/deploy',
+        },
+      ],
     },
     // { name: 'Hosts', href: '#', icon: ServerIcon },
     // { name: 'Alerts', href: '#', icon: BellIcon },
