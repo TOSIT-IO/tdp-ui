@@ -33,6 +33,9 @@ export default function Operation({ index }: { index: number }): JSX.Element {
                     const trimmedInput = input.trim()
                     if (e.key === 'Enter' && trimmedInput.length) {
                       e.preventDefault()
+                      if (operations[index] === trimmedInput) {
+                        setIsEditable(false)
+                      }
                       editOperation(index, input)
                     }
                     if (e.key === 'Escape') {
