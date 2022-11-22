@@ -19,6 +19,7 @@
     "next": "^13.0.0",
     "oidc-client-ts": "^2.1.0",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-oidc-context": "^2.2.0",
     "react-toastify": "^9.1.1"
@@ -28,6 +29,7 @@
     "@commitlint/config-conventional": "^17.1.0",
     "@types/node": "18.7.23",
     "@types/react": "18.0.21",
+    "@types/react-beautiful-dnd": "^13.1.2",
     "autoprefixer": "^10.4.13",
     "eslint": "8.24.0",
     "eslint-config-next": "^13.0.0",
