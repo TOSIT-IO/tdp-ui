@@ -15,9 +15,15 @@ type OperationsContext = {
 
 export const OperationsContext = createContext<OperationsContext>(null)
 
-export function OperationsContextProvider({ children }) {
-  const [operations, setOperations] = useState<string[]>([])
-
+export function OperationsContextProvider({
+  children,
+  operations,
+  setOperations,
+}: {
+  children: React.ReactNode
+  operations: string[]
+  setOperations: React.Dispatch<React.SetStateAction<string[]>>
+}) {
   function handleOnDragEnd(result: DropResult) {
     if (!result.destination) {
       return
