@@ -49,6 +49,24 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
     }
   }
 
+  function getType(v: any): String {
+    var typevar = 'undefined'
+    if (v === undefined) {
+      typevar = 'undefined'
+    } else if (v === null) {
+      typevar = 'null'
+    } else if (Array.isArray(v)) {
+      typevar = 'array'
+    } else if (typeof v === 'string') {
+      typevar = 'string'
+    } else if (typeof v === 'number') {
+      typevar = 'number'
+    } else if (typeof v === 'boolean') {
+      typevar = 'boolean'
+    }
+    return typevar.toString()
+  }
+
   function ArrayList() {
     if (Array.isArray(value)) {
       return (
@@ -76,26 +94,19 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
     }
   }
 
-  return (
-    <div className="flex text-slate-600">
-      <label htmlFor={inputName} className="font-bold mr-2">
-        {prop}:
-      </label>
-      {/* {Array.isArray(value) &&
-        <ol className='flex flex-grow flex-col  gap-2'>
-          {value.map(v => <li className='flex grow'>
-            <input name={inputName} className={classNames('grow', error && 'bg-red-200', typeof value === 'number' ? "text-teal-600" : "text-slate-700","hover:opacity-60 hover:bg-sky-300 transition duration-300 ease-in-out")} defaultValue={JSON.stringify(v)} onChange={handleChange}
-          />
-          </li>)}
-        </ol>
-      } */}
-      {ArrayList()}
-      {typeof value === 'boolean' && (
+  function BooleanField() {
+    if (typeof value === 'boolean') {
+      return (
         <div className="flex flex-grow flex-col">
           <Toggle handleChecked={handleChecked} defaultValue={value} />
         </div>
-      )}
-      {(typeof value === 'string' || typeof value === 'number') && (
+      )
+    }
+  }
+
+  function StringNumberField() {
+    if (typeof value === 'string' || typeof value === 'number') {
+      return (
         <input
           key={inputName}
           name={inputName}
@@ -108,7 +119,21 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
           defaultValue={JSON.stringify(value)}
           onChange={handleChange}
         />
-      )}
+      )
+    }
+  }
+
+  return (
+    <div className="flex text-slate-600">
+      <label htmlFor={inputName} className="font-bold mr-2">
+        {prop}:
+      </label>
+      {getType(value) === 'array'
+        ? ArrayList()
+        : getType(value) === 'boolean'
+        ? BooleanField()
+        : (getType(value) === 'string' || getType(value) === 'number') &&
+          StringNumberField()}
     </div>
   )
 }
