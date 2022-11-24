@@ -14,7 +14,7 @@ export default function InputField() {
   return (
     <form onSubmit={handleOnSubmit}>
       <label
-        htmlFor="email"
+        htmlFor="operation"
         className="block text-sm font-medium text-gray-700"
       >
         Add new operation
@@ -23,6 +23,7 @@ export default function InputField() {
         <div className="relative flex flex-grow items-stretch focus-within:z-10">
           <input
             type="text"
+            name="operation"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             className="block w-full rounded-none rounded-l-md border border-gray-300 pl-2"
