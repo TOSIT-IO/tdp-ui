@@ -19,7 +19,11 @@ export default function DashboardLayout({ children }) {
       />
       <div className="flex h-screen">
         <Sidebar className="basis-60 flex-grow" />
-        <main className="basis-0 grow-[999] overflow-auto">{children}</main>
+        <main className="basis-0 grow-[999] overflow-auto">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-5xl py-10">{children}</div>
+          </div>
+        </main>
       </div>
     </>
   )
