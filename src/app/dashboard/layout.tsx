@@ -1,4 +1,5 @@
 import Sidebar from './Sidebar'
+import Topbar from './Topbar'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -17,6 +18,7 @@ export default function DashboardLayout({ children }) {
         pauseOnHover
         theme="light"
       />
+      <Topbar className="flex" />
       <div className="flex h-screen">
         <Sidebar className="basis-60 flex-grow" />
         <main className="basis-0 grow-[999] overflow-auto">
