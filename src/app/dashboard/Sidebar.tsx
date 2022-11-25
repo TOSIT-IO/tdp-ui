@@ -20,12 +20,6 @@ export default function Sidebar({ className }) {
         )}
       >
         <div className="flex justify-between pt-2 px-2">
-          <button
-            className="text-white rounded-md border-white border"
-            onClick={() => auth.signoutRedirect()}
-          >
-            Log out
-          </button>
           <button type="button" onClick={() => setIsSidebarOpen(false)}>
             <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
           </button>
