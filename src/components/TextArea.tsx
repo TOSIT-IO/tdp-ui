@@ -198,19 +198,6 @@ function Operation({
     isEditable ? setSecondaryRef(secondaryInputRef) : setSecondaryRef(null)
   }, [isEditable, setSecondaryRef])
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (componentRef.current && !componentRef.current.contains(event.target)) {
-  //       // what to do when clicked outside
-  //       console.log("outside")
-  //     }
-  //   }
-  //   document.addEventListener('click', handleClickOutside, true)
-  //   return () => {
-  //     document.removeEventListener('click', handleClickOutside, true)
-  //   }
-  // }, [componentRef])
-
   function handleRemoveOperation() {
     removeOperation(index)
   }
@@ -220,43 +207,23 @@ function Operation({
       className="flex bg-gray-200 border border-gray-500 rounded-md overflow-hidden cursor-pointer"
       ref={componentRef}
     >
-      {!isDisabled && isEditable ? (
-        <input
-          defaultValue={operation}
-          style={{ width: `calc(${input.length}ch + 0.5rem)` }}
-          onChange={(e) => setInput(e.target.value)}
-          ref={secondaryInputRef}
-          onKeyDown={handleOnKeyDown}
-          className="px-1 bg-white outline-none font-mono"
+      {isEditable ? (
+        <EditOperation
+          {...{
+            operation,
+            isOperationAlreadyExistingAt,
+            setIsEditable,
+            index,
+            isOperationAlreadyExisting,
+            modifyOperation,
+            secondaryInputRef,
+          }}
         />
       ) : (
-        <span
-          className="px-1 font-mono"
-          onDoubleClick={() => {
-            if (!isDisabled) {
-              setIsEditable(true)
-            }
-          }}
-        >
-          {operation}
-        </span>
+        <DisplayOperation
+          {...{ operation, isDisabled, setIsEditable, handleRemoveOperation }}
+        />
       )}
-      <button
-        type="button"
-        className={classNames(
-          'h-full px-1 border-l border-gray-500 -ml-px',
-          !isDisabled && 'bg-pink-700',
-          !isDisabled && isEditable && 'bg-green-700'
-        )}
-        disabled={isDisabled}
-        onClick={() => removeOperation(index)}
-      >
-        {isEditable && !isDisabled ? (
-          <PencilIcon className="w-4 h-4" />
-        ) : (
-          <XMarkIcon className="w-4 h-4" />
-        )}
-      </button>
     </div>
   )
 }
@@ -294,6 +261,7 @@ function DisplayOperation({
   )
 }
 
+// TODO: handle case where user click away (abort)
 function EditOperation({
   operation,
   isOperationAlreadyExistingAt,
@@ -302,9 +270,20 @@ function EditOperation({
   isOperationAlreadyExisting,
   modifyOperation,
   secondaryInputRef,
-  handleEditOperation,
 }) {
   const [input, setInput] = useState(operation)
+
+  function handleEditOperation() {
+    if (input.trim()) {
+      if (isOperationAlreadyExistingAt(index, input)) {
+        setIsEditable(false)
+        return
+      }
+      if (isOperationAlreadyExisting(input)) return
+      modifyOperation(index, input)
+      setIsEditable(false)
+    }
+  }
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     switch (e.key) {
