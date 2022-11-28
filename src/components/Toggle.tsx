@@ -1,7 +1,7 @@
 export function Toggle({ handleChecked, defaultValue }) {
   return (
     <>
-      <label className="inline-flex relative items-center cursor-pointer hover:opacity-60 hover:bg-sky-300 transition duration-300 ease-in-out">
+      <label className="inline-flex relative items-center cursor-pointer hover:opacity-70 hover:bg-slate-200 transition duration-75 ease-in-out">
         <input
           type="checkbox"
           className="sr-only peer"
