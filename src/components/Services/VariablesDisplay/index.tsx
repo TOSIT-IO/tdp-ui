@@ -5,6 +5,7 @@ import { VariablesType, Service, Component } from 'src/clients'
 import { Button, Disclosure } from 'src/components'
 import { VariablesContextProvider } from './VariablesContext'
 import { VariablesList } from './VariablesList'
+import { classNames } from 'src/utils'
 
 type VariablesDisplayType = {
   initialVariables: VariablesType
@@ -23,6 +24,7 @@ export function VariablesDisplay({
 }: VariablesDisplayType) {
   const [validateMessage, setValidateMessage] = useState('')
   const [status, setStatus] = useState(null)
+  const [isRaw, setIsRaw] = useState(false)
 
   type ReduceType = {
     simpleVariables: [string, string][]
@@ -49,24 +51,64 @@ export function VariablesDisplay({
     setTimeout(() => setStatus(null), 3000)
   }
 
+  function RawViewButton() {
+    return (
+      <div>
+        <span className="isolate inline-flex rounded-md shadow-sm">
+          <label className="invisible">T T</label>
+          <button
+            type="button"
+            onClick={() => {
+              // setIsRaw((prev) => !prev)
+              setIsRaw((prev) => !prev)
+            }}
+            className={classNames(
+              isRaw ? 'bg-gray-300' : 'bg-gray-50',
+              'relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-400/60 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
+            )}
+          >
+            Raw
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              // setIsRaw((prev) => !prev)
+              setIsRaw((prev) => !prev)
+            }}
+            className={classNames(
+              !isRaw ? 'bg-gray-300' : 'bg-gray-50',
+              'relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-400/60 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
+            )}
+          >
+            View
+          </button>
+        </span>
+      </div>
+    )
+  }
+
   return (
     <VariablesContextProvider setNewVariables={setNewVariables}>
       <form onSubmit={handleSubmit}>
-        <Button type="submit">Validate</Button>
-        <input
-          value={validateMessage}
-          onChange={(e) => setValidateMessage(e.target.value)}
-          placeholder="Message..."
-        />
-        <span className="text-green-800">{status}</span>
+        <div className="flex">
+          <Button type="submit">Validate</Button>
+          <input
+            value={validateMessage}
+            onChange={(e) => setValidateMessage(e.target.value)}
+            placeholder="Message..."
+          />
+          <span className="text-green-800">{status}</span>
+          <RawViewButton />
+        </div>
         <div className="mb-3">
-          <VariablesList variables={singleVariables} />
+          <VariablesList variables={singleVariables} isRaw={isRaw} />
         </div>
         <div className="flex flex-col gap-2">
           {objectValues.map(([k, v]) => (
             <Disclosure key={k} title={k}>
               <VariablesList
                 variables={v ? Object.entries(v) : []}
+                isRaw={isRaw}
                 parent={k}
               />
             </Disclosure>

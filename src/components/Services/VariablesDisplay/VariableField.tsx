@@ -82,7 +82,7 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
                   typeof value === 'number'
                     ? 'text-teal-600'
                     : 'text-slate-700',
-                  'hover:opacity-60 hover:bg-sky-300 transition duration-300 ease-in-out'
+                  'hover:opacity-100 hover:bg-slate-200 transition duration-75 ease-in-out'
                 )}
                 defaultValue={JSON.stringify(v)}
                 onChange={handleChange}
@@ -114,7 +114,7 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
             'grow',
             error && 'bg-red-200',
             typeof value === 'number' ? 'text-teal-600' : 'text-slate-700',
-            'hover:opacity-60 hover:bg-sky-300 transition duration-300 ease-in-out'
+            'hover:opacity-100 hover:bg-slate-200 focus:text-xl transition duration-75 ease-in-out'
           )}
           defaultValue={JSON.stringify(value)}
           onChange={handleChange}
@@ -124,16 +124,39 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
   }
 
   return (
-    <div className="flex text-slate-600">
-      <label htmlFor={inputName} className="font-bold mr-2">
+    // <div className="flex text-slate-600">
+    //   <label htmlFor={inputName} className="font-bold mr-2">
+    //     {prop}:
+    //   </label>
+    //   {getType(value) === 'array'
+    //     ? ArrayList()
+    //     : getType(value) === 'boolean'
+    //     ? BooleanField()
+    //     : (getType(value) === 'string' || getType(value) === 'number') &&
+    //       StringNumberField()}
+    // </div>
+
+    <>
+      {/* <label htmlFor={inputName} className="font-bold mr-2">
         {prop}:
-      </label>
-      {getType(value) === 'array'
-        ? ArrayList()
-        : getType(value) === 'boolean'
-        ? BooleanField()
-        : (getType(value) === 'string' || getType(value) === 'number') &&
-          StringNumberField()}
-    </div>
+      </label> */}
+      <div
+        key={inputName}
+        className="col-start-1 col-span-2 flex flex-grow flex-col bg-transparent green-200 p-1 font-bold mr-0 text-base text-gray-600 sm:pl-6 overflow-auto "
+      >
+        {inputName}:
+      </div>
+      <div
+        key={inputName}
+        className="col-start-3 col-span-8 flex flex-grow flex-col bg-transparent px-1 py-1 text-base text-gray-600"
+      >
+        {getType(value) === 'array'
+          ? ArrayList()
+          : getType(value) === 'boolean'
+          ? BooleanField()
+          : (getType(value) === 'string' || getType(value) === 'number') &&
+            StringNumberField()}
+      </div>
+    </>
   )
 }
