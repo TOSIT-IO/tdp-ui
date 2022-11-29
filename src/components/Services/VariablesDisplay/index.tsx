@@ -59,11 +59,10 @@ export function VariablesDisplay({
           <button
             type="button"
             onClick={() => {
-              // setIsRaw((prev) => !prev)
-              setIsRaw((prev) => !prev)
+              setIsRaw(true)
             }}
             className={classNames(
-              isRaw ? 'bg-gray-300' : 'bg-gray-50',
+              isRaw ? 'bg-gray-200' : 'bg-gray-50',
               'relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-400/60 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
             )}
           >
@@ -72,11 +71,10 @@ export function VariablesDisplay({
           <button
             type="button"
             onClick={() => {
-              // setIsRaw((prev) => !prev)
-              setIsRaw((prev) => !prev)
+              setIsRaw(false)
             }}
             className={classNames(
-              !isRaw ? 'bg-gray-300' : 'bg-gray-50',
+              !isRaw ? 'bg-gray-200' : 'bg-gray-50',
               'relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-400/60 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
             )}
           >
