@@ -34,13 +34,10 @@ export function VariableFieldRaw({ prop, value, parent }: VariableFieldType) {
 
   return (
     <>
-      <div className="col-start-1 col-span-2 flex flex-grow flex-col bg-transparent green-200 p-1 font-bold mr-0 text-base text-gray-600 sm:pl-6 overflow-auto ">
+      <div className="flex text-slate-600">
         <label htmlFor={inputName} className="font-bold mr-2">
           {prop}:
         </label>
-      </div>
-
-      <div className="col-start-3 col-span-8 flex flex-grow flex-col bg-transparent px-1 py-1 text-base text-gray-600">
         <input
           name={inputName}
           className={classNames('grow', error && 'bg-red-200')}

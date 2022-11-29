@@ -124,31 +124,16 @@ export function VariableField({ prop, value, parent }: VariableFieldType) {
   }
 
   return (
-    // <div className="flex text-slate-600">
-    //   <label htmlFor={inputName} className="font-bold mr-2">
-    //     {prop}:
-    //   </label>
-    //   {getType(value) === 'array'
-    //     ? ArrayList()
-    //     : getType(value) === 'boolean'
-    //     ? BooleanField()
-    //     : (getType(value) === 'string' || getType(value) === 'number') &&
-    //       StringNumberField()}
-    // </div>
-
     <>
-      {/* <label htmlFor={inputName} className="font-bold mr-2">
-        {prop}:
-      </label> */}
       <div
         key={inputName}
-        className="col-start-1 col-span-2 flex flex-grow flex-col bg-transparent green-200 p-1 font-bold mr-0 text-base text-gray-600 sm:pl-6 overflow-auto "
+        className="col-start-1 col-span-2 flex flex-grow flex-col bg-transparent p-0 font-bold mr-0 text-base text-gray-600 sm:pl-0 overflow-auto "
       >
         {inputName}:
       </div>
       <div
         key={inputName}
-        className="col-start-3 col-span-8 flex flex-grow flex-col bg-transparent px-1 py-1 text-base text-gray-600"
+        className="col-start-3 col-span-8 flex flex-grow flex-col bg-transparent px-0 py-0 text-base text-gray-600"
       >
         {getType(value) === 'array'
           ? ArrayList()
