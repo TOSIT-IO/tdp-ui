@@ -571,7 +571,7 @@
       "post": {
         "tags": ["deploy"],
         "summary": "Deploy Node",
-        "description": "Returns the list of services",
+        "description": "Launches a deployment from the dag",
         "operationId": "deploy_node_api_v1_deploy__post",
         "requestBody": {
           "content": {
@@ -579,7 +579,7 @@
               "schema": {
                 "title": "Deploy Request",
                 "allOf": [{ "$ref": "#/components/schemas/DeployRequest" }],
-                "default": {}
+                "default": { "restart": false }
               }
             }
           }
@@ -830,18 +830,32 @@
         "type": "object",
         "properties": {
           "targets": {
-            "title": "Targets",
+            "title": "Deployment Targets",
             "type": "array",
-            "items": { "type": "string" }
+            "items": { "type": "string" },
+            "description": "List of operations used as targets on the dag generation, mutually exclusive with `sources`."
+          },
+          "sources": {
+            "title": "Deployment Sources",
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of operations used as sources on the dag generation, mutually exclusive with `targets`."
+          },
+          "filter_type": {
+            "title": "Deployment Sources",
+            "allOf": [{ "$ref": "#/components/schemas/FilterTypeEnum" }],
+            "description": "Controls how the filter expression must be interpreted."
           },
           "filter_expression": {
             "title": "Filter Expression",
-            "type": "string"
+            "type": "string",
+            "description": "Expression which will match on the operation list generated from the dag. Only operations matching will be kept for the deployment."
           },
-          "sources": {
-            "title": "Sources",
-            "type": "array",
-            "items": { "type": "string" }
+          "restart": {
+            "title": "Replace starts",
+            "type": "boolean",
+            "description": "Controls whether or not start operations will be replaced by a restart operation.",
+            "default": false
           }
         }
       },
@@ -880,6 +894,11 @@
             "title": "End Time",
             "type": "string",
             "format": "date-time"
+          },
+          "restart": {
+            "title": "Restart",
+            "type": "boolean",
+            "default": false
           },
           "state": { "$ref": "#/components/schemas/StateEnum" },
           "operations": {
@@ -920,6 +939,11 @@
             "type": "string",
             "format": "date-time"
           },
+          "restart": {
+            "title": "Restart",
+            "type": "boolean",
+            "default": false
+          },
           "state": { "$ref": "#/components/schemas/StateEnum" },
           "operations": {
             "title": "Operations",
@@ -928,6 +952,12 @@
           },
           "user": { "title": "User", "type": "string" }
         }
+      },
+      "FilterTypeEnum": {
+        "title": "FilterTypeEnum",
+        "enum": ["regex", "glob"],
+        "type": "string",
+        "description": "An enumeration."
       },
       "HTTPValidationError": {
         "title": "HTTPValidationError",
