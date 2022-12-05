@@ -1,36 +1,38 @@
 import { PencilIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
+import { DeployActionEnum } from 'src/pages/deploy'
 
 interface EditOperationProps {
   operation: string
-  isOperationAlreadyExistingAt: (index: number, input: string) => boolean
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>
   index: number
-  isOperationAlreadyExisting: (operation: string) => boolean
-  modifyOperation: (index: number, newOperation: string) => void
   secondaryInputRef: React.MutableRefObject<HTMLInputElement>
+  state
+  dispatch
 }
 
 // TODO: handle case where user click away (abort)
 export function EditOperation({
   operation,
-  isOperationAlreadyExistingAt,
   setIsEditable,
   index,
-  isOperationAlreadyExisting,
-  modifyOperation,
   secondaryInputRef,
+  state,
+  dispatch,
 }: EditOperationProps): JSX.Element {
   const [input, setInput] = useState(operation)
 
   function handleEditOperation() {
     if (input.trim()) {
-      if (isOperationAlreadyExistingAt(index, input)) {
+      if (input.trim() === state.operations[index]) {
         setIsEditable(false)
         return
       }
-      if (isOperationAlreadyExisting(input)) return
-      modifyOperation(index, input)
+      if (state.operations.includes(input.trim())) return
+      dispatch({
+        type: DeployActionEnum.MODIFY_OPERATION_AT,
+        payload: { index, newOperation: input.trim() },
+      })
       setIsEditable(false)
     }
   }
@@ -42,12 +44,15 @@ export function EditOperation({
       case 'Enter':
         e.preventDefault()
         if (input.trim()) {
-          if (isOperationAlreadyExistingAt(index, input)) {
+          if (input.trim() === state.operations[index]) {
             setIsEditable(false)
             return
           }
-          if (isOperationAlreadyExisting(input)) return
-          modifyOperation(index, input)
+          if (state.operations.includes(input.trim())) return
+          dispatch({
+            type: DeployActionEnum.MODIFY_OPERATION_AT,
+            payload: { index, newOperation: input.trim() },
+          })
           setIsEditable(false)
         }
         break
@@ -63,7 +68,7 @@ export function EditOperation({
   return (
     <>
       <input
-        defaultValue={operation}
+        value={input}
         style={{ width: `calc(${input.length}ch + 0.5rem)` }}
         onChange={(e) => setInput(e.target.value)}
         ref={secondaryInputRef}

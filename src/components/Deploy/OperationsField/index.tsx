@@ -1,28 +1,19 @@
 import { classNames } from 'src/utils'
 import { useFocus } from './hooks'
-import { handleOperations } from './handlers'
 import { MainInput } from './MainInput'
 import { OperationsList } from './OperationsList'
 
 interface OperationsSelectionProps {
   isFieldDisabled: boolean
-  operations: string[]
-  setOperations: React.Dispatch<React.SetStateAction<string[]>>
+  dispatch
+  state
 }
 
 export function OperationsField({
   isFieldDisabled,
-  operations,
-  setOperations,
+  dispatch,
+  state,
 }: OperationsSelectionProps): JSX.Element {
-  const {
-    isOperationAlreadyExisting,
-    isOperationAlreadyExistingAt,
-    modifyOperation,
-    removeLastOperation,
-    removeOperation,
-    addOperation,
-  } = handleOperations(operations, setOperations)
   const { mainRef, setSecondaryRef, setFocus } = useFocus()
 
   return (
@@ -34,28 +25,25 @@ export function OperationsField({
             isFieldDisabled && 'bg-gray-200'
           )}
         >
-          {operations.map((v, i) => (
+          {state.operations.map((v, i) => (
             <OperationsList
               key={v}
               operation={v}
               index={i}
+              dispatch={dispatch}
+              state={state}
               {...{
                 setSecondaryRef,
-                isOperationAlreadyExisting,
-                isOperationAlreadyExistingAt,
-                modifyOperation,
                 isFieldDisabled,
-                removeOperation,
               }}
             />
           ))}
           <MainInput
-            placeholder={!operations.length && 'operation_name'}
+            placeholder={!state.operations.length && 'operation_name'}
+            dispatch={dispatch}
+            state={state}
             {...{
               mainRef,
-              isOperationAlreadyExisting,
-              addOperation,
-              removeLastOperation,
               isFieldDisabled,
             }}
           />
