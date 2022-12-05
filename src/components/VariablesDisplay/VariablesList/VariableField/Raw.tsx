@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { classNames } from 'src/utils'
-import { useVariablesContext } from './VariablesContext'
+import { useVariablesContext } from '../../contexts/VariablesContext'
 
 type VariableFieldType = {
   prop: string
-  value: string | number | boolean
+  value: string | number | boolean | any[]
   parent?: string
 }
 
-export function VariableFieldRaw({ prop, value, parent }: VariableFieldType) {
+export function Raw({ prop, value, parent }: VariableFieldType) {
   const { setNewVariables } = useVariablesContext()
   const [error, setError] = useState(false)
   const inputName = parent ? [parent, prop].join('.') : prop
@@ -33,18 +33,16 @@ export function VariableFieldRaw({ prop, value, parent }: VariableFieldType) {
   }
 
   return (
-    <>
-      <div className="flex text-slate-600">
-        <label htmlFor={inputName} className="font-bold mr-2">
-          {prop}:
-        </label>
-        <input
-          name={inputName}
-          className={classNames('grow', error && 'bg-red-200')}
-          defaultValue={JSON.stringify(value)}
-          onChange={handleVariableChange}
-        />
-      </div>
-    </>
+    <div className="flex text-slate-600">
+      <label htmlFor={inputName} className="font-bold mr-2">
+        {prop}:
+      </label>
+      <input
+        name={inputName}
+        className={classNames('grow', error && 'bg-red-200')}
+        defaultValue={JSON.stringify(value)}
+        onChange={handleVariableChange}
+      />
+    </div>
   )
 }
