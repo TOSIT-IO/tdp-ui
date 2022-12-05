@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { DeployActionEnum } from 'src/pages/deploy'
 import { DisplayOperation } from './DisplayOperation'
 import { EditOperation } from './EditOperation'
 
@@ -8,22 +9,18 @@ interface OperationsListProps {
   setSecondaryRef: React.Dispatch<
     React.SetStateAction<React.MutableRefObject<HTMLInputElement>>
   >
-  isOperationAlreadyExisting: (operation: string) => boolean
-  isOperationAlreadyExistingAt: (index: number, input: string) => boolean
-  modifyOperation: (index: number, newOperation: string) => void
   isFieldDisabled: boolean
-  removeOperation: (index: number) => void
+  dispatch
+  state
 }
 
 export function OperationsList({
   operation,
   index,
   setSecondaryRef,
-  isOperationAlreadyExisting,
-  isOperationAlreadyExistingAt,
-  modifyOperation,
   isFieldDisabled,
-  removeOperation,
+  dispatch,
+  state,
 }: OperationsListProps): JSX.Element {
   const [isEditable, setIsEditable] = useState(false)
   const secondaryInputRef = useRef<HTMLInputElement>(null)
@@ -42,12 +39,11 @@ export function OperationsList({
         <EditOperation
           {...{
             operation,
-            isOperationAlreadyExistingAt,
             setIsEditable,
             index,
-            isOperationAlreadyExisting,
-            modifyOperation,
             secondaryInputRef,
+            dispatch,
+            state,
           }}
         />
       ) : (
@@ -56,7 +52,13 @@ export function OperationsList({
             operation,
             isFieldDisabled,
             setIsEditable,
-            handleRemoveOperation: () => removeOperation(index),
+            dispatch,
+            state,
+            handleRemoveOperation: () =>
+              dispatch({
+                type: DeployActionEnum.REMOVE_OPERATION_AT,
+                payload: { index },
+              }),
           }}
         />
       )}

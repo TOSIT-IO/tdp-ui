@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useReducer, useState } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import {
   Button,
@@ -36,9 +36,13 @@ const filterTypes: TfilterTypes = {
   glob: { placeholder: `*_config` },
 }
 
+const initialState: DeployStateType = {
+  operations: [],
+}
+
 const DeployPage = () => {
+  const [state, dispatch] = useReducer(deployReducer, initialState)
   const { deploy } = useDeploy()
-  const [operations, setOperations] = useState<string[]>([])
   const [deployMethod, setDeployMethod] = useState(
     Object.keys(deployMethods)[0]
   )
@@ -54,7 +58,7 @@ const DeployPage = () => {
       deployReq.filter_expression = filter
     }
     if (deployMethod !== 'all') {
-      deployReq[deployMethod] = operations
+      deployReq[deployMethod] = state.operations
     }
     deploy(deployReq)
   }
@@ -74,8 +78,8 @@ const DeployPage = () => {
       <div className="-mt-4">
         <OperationsField
           isFieldDisabled={deployMethod === 'all'}
-          operations={operations}
-          setOperations={setOperations}
+          state={state}
+          dispatch={dispatch}
         />
       </div>
       <FilterField
@@ -100,3 +104,51 @@ DeployPage.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default DeployPage
+
+export enum DeployActionEnum {
+  ADD_OPERATION,
+  MODIFY_OPERATION_AT,
+  REMOVE_LAST_OPERATION,
+  REMOVE_OPERATION_AT,
+}
+
+interface DeployActionType {
+  type: DeployActionEnum
+  payload: any
+}
+
+interface DeployStateType {
+  operations: string[]
+}
+
+function deployReducer(
+  state: DeployStateType,
+  { type, payload }: DeployActionType
+) {
+  const newOperations = [...state.operations]
+  switch (type) {
+    case DeployActionEnum.ADD_OPERATION:
+      return {
+        ...state,
+        operations: [...state.operations, payload.newOperation.trim()],
+      }
+    case DeployActionEnum.MODIFY_OPERATION_AT:
+      newOperations.splice(payload.index, 1, payload.newOperation.trim())
+      return {
+        ...state,
+        operations: newOperations,
+      }
+    case DeployActionEnum.REMOVE_LAST_OPERATION:
+      newOperations.pop()
+      return {
+        ...state,
+        operations: newOperations,
+      }
+    case DeployActionEnum.REMOVE_OPERATION_AT:
+      newOperations.splice(payload.index, 1)
+      return {
+        ...state,
+        operations: newOperations,
+      }
+  }
+}
