@@ -18,6 +18,8 @@ const apiConfig: ApiConfigType = {
     redirectUri: 'http://localhost:3000/',
     scope: [
       'openid',
+      'profile',
+      'email',
       'tdp_server:read',
       'tdp_server:write',
       'tdp_server:execute',
