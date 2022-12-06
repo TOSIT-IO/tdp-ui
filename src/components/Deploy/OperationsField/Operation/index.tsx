@@ -11,7 +11,7 @@ interface OperationsListProps {
   isFieldDisabled: boolean
 }
 
-export function OperationsList({
+export function Operation({
   operation,
   index,
   setSecondaryRef,
@@ -25,7 +25,7 @@ export function OperationsList({
   }, [isEditable, setSecondaryRef])
 
   return (
-    <div className="flex bg-gray-200 border border-gray-500 rounded-md overflow-hidden cursor-pointer">
+    <div className="bg-gray-200 border border-gray-500 rounded-md overflow-hidden cursor-pointer">
       {isEditable ? (
         <EditOperation
           operation={operation}

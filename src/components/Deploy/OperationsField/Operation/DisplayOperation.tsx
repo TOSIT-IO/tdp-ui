@@ -31,14 +31,14 @@ export function DisplayOperation({
   }
 
   return (
-    <>
+    <div className="flex">
       <span className="px-1 font-mono" onDoubleClick={handleOnDoubleClick}>
         {operation}
       </span>
       <button
         type="button"
         className={classNames(
-          'h-full px-1 border-l border-gray-500 -ml-px',
+          'self-stretch px-1 border-l border-gray-500 -ml-px',
           !isFieldDisabled && 'bg-pink-700'
         )}
         disabled={isFieldDisabled}
@@ -46,6 +46,6 @@ export function DisplayOperation({
       >
         <XMarkIcon className="w-4 h-4" />
       </button>
-    </>
+    </div>
   )
 }
