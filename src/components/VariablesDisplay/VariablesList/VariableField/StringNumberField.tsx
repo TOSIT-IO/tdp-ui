@@ -38,10 +38,9 @@ export function StringNumberField({ prop, value, parent }: VariableFieldType) {
       <input
         name={inputName}
         className={classNames(
-          'grow',
+          'w-full hover:opacity-100 hover:bg-slate-200 focus:text-xl transition duration-75 ease-in-out',
           error && 'bg-red-200',
-          typeof value === 'number' ? 'text-teal-600' : 'text-slate-700',
-          'hover:opacity-100 hover:bg-slate-200 focus:text-xl transition duration-75 ease-in-out'
+          typeof value === 'number' ? 'text-teal-600' : 'text-slate-700'
         )}
         defaultValue={JSON.stringify(value)}
         onChange={handleChange}

@@ -35,7 +35,7 @@ export function ArrayList({ prop, value, parent }: VariableFieldType) {
 
   if (Array.isArray(value)) {
     return (
-      <ol className="flex flex-grow flex-col  gap-2">
+      <ol className="flex flex-grow flex-col gap-2">
         {value.map((v) => (
           <li key={inputName} className="flex grow">
             <input

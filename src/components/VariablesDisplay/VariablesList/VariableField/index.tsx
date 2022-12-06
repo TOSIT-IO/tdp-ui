@@ -1,41 +1,6 @@
-import { Raw } from './Raw'
 import { ArrayList } from './ArrayList'
 import { BooleanField } from './BooleanField'
 import { StringNumberField } from './StringNumberField'
-
-interface VariableFieldType {
-  isRaw: boolean
-  prop: string
-  value: string | number | boolean | any[]
-  parent?: string
-}
-
-export function VariableField({
-  prop,
-  value,
-  parent,
-  isRaw,
-}: VariableFieldType) {
-  const inputName = parent ? [parent, prop].join('.') : prop
-  if (isRaw) {
-    return (
-      <div className="flex flex-col gap-2">
-        <Raw prop={prop} value={value} parent={parent} />
-      </div>
-    )
-  } else {
-    return (
-      <div className="grid grid-cols-10 divide-y grid-flow-row gap-1 p-0 bg-transparent">
-        <div className="col-start-1 col-span-2 flex flex-grow flex-col bg-transparent p-0 font-bold mr-0 text-base text-gray-600 sm:pl-0 overflow-auto ">
-          {inputName}:
-        </div>
-        <div className="col-start-3 col-span-8 flex flex-grow flex-col bg-transparent px-0 py-0 text-base text-gray-600">
-          <ViewValue prop={prop} value={value} parent={parent} />
-        </div>
-      </div>
-    )
-  }
-}
 
 interface ViewValueType {
   prop: string
@@ -43,7 +8,7 @@ interface ViewValueType {
   parent?: string
 }
 
-function ViewValue({ prop, value, parent }: ViewValueType) {
+export function ViewValue({ prop, value, parent }: ViewValueType) {
   switch (getType(value)) {
     case getTypeEnum.ARRAY:
       return <ArrayList prop={prop} value={value} parent={parent} />
