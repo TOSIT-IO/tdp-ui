@@ -3,7 +3,7 @@ import {
   DeployActionEnum,
   DeployMethodsEnum,
   DeployStateType,
-} from 'src/components'
+} from 'src/types/deployTypes'
 
 type DeployActionPayload = {
   [DeployActionEnum.ADD_OPERATION]: {
