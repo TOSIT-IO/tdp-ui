@@ -6,7 +6,7 @@ export function useFocus() {
     useState<React.MutableRefObject<HTMLInputElement>>(null)
 
   const setFocus = useCallback(() => {
-    if (secondaryRef) {
+    if (secondaryRef && secondaryRef.current) {
       secondaryRef.current.focus()
     } else {
       mainRef.current.focus()
