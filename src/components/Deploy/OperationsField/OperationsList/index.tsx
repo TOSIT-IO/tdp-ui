@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { DeployActionEnum } from 'src/pages/deploy'
 import { DisplayOperation } from './DisplayOperation'
 import { EditOperation } from './EditOperation'
 
@@ -10,8 +9,6 @@ interface OperationsListProps {
     React.SetStateAction<React.MutableRefObject<HTMLInputElement>>
   >
   isFieldDisabled: boolean
-  dispatch
-  state
 }
 
 export function OperationsList({
@@ -19,47 +16,29 @@ export function OperationsList({
   index,
   setSecondaryRef,
   isFieldDisabled,
-  dispatch,
-  state,
-}: OperationsListProps): JSX.Element {
+}: OperationsListProps) {
   const [isEditable, setIsEditable] = useState(false)
   const secondaryInputRef = useRef<HTMLInputElement>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     isEditable ? setSecondaryRef(secondaryInputRef) : setSecondaryRef(null)
   }, [isEditable, setSecondaryRef])
 
   return (
-    <div
-      className="flex bg-gray-200 border border-gray-500 rounded-md overflow-hidden cursor-pointer"
-      ref={componentRef}
-    >
+    <div className="flex bg-gray-200 border border-gray-500 rounded-md overflow-hidden cursor-pointer">
       {isEditable ? (
         <EditOperation
-          {...{
-            operation,
-            setIsEditable,
-            index,
-            secondaryInputRef,
-            dispatch,
-            state,
-          }}
+          operation={operation}
+          setIsEditable={setIsEditable}
+          index={index}
+          secondaryInputRef={secondaryInputRef}
         />
       ) : (
         <DisplayOperation
-          {...{
-            operation,
-            isFieldDisabled,
-            setIsEditable,
-            dispatch,
-            state,
-            handleRemoveOperation: () =>
-              dispatch({
-                type: DeployActionEnum.REMOVE_OPERATION_AT,
-                payload: { index },
-              }),
-          }}
+          operation={operation}
+          isFieldDisabled={isFieldDisabled}
+          setIsEditable={setIsEditable}
+          index={index}
         />
       )}
     </div>

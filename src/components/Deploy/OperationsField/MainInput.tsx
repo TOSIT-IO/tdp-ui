@@ -1,14 +1,39 @@
 import { useState } from 'react'
-import { DeployActionEnum } from 'src/pages/deploy'
+import { useDeployContext } from 'src/contexts/deployContext'
+import { DeployActionEnum } from 'src/types/deployTypes'
 
 export function MainInput({
   isFieldDisabled,
   mainRef,
-  placeholder,
-  dispatch,
-  state,
+}: {
+  isFieldDisabled: boolean
+  mainRef: React.MutableRefObject<HTMLInputElement>
 }) {
   const [input, setInput] = useState('')
+  const {
+    state: { operations },
+    dispatch,
+  } = useDeployContext()
+
+  const placeholder = !operations.length ? 'operation' : undefined
+  const isOperationAlreadyRegistered = operations.includes(input.trim())
+
+  function addOperation() {
+    const trimmedInput = input.trim()
+    if (!trimmedInput) return
+    if (isOperationAlreadyRegistered) return
+    dispatch({
+      type: DeployActionEnum.ADD_OPERATION,
+      payload: { newOperation: trimmedInput },
+    })
+    setInput('')
+  }
+
+  function removeLastOperation() {
+    dispatch({
+      type: DeployActionEnum.REMOVE_LAST_OPERATION,
+    })
+  }
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     switch (e.key) {
@@ -17,22 +42,12 @@ export function MainInput({
       case 'Enter':
       case 'Escape':
         e.preventDefault()
-        if (input.trim()) {
-          if (state.operations.includes(input.trim())) return
-          dispatch({
-            type: DeployActionEnum.ADD_OPERATION,
-            payload: { newOperation: input.trim() },
-          })
-          setInput('')
-        }
+        addOperation()
         break
       case 'Backspace':
-        if (!input.length) {
-          e.preventDefault()
-          dispatch({
-            type: DeployActionEnum.REMOVE_LAST_OPERATION,
-          })
-        }
+        if (input.length) return
+        e.preventDefault()
+        removeLastOperation()
         break
       default:
         break
@@ -45,7 +60,9 @@ export function MainInput({
       disabled={isFieldDisabled}
       ref={mainRef}
       style={{
-        width: input ? `${input.length}ch` : `${placeholder.length}ch`,
+        width: input
+          ? `${input.length}ch`
+          : `max(${placeholder?.length}ch, 1ch)`,
       }}
       value={input}
       onChange={(e) => setInput(e.target.value)}

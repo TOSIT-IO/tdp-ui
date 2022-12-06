@@ -1,24 +1,29 @@
+import { useDeployContext } from 'src/contexts/deployContext'
 import { FieldHeader } from '../FieldHeader'
+import { DeployActionEnum, TfilterType } from 'src/types/deployTypes'
 
-interface FilterFieldProps {
-  filter: string
-  setFilter: React.Dispatch<React.SetStateAction<string>>
-  filterType: string
-  setFilterType: React.Dispatch<React.SetStateAction<string>>
-  filterTypes: {
-    [value: string]: {
-      placeholder: string
-    }
+export function FilterField({ filterTypes }: { filterTypes: TfilterType[] }) {
+  const {
+    state: { filterExpression, filterType },
+    dispatch,
+  } = useDeployContext()
+
+  function handleOnSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    dispatch({
+      type: DeployActionEnum.SET_FILTER_TYPE,
+      payload: {
+        newFilterType: filterTypes.find((v) => v.name === e.target.value).name,
+      },
+    })
   }
-}
 
-export function FilterField({
-  filter,
-  setFilter,
-  filterType,
-  setFilterType,
-  filterTypes,
-}: FilterFieldProps) {
+  function handleOnInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({
+      type: DeployActionEnum.SET_FILTER_EXPRESSION,
+      payload: { newFilterExpression: e.target.value },
+    })
+  }
+
   return (
     <fieldset>
       <FieldHeader
@@ -33,13 +38,12 @@ export function FilterField({
           </label>
           <select
             name="filter-type"
-            onChange={(e) => setFilterType(e.target.value)}
+            onChange={handleOnSelectChange}
             className="h-full w-full bg-gray-50 px-4 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            defaultValue={filterType}
           >
-            {Object.keys(filterTypes).map((v) => (
-              <option key={v} value={v} selected={filterType === v}>
-                {v}
-              </option>
+            {filterTypes.map((v) => (
+              <FilterTypeOption key={v.name} filterType={v} />
             ))}
           </select>
         </div>
@@ -47,11 +51,17 @@ export function FilterField({
           type="text"
           name="filter"
           className="pl-2 w-full border rounded-r-md border-gray-300 p-1"
-          placeholder={filterTypes[filterType].placeholder}
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          placeholder={
+            filterTypes.find((v) => v.name === filterType).placeholder
+          }
+          value={filterExpression}
+          onChange={handleOnInputChange}
         />
       </div>
     </fieldset>
   )
+}
+
+function FilterTypeOption({ filterType }: { filterType: TfilterType }) {
+  return <option value={filterType.name}>{filterType.name}</option>
 }
