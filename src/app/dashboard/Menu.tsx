@@ -45,12 +45,7 @@ export default function Menu({ className: additionalStyles }) {
   ]
 
   return (
-    <nav
-      className={classNames(
-        'overflow-y-auto gap-1 px-2 flex flex-col',
-        additionalStyles
-      )}
-    >
+    <nav className={classNames('gap-1 px-2 flex flex-col', additionalStyles)}>
       {menuItems.map((menuItem) => (
         <MenuItem key={menuItem.name} menuItem={menuItem} />
       ))}

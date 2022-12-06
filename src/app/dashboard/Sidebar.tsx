@@ -14,7 +14,8 @@ export default function Sidebar({ className }) {
     <>
       <div
         className={classNames(
-          !isSidebarOpen ? 'hidden' : 'relative bg-slate-700',
+          !isSidebarOpen && 'hidden',
+          'bg-slate-700 h-full overflow-y-auto',
           className
         )}
       >
