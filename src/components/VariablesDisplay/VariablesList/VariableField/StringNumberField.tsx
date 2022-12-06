@@ -36,7 +36,6 @@ export function StringNumberField({ prop, value, parent }: VariableFieldType) {
   if (typeof value === 'string' || typeof value === 'number') {
     return (
       <input
-        key={inputName}
         name={inputName}
         className={classNames(
           'grow',

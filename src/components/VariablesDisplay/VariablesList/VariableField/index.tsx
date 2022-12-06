@@ -26,16 +26,10 @@ export function VariableField({
   } else {
     return (
       <div className="grid grid-cols-10 divide-y grid-flow-row gap-1 p-0 bg-transparent">
-        <div
-          key={inputName}
-          className="col-start-1 col-span-2 flex flex-grow flex-col bg-transparent p-0 font-bold mr-0 text-base text-gray-600 sm:pl-0 overflow-auto "
-        >
+        <div className="col-start-1 col-span-2 flex flex-grow flex-col bg-transparent p-0 font-bold mr-0 text-base text-gray-600 sm:pl-0 overflow-auto ">
           {inputName}:
         </div>
-        <div
-          key={inputName}
-          className="col-start-3 col-span-8 flex flex-grow flex-col bg-transparent px-0 py-0 text-base text-gray-600"
-        >
+        <div className="col-start-3 col-span-8 flex flex-grow flex-col bg-transparent px-0 py-0 text-base text-gray-600">
           <ViewValue prop={prop} value={value} parent={parent} />
         </div>
       </div>
