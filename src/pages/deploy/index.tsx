@@ -81,7 +81,11 @@ const DeployPage = () => {
         <FilterField filterTypes={filterTypes} />
         <RestartField />
         <div className="self-center">
-          <Button type="button" onClick={handleDeploy}>
+          <Button
+            type="button"
+            onClick={handleDeploy}
+            className="font-bold text-xl"
+          >
             Deploy
           </Button>
         </div>

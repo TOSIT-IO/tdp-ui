@@ -3,7 +3,7 @@ import { useDeployContext } from 'src/contexts/deployContext'
 import { DeployMethodsEnum } from 'src/types/deployTypes'
 import { useFocus } from './hooks'
 import { MainInput } from './MainInput'
-import { OperationsList } from './OperationsList'
+import { Operation } from './Operation'
 
 export function OperationsField() {
   const { mainRef, setSecondaryRef, setFocus } = useFocus()
@@ -22,7 +22,7 @@ export function OperationsField() {
         )}
       >
         {operations.map((v, i) => (
-          <OperationsList
+          <Operation
             key={v}
             operation={v}
             index={i}

@@ -1,33 +1,32 @@
 import { PencilIcon } from '@heroicons/react/24/solid'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useDeployContext } from 'src/contexts/deployContext'
 import { DeployActionEnum } from 'src/types/deployTypes'
+import { useOnClickOutside } from '../hooks'
 
-interface EditOperationProps {
-  operation: string
-  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>
-  index: number
-  secondaryInputRef: React.MutableRefObject<HTMLInputElement>
-}
-
-// TODO: handle case where user click away (abort)
 export function EditOperation({
   operation,
   setIsEditable,
   index,
   secondaryInputRef,
-}: EditOperationProps): JSX.Element {
+}: {
+  operation: string
+  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>
+  index: number
+  secondaryInputRef: React.MutableRefObject<HTMLInputElement>
+}) {
   const [input, setInput] = useState(operation)
   const {
     state: { operations },
     dispatch,
   } = useDeployContext()
-
-  const isValueChanged = input.trim() === operations[index]
-  const isOperationAlreadyDefined = operations.includes(input.trim())
+  const fieldRef = useRef<HTMLDivElement>(null)
+  useOnClickOutside(fieldRef, () => handleEditOperation())
 
   function handleEditOperation() {
     const trimmedInput = input.trim()
+    const isValueChanged = trimmedInput !== operations[index]
+    const isOperationAlreadyDefined = operations.includes(trimmedInput)
     if (!trimmedInput) return
     if (!isValueChanged) {
       setIsEditable(false)
@@ -72,7 +71,7 @@ export function EditOperation({
   }
 
   return (
-    <div>
+    <div ref={fieldRef} className="flex">
       <input
         value={input}
         style={{ width: `calc(${input.length}ch + 0.5rem)` }}
@@ -83,7 +82,7 @@ export function EditOperation({
       />
       <button
         type="button"
-        className={'h-full px-1 border-l border-gray-500 -ml-px'}
+        className={'self-stretch px-1 border-l border-gray-500 -ml-px'}
         onClick={handleEditOperation}
       >
         <PencilIcon className="w-4 h-4" />
