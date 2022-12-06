@@ -39,7 +39,6 @@ export function ArrayList({ prop, value, parent }: VariableFieldType) {
         {value.map((v) => (
           <li key={inputName} className="flex grow">
             <input
-              key={inputName}
               name={inputName}
               className={classNames(
                 'grow',
