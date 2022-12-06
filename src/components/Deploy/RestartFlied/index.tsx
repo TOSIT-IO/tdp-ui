@@ -1,14 +1,17 @@
+import { useDeployContext } from 'src/contexts/deployContext'
 import { FieldHeader } from '../FieldHeader'
+import { DeployActionEnum } from 'src/types/deployTypes'
 
-interface RestartFieldProps {
-  restart: boolean
-  setRestart: React.Dispatch<React.SetStateAction<boolean>>
-}
+export function RestartField() {
+  const {
+    state: { restart },
+    dispatch,
+  } = useDeployContext()
 
-export function RestartField({
-  restart,
-  setRestart,
-}: RestartFieldProps): JSX.Element {
+  function handleOnCheck() {
+    dispatch({ type: DeployActionEnum.TOGGLE_RESTART })
+  }
+
   return (
     <fieldset>
       <FieldHeader
@@ -21,7 +24,7 @@ export function RestartField({
         id="default-checkbox"
         type="checkbox"
         checked={restart}
-        onChange={() => setRestart((prev) => !prev)}
+        onChange={handleOnCheck}
         className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300"
       />
       <label

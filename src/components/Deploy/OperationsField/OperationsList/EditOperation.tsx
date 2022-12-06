@@ -1,14 +1,13 @@
 import { PencilIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
-import { DeployActionEnum } from 'src/pages/deploy'
+import { useDeployContext } from 'src/contexts/deployContext'
+import { DeployActionEnum } from 'src/types/deployTypes'
 
 interface EditOperationProps {
   operation: string
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>
   index: number
   secondaryInputRef: React.MutableRefObject<HTMLInputElement>
-  state
-  dispatch
 }
 
 // TODO: handle case where user click away (abort)
@@ -17,24 +16,37 @@ export function EditOperation({
   setIsEditable,
   index,
   secondaryInputRef,
-  state,
-  dispatch,
 }: EditOperationProps): JSX.Element {
   const [input, setInput] = useState(operation)
+  const {
+    state: { operations },
+    dispatch,
+  } = useDeployContext()
+
+  const isValueChanged = input.trim() === operations[index]
+  const isOperationAlreadyDefined = operations.includes(input.trim())
 
   function handleEditOperation() {
-    if (input.trim()) {
-      if (input.trim() === state.operations[index]) {
-        setIsEditable(false)
-        return
-      }
-      if (state.operations.includes(input.trim())) return
-      dispatch({
-        type: DeployActionEnum.MODIFY_OPERATION_AT,
-        payload: { index, newOperation: input.trim() },
-      })
+    const trimmedInput = input.trim()
+    if (!trimmedInput) return
+    if (!isValueChanged) {
       setIsEditable(false)
+      return
     }
+    if (isOperationAlreadyDefined) return
+    dispatch({
+      type: DeployActionEnum.EDIT_OPERATION_AT,
+      payload: { index, newOperation: trimmedInput },
+    })
+    setIsEditable(false)
+  }
+
+  function handleRemoveOperation() {
+    dispatch({ type: DeployActionEnum.REMOVE_OPERATION_AT, payload: { index } })
+  }
+
+  function handleAbortOngoingChange() {
+    setIsEditable(false)
   }
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -43,22 +55,16 @@ export function EditOperation({
       case ' ':
       case 'Enter':
         e.preventDefault()
-        if (input.trim()) {
-          if (input.trim() === state.operations[index]) {
-            setIsEditable(false)
-            return
-          }
-          if (state.operations.includes(input.trim())) return
-          dispatch({
-            type: DeployActionEnum.MODIFY_OPERATION_AT,
-            payload: { index, newOperation: input.trim() },
-          })
-          setIsEditable(false)
-        }
+        handleEditOperation()
         break
       case 'Escape':
         e.preventDefault()
-        setIsEditable(false)
+        handleAbortOngoingChange()
+        break
+      case 'Backspace':
+        if (input.length !== 0) return
+        e.preventDefault()
+        handleRemoveOperation()
         break
       default:
         break
@@ -66,7 +72,7 @@ export function EditOperation({
   }
 
   return (
-    <>
+    <div>
       <input
         value={input}
         style={{ width: `calc(${input.length}ch + 0.5rem)` }}
@@ -82,6 +88,6 @@ export function EditOperation({
       >
         <PencilIcon className="w-4 h-4" />
       </button>
-    </>
+    </div>
   )
 }
