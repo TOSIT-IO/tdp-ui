@@ -1,8 +1,11 @@
 import { useDeployContext } from 'src/contexts/deployContext'
 import { FieldHeader } from '../FieldHeader'
 import { DeployActionEnum, TfilterType } from 'src/types/deployTypes'
+import { useState } from 'react'
+import { classNames } from 'src/utils'
 
 export function FilterField({ filterTypes }: { filterTypes: TfilterType[] }) {
+  const [isValid, setIsValid] = useState(true)
   const {
     state: { filterExpression, filterType },
     dispatch,
@@ -18,6 +21,12 @@ export function FilterField({ filterTypes }: { filterTypes: TfilterType[] }) {
   }
 
   function handleOnInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    try {
+      new RegExp(e.target.value)
+      setIsValid(true)
+    } catch (e) {
+      setIsValid(false)
+    }
     dispatch({
       type: DeployActionEnum.SET_FILTER_EXPRESSION,
       payload: { newFilterExpression: e.target.value },
@@ -50,7 +59,10 @@ export function FilterField({ filterTypes }: { filterTypes: TfilterType[] }) {
         <input
           type="text"
           name="filter"
-          className="pl-2 w-full border rounded-r-md border-gray-300 p-1"
+          className={classNames(
+            'pl-2 w-full border rounded-r-md p-1 outline-none font-mono',
+            isValid ? 'border-gray-300' : 'border-red-500'
+          )}
           placeholder={
             filterTypes.find((v) => v.name === filterType).placeholder
           }
