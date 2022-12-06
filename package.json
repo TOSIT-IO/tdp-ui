@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "prettier:check": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
-    "postinstall": "./scripts/downloadGenerator.sh"
+    "postinstall": "./scripts/generator.sh"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.12",
