@@ -2,8 +2,8 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import ServiceLayout from 'src/app/services/layout'
-import { useServiceInfos } from 'src/hooks'
 import { VariablesDisplay } from 'src/components'
+import { useServiceInfos } from 'src/hooks'
 
 const ServicePage = () => {
   const router = useRouter()
