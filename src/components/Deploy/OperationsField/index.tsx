@@ -1,5 +1,5 @@
 import { classNames } from 'src/utils'
-import { useDeployContext } from 'src/contexts/deployContext'
+import { useDeployContext } from 'src/contexts'
 import { DeployMethodsEnum } from 'src/types/deployTypes'
 import { useFocus } from './hooks'
 import { MainInput } from './MainInput'

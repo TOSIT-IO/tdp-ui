@@ -7,13 +7,12 @@ import {
   RestartField,
   OperationsField,
 } from 'src/components'
-import { useDeploy } from 'src/hooks'
 import {
   DeployMethodsEnum,
   DeployMethodsType,
   TfilterType,
 } from 'src/types/deployTypes'
-import { DeployContext } from 'src/contexts/deployContext'
+import { DeployContextProvider, useDeployContext } from 'src/contexts'
 
 const deployMethods: DeployMethodsType[] = [
   {
@@ -39,15 +38,8 @@ const filterTypes: TfilterType[] = [
 ]
 
 const DeployPage = () => {
-  const { deploy, state, dispatch } = useDeploy()
-
-  function handleDeploy(e: React.SyntheticEvent) {
-    e.preventDefault()
-    deploy()
-  }
-
   return (
-    <DeployContext.Provider value={{ state, dispatch }}>
+    <DeployContextProvider>
       <form className="flex flex-col gap-7">
         <header className="border-b border-gray-200 pb-5">
           <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
@@ -61,16 +53,10 @@ const DeployPage = () => {
         <FilterField filterTypes={filterTypes} />
         <RestartField />
         <div className="self-center">
-          <Button
-            type="button"
-            onClick={handleDeploy}
-            className="font-bold text-xl"
-          >
-            Deploy
-          </Button>
+          <DeployButton label="Deploy" />
         </div>
       </form>
-    </DeployContext.Provider>
+    </DeployContextProvider>
   )
 }
 
@@ -79,3 +65,16 @@ DeployPage.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default DeployPage
+
+function DeployButton({ label }: { label: string }) {
+  const { deploy } = useDeployContext()
+  function handleDeploy(e: React.SyntheticEvent) {
+    e.preventDefault()
+    deploy()
+  }
+  return (
+    <Button type="button" onClick={handleDeploy} className="font-bold text-xl">
+      {label}
+    </Button>
+  )
+}

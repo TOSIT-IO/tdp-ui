@@ -1,6 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { classNames } from 'src/utils'
-import { useDeployContext } from 'src/contexts/deployContext'
+import { useDeployContext } from 'src/contexts'
 import { DeployActionEnum } from 'src/types/deployTypes'
 
 interface DisplayOperationProps {

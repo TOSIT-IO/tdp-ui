@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useDeployContext } from 'src/contexts/deployContext'
+import { useDeployContext } from 'src/contexts'
 import { DeployActionEnum } from 'src/types/deployTypes'
 
 export function MainInput({
