@@ -1,8 +1,8 @@
 import { useDeployContext } from 'src/contexts'
-import { FieldHeader } from '../FieldHeader'
 import { DeployActionEnum, TfilterType } from 'src/types/deployTypes'
 import { useState } from 'react'
 import { classNames } from 'src/utils'
+import { FieldHeader } from '../../FieldHeader'
 
 export function FilterField({ filterTypes }: { filterTypes: TfilterType[] }) {
   const [isValid, setIsValid] = useState(true)
