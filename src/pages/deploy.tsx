@@ -1,62 +1,30 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
-import {
-  Button,
-  FilterField,
-  DeployTypeField,
-  RestartField,
-  OperationsField,
-} from 'src/components'
-import {
-  DeployMethodsEnum,
-  DeployMethodsType,
-  TfilterType,
-} from 'src/types/deployTypes'
-import { DeployContextProvider, useDeployContext } from 'src/contexts'
+import { DeployContextProvider } from 'src/contexts'
+import { ProgressBar } from 'src/components/Deploy/ProgressBar'
+import { ConfigurationStep, DeployModeStep, ReviewStep } from 'src/components'
 
-const deployMethods: DeployMethodsType[] = [
-  {
-    name: DeployMethodsEnum.ALL,
-    title: 'All',
-    description: 'Deploy all operations.',
-  },
-  {
-    name: DeployMethodsEnum.SOURCES,
-    title: 'From sources',
-    description: 'List of operations used as targets on the dag generation.',
-  },
-  {
-    name: DeployMethodsEnum.TARGETS,
-    title: 'To targets',
-    description: 'List of operations used as sources on the dag generation.',
-  },
-]
-
-const filterTypes: TfilterType[] = [
-  { name: 'regex', placeholder: `.+config` },
-  { name: 'glob', placeholder: `*_config` },
+const steps = [
+  { name: 'Deploy Mode', component: DeployModeStep },
+  { name: 'Configuration', component: ConfigurationStep },
+  { name: 'Review', component: ReviewStep },
 ]
 
 const DeployPage = () => {
+  const [activeStepId, setActiveStepId] = useState(0)
+  const stepsNames = steps.map((v) => v.name)
+  const ActiveStepComponent = steps[activeStepId].component
   return (
-    <DeployContextProvider>
-      <form className="flex flex-col gap-7">
-        <header className="border-b border-gray-200 pb-5">
-          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-            Deploy
-          </h1>
-        </header>
-        <DeployTypeField deployMethods={deployMethods} />
-        <div className="-mt-4">
-          <OperationsField />
-        </div>
-        <FilterField filterTypes={filterTypes} />
-        <RestartField />
-        <div className="self-center">
-          <DeployButton label="Deploy" />
-        </div>
-      </form>
-    </DeployContextProvider>
+    <>
+      <DeployContextProvider>
+        <ActiveStepComponent />
+      </DeployContextProvider>
+      <ProgressBar activeStepId={activeStepId} steps={stepsNames} />
+      <div className="flex justify-end gap-6 mt-3">
+        <button onClick={() => setActiveStepId(activeStepId - 1)}>Prev</button>
+        <button onClick={() => setActiveStepId(activeStepId + 1)}>Next</button>
+      </div>
+    </>
   )
 }
 
@@ -65,16 +33,3 @@ DeployPage.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default DeployPage
-
-function DeployButton({ label }: { label: string }) {
-  const { deploy } = useDeployContext()
-  function handleDeploy(e: React.SyntheticEvent) {
-    e.preventDefault()
-    deploy()
-  }
-  return (
-    <Button type="button" onClick={handleDeploy} className="font-bold text-xl">
-      {label}
-    </Button>
-  )
-}
