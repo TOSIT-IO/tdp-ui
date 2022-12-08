@@ -1,4 +1,4 @@
-import { ReactElement, useReducer } from 'react'
+import { ReactElement } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import {
   Button,
@@ -8,14 +8,11 @@ import {
   OperationsField,
 } from 'src/components'
 import { useDeploy } from 'src/hooks'
-import { DeployRequest, FilterTypeEnum } from '@/client-sdk'
 import {
   DeployMethodsEnum,
   DeployMethodsType,
-  DeployStateType,
   TfilterType,
 } from 'src/types/deployTypes'
-import { deployReducer } from 'src/utils/deployReducer'
 import { DeployContext } from 'src/contexts/deployContext'
 
 const deployMethods: DeployMethodsType[] = [
@@ -41,29 +38,12 @@ const filterTypes: TfilterType[] = [
   { name: 'glob', placeholder: `*_config` },
 ]
 
-const initialState: DeployStateType = {
-  operations: [],
-  filterExpression: '',
-  filterType: FilterTypeEnum.Regex,
-  deployMethod: DeployMethodsEnum.ALL,
-  restart: false,
-}
-
 const DeployPage = () => {
-  const { deploy } = useDeploy()
-  const [state, dispatch] = useReducer(deployReducer, initialState)
+  const { deploy, state, dispatch } = useDeploy()
 
   function handleDeploy(e: React.SyntheticEvent) {
     e.preventDefault()
-    const deployReq: DeployRequest = { restart: state.restart }
-    if (state.filterExpression.trim()) {
-      deployReq.filter_type = state.filterType
-      deployReq.filter_expression = state.filterExpression
-    }
-    if (state.deployMethod !== 'all') {
-      deployReq[state.deployMethod] = state.operations
-    }
-    deploy(deployReq)
+    deploy()
   }
 
   return (
