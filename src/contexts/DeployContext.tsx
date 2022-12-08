@@ -3,7 +3,6 @@ import { useTdpClient } from 'src/contexts'
 
 import { DeployRequest, FilterTypeEnum } from '@/client-sdk'
 import { useReducer } from 'react'
-import { DeployMethodsEnum } from 'src/types/deployTypes'
 import { deployReducer } from 'src/utils/deployReducer'
 
 import { createContext, useContext } from 'react'
@@ -14,7 +13,7 @@ const initialState = {
   operations: [],
   filterExpression: '',
   filterType: FilterTypeEnum.Regex,
-  deployMethod: DeployMethodsEnum.ALL,
+  deployMethod: null,
   restart: false,
 }
 

@@ -22,7 +22,8 @@ export function DeployOption({
   }
 
   return (
-    <li
+    <label
+      htmlFor={name}
       onClick={handleOnClick}
       className={classNames(
         'cursor-pointer text-gray-500 border border-gray-200 rounded-lg p-5',
@@ -39,15 +40,13 @@ export function DeployOption({
         className="hidden"
         required
       />
-      <label htmlFor={name} className="cursor-pointer">
-        <div className="flex justify-between">
-          <div className="text-lg font-semibold">{title}</div>
-          {isSelected && (
-            <CheckCircleIcon className="ml-3 w-6 h-6" aria-hidden="true" />
-          )}
-        </div>
-        <p>{description}</p>
-      </label>
-    </li>
+      <div className="flex justify-between">
+        <div className="text-lg font-semibold">{title}</div>
+        {isSelected && (
+          <CheckCircleIcon className="ml-3 w-6 h-6" aria-hidden="true" />
+        )}
+      </div>
+      <p>{description}</p>
+    </label>
   )
 }
