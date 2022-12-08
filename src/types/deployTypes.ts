@@ -22,17 +22,6 @@ export interface DeployStateType {
   operations: string[]
   filterExpression: string
   filterType: FilterTypeEnum
-  deployMethod: DeployMethodsEnum
+  selectedDeployMode: DeployMethodsEnum
   restart: boolean
-}
-
-export interface TfilterType {
-  name: FilterTypeEnum
-  placeholder: string
-}
-
-export interface DeployMethodsType {
-  name: DeployMethodsEnum
-  title: string
-  description: string
 }

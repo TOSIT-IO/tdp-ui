@@ -13,7 +13,7 @@ const initialState = {
   operations: [],
   filterExpression: '',
   filterType: FilterTypeEnum.Regex,
-  deployMethod: null,
+  selectedDeployMode: null,
   restart: false,
 }
 
@@ -33,8 +33,8 @@ export function DeployContextProvider({ children }) {
       deployReq.filter_type = state.filterType
       deployReq.filter_expression = state.filterExpression
     }
-    if (state.deployMethod !== 'all') {
-      deployReq[state.deployMethod] = state.operations
+    if (state.selectedDeployMode !== 'all') {
+      deployReq[state.selectedDeployMode] = state.operations
     }
     const res = await deployApi.deployNodeApiV1DeployPost(deployReq)
     res?.data?.state && toast.info(`Deploy status: ${res.data.state}`)

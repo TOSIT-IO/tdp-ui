@@ -8,7 +8,7 @@ import { Operation } from './Operation'
 export function OperationsField() {
   const { mainRef, setSecondaryRef, setFocus } = useFocus()
   const {
-    state: { operations, deployMethod },
+    state: { operations, selectedDeployMode: deployMethod },
   } = useDeployContext()
 
   const isFieldDisabled = deployMethod === DeployMethodsEnum.ALL

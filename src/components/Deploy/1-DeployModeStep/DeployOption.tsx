@@ -1,23 +1,24 @@
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { classNames } from 'src/utils'
 import { useDeployContext } from 'src/contexts'
-import { DeployActionEnum, DeployMethodsType } from 'src/types/deployTypes'
+import { DeployActionEnum } from 'src/types/deployTypes'
+import type { DeployModes } from './DeployModeStep'
 
 export function DeployOption({
   method: { title, description, name },
 }: {
-  method: DeployMethodsType
+  method: DeployModes
 }) {
   const {
-    state: { deployMethod },
+    state: { selectedDeployMode },
     dispatch,
   } = useDeployContext()
-  const isSelected = name === deployMethod
+  const isSelected = name === selectedDeployMode
 
   function handleOnClick() {
     dispatch({
       type: DeployActionEnum.SET_DEPLOY_METHOD,
-      payload: { newDeployMethod: name },
+      payload: { newSelectedDeployMode: name },
     })
   }
 
