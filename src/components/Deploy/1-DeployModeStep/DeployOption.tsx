@@ -3,7 +3,7 @@ import { classNames } from 'src/utils'
 import { useDeployContext } from 'src/contexts'
 import { DeployActionEnum, DeployMethodsType } from 'src/types/deployTypes'
 
-export function Card({
+export function DeployOption({
   method: { title, description, name },
 }: {
   method: DeployMethodsType
@@ -12,7 +12,6 @@ export function Card({
     state: { deployMethod },
     dispatch,
   } = useDeployContext()
-
   const isSelected = name === deployMethod
 
   function handleOnClick() {
