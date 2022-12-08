@@ -28,13 +28,19 @@ const DeployPage = () => {
   return (
     <>
       <DeployContextProvider>
-        <ActiveStepComponent toggleNextStep={toggleNextStep} />
+        <ActiveStepComponent
+          toggleNextStep={toggleNextStep}
+          togglePreviousStep={togglePreviousStep}
+        />
       </DeployContextProvider>
-      <ProgressBar activeStepId={activeStepId} steps={stepsNames} />
-      <div className="flex justify-end gap-6 mt-3">
+      <div className="mt-24">
+        <ProgressBar activeStepId={activeStepId} steps={stepsNames} />
+      </div>
+      {/* Test Buttons */}
+      {/* <div className="flex justify-end gap-6 mt-3">
         <button onClick={togglePreviousStep}>Prev</button>
         <button onClick={toggleNextStep}>Next</button>
-      </div>
+      </div> */}
     </>
   )
 }

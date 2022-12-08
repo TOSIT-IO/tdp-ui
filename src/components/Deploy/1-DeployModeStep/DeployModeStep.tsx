@@ -1,6 +1,8 @@
-import { FieldHeader, Button } from 'src/components'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
+import { Button } from 'src/components'
 import { useDeployContext } from 'src/contexts'
 import { DeployMethodsEnum } from 'src/types/deployTypes'
+import { PageHeader } from '../PageHeader'
 import { DeployOption } from './DeployOption'
 
 export type DeployModes = {
@@ -32,7 +34,7 @@ const deployModes: DeployModes[] = [
   },
 ]
 
-export function DeployModeStep({ toggleNextStep }) {
+export function DeployModeStep({ toggleNextStep, togglePreviousStep }) {
   const {
     state: { selectedDeployMode: deployMethod },
   } = useDeployContext()
@@ -44,17 +46,27 @@ export function DeployModeStep({ toggleNextStep }) {
   }
 
   return (
-    <fieldset>
-      <FieldHeader as="legend" title="Deploy type" />
-      <div className="flex flex-col gap-3">
-        {deployModes.map((v) => (
-          <DeployOption key={v.name} method={v} />
-        ))}
-      </div>
-      {/* TODO: disabled style button */}
-      <Button onClick={handleOnClick} disabled={!modeIsSelected}>
-        Configuration
-      </Button>
-    </fieldset>
+    <>
+      <PageHeader title="Deploy Mode" />
+      <fieldset>
+        <div className="flex flex-col gap-3">
+          {deployModes.map((v) => (
+            <DeployOption key={v.name} method={v} />
+          ))}
+        </div>
+        {/* TODO: disabled style button */}
+        <div className="flex justify-end mt-6">
+          <Button
+            onClick={handleOnClick}
+            disabled={!modeIsSelected}
+            variant="outlined"
+            className="flex items-center gap-1"
+          >
+            <span>Configure Deployment</span>
+            <ChevronRightIcon className="h-5 w-5" />
+          </Button>
+        </div>
+      </fieldset>
+    </>
   )
 }

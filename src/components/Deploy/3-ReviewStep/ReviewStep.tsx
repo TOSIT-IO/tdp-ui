@@ -12,8 +12,14 @@ function DeployButton({ label }: { label: string }) {
     deploy()
   }
   return (
-    <Button type="button" onClick={handleDeploy} className="font-bold text-xl">
-      {label}
-    </Button>
+    <div>
+      <Button
+        type="button"
+        onClick={handleDeploy}
+        className="font-bold text-xl"
+      >
+        {label}
+      </Button>
+    </div>
   )
 }

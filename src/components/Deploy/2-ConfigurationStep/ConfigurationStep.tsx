@@ -1,3 +1,5 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { Button } from 'src/components/commons'
 import { useDeployContext } from 'src/contexts'
 import { DeployMethodsEnum } from 'src/types/deployTypes'
 import { RestartField, FilterField, OperationsField } from './Fields'
@@ -29,12 +31,34 @@ const deployModes: DeployModes = {
   },
 }
 
-export function ConfigurationStep() {
+export function ConfigurationStep({ togglePreviousStep, toggleNextStep }) {
   const {
     state: { selectedDeployMode },
   } = useDeployContext()
   // Get the infos of the selected deploy method
   const { title, fieldList } = deployModes[selectedDeployMode]
 
-  return <FormDisplay title={title} fieldsList={fieldList} />
+  return (
+    <>
+      <FormDisplay title={title} fieldsList={fieldList} />
+      <div className="flex justify-between mt-6">
+        <Button
+          onClick={togglePreviousStep}
+          variant="outlined"
+          className="flex items-center gap-1"
+        >
+          <ChevronLeftIcon className="h-5 w-5" />
+          <span>Deploy Mode</span>
+        </Button>
+        <Button
+          onClick={toggleNextStep}
+          variant="outlined"
+          className="flex items-center gap-1"
+        >
+          <span>Preview</span>
+          <ChevronRightIcon className="h-5 w-5" />
+        </Button>
+      </div>
+    </>
+  )
 }

@@ -1,8 +1,9 @@
 import { classNames } from 'src/utils'
 
 interface ButtonType extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: string
+  children: any
   className?: string
+  variant?: 'filled' | 'outlined' | 'text'
   type?: 'button' | 'submit'
   [x: string]: any
 }
@@ -11,13 +12,28 @@ export function Button({
   children,
   className,
   type = 'button',
+  variant = 'filled',
   ...props
 }: ButtonType) {
+  function getVariantStyles() {
+    switch (variant) {
+      case 'filled':
+        return 'bg-green-600 text-white hover:bg-green-700'
+      case 'outlined':
+        return 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+      case 'text':
+        return 'text-gray-700 hover:bg-gray-50'
+      default:
+        return ''
+    }
+  }
+
   return (
     <button
       type={type}
       className={classNames(
-        'rounded border border-transparent bg-green-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none',
+        getVariantStyles(),
+        'rounded px-2.5 py-1.5 outline-none',
         className
       )}
       {...props}
