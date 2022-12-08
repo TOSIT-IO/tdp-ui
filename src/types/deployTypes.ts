@@ -4,6 +4,7 @@ export enum DeployMethodsEnum {
   ALL = 'all',
   SOURCES = 'sources',
   TARGETS = 'targets',
+  CUSTOM = 'custom',
 }
 
 export enum DeployActionEnum {
