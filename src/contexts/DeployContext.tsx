@@ -28,6 +28,21 @@ export function DeployContextProvider({ children }) {
   const [state, dispatch] = useReducer(deployReducer, initialState)
 
   async function deploy() {
+    if (!state.selectedDeployMode) {
+      toast.error('Please select a deploy mode')
+      return
+    }
+    if (state.selectedDeployMode === 'custom') {
+      if (!state.operations.length) {
+        toast.error('Please select at least one operation')
+        return
+      }
+      const res = await deployApi.runNodesApiV1DeployRunPost({
+        targets: state.operations,
+      })
+      res?.data?.state && toast.info(`Deploy status: ${res.data.state}`)
+      return
+    }
     const deployReq: DeployRequest = { restart: state.restart }
     if (state.filterExpression.trim()) {
       deployReq.filter_type = state.filterType
