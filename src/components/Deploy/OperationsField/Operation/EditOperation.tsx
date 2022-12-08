@@ -1,6 +1,6 @@
 import { PencilIcon } from '@heroicons/react/24/solid'
 import { useRef, useState } from 'react'
-import { useDeployContext } from 'src/contexts/deployContext'
+import { useDeployContext } from 'src/contexts'
 import { DeployActionEnum } from 'src/types/deployTypes'
 import { useOnClickOutside } from '../hooks'
 

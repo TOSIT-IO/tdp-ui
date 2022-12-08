@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { classNames } from 'src/utils'
-import { useDeployContext } from 'src/contexts/deployContext'
+import { useDeployContext } from 'src/contexts'
 import { DeployActionEnum, DeployMethodsType } from 'src/types/deployTypes'
 
 export function Card({
