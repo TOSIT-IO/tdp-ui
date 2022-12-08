@@ -1,36 +1,40 @@
 import { FieldHeader, Button } from 'src/components'
 import { useDeployContext } from 'src/contexts'
-import { DeployMethodsEnum, DeployMethodsType } from 'src/types/deployTypes'
+import { DeployMethodsEnum } from 'src/types/deployTypes'
 import { DeployOption } from './DeployOption'
 
-const deployMethods: DeployMethodsType[] = [
+export type DeployModes = {
+  name: DeployMethodsEnum
+  title: string
+  description: string
+}
+
+const deployModes: DeployModes[] = [
   {
     name: DeployMethodsEnum.ALL,
     title: 'All',
-    description: 'Deploy all operations in the dag order.',
+    description: 'Deploy all DAG operations.',
   },
   {
     name: DeployMethodsEnum.SOURCES,
     title: 'From sources',
-    description:
-      'Deploy operations in the dag order from a list of sources operations.',
+    description: 'Deploy DAG operations from a list of sources operations.',
   },
   {
     name: DeployMethodsEnum.TARGETS,
     title: 'To targets',
-    description:
-      'Deploy operations in the dag order from a list of targets operations.',
+    description: 'Deploy DAG operations from a list of targets operations.',
   },
   {
     name: DeployMethodsEnum.CUSTOM,
     title: 'Custom',
-    description: 'Deploy speficif operations in a custom order.',
+    description: 'Deploy operations in a custom order.',
   },
 ]
 
 export function DeployModeStep({ toggleNextStep }) {
   const {
-    state: { deployMethod },
+    state: { selectedDeployMode: deployMethod },
   } = useDeployContext()
   const modeIsSelected = !!deployMethod
 
@@ -43,7 +47,7 @@ export function DeployModeStep({ toggleNextStep }) {
     <fieldset>
       <FieldHeader as="legend" title="Deploy type" />
       <div className="flex flex-col gap-3">
-        {deployMethods.map((v) => (
+        {deployModes.map((v) => (
           <DeployOption key={v.name} method={v} />
         ))}
       </div>

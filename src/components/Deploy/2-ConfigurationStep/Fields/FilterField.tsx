@@ -1,10 +1,21 @@
 import { useDeployContext } from 'src/contexts'
-import { DeployActionEnum, TfilterType } from 'src/types/deployTypes'
+import { DeployActionEnum } from 'src/types/deployTypes'
 import { useState } from 'react'
 import { classNames } from 'src/utils'
 import { FieldHeader } from '../../FieldHeader'
+import { FilterTypeEnum } from '@/client-sdk'
 
-export function FilterField({ filterTypes }: { filterTypes: TfilterType[] }) {
+interface TfilterType {
+  name: FilterTypeEnum
+  placeholder: string
+}
+
+export const filterTypes: TfilterType[] = [
+  { name: 'regex', placeholder: `.+config` },
+  { name: 'glob', placeholder: `*_config` },
+]
+
+export function FilterField() {
   const [isValid, setIsValid] = useState(true)
   const {
     state: { filterExpression, filterType },

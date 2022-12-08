@@ -24,7 +24,7 @@ type DeployActionPayload = {
     newFilterType: FilterTypeEnum
   }
   [DeployActionEnum.SET_DEPLOY_METHOD]: {
-    newDeployMethod: DeployMethodsEnum
+    newSelectedDeployMode: DeployMethodsEnum
   }
   [DeployActionEnum.TOGGLE_RESTART]: undefined
 }
@@ -72,7 +72,7 @@ export function deployReducer(state: DeployStateType, action: DeployActions) {
     case DeployActionEnum.SET_DEPLOY_METHOD:
       return {
         ...state,
-        deployMethod: action.payload.newDeployMethod,
+        selectedDeployMode: action.payload.newSelectedDeployMode,
       }
     case DeployActionEnum.TOGGLE_RESTART:
       return {
