@@ -14,15 +14,26 @@ const DeployPage = () => {
   const [activeStepId, setActiveStepId] = useState(0)
   const stepsNames = steps.map((v) => v.name)
   const ActiveStepComponent = steps[activeStepId].component
+
+  function toggleNextStep() {
+    if (activeStepId >= steps.length - 1) return
+    setActiveStepId((prev) => prev + 1)
+  }
+
+  function togglePreviousStep() {
+    if (activeStepId <= 0) return
+    setActiveStepId((prev) => prev - 1)
+  }
+
   return (
     <>
       <DeployContextProvider>
-        <ActiveStepComponent />
+        <ActiveStepComponent toggleNextStep={toggleNextStep} />
       </DeployContextProvider>
       <ProgressBar activeStepId={activeStepId} steps={stepsNames} />
       <div className="flex justify-end gap-6 mt-3">
-        <button onClick={() => setActiveStepId(activeStepId - 1)}>Prev</button>
-        <button onClick={() => setActiveStepId(activeStepId + 1)}>Next</button>
+        <button onClick={togglePreviousStep}>Prev</button>
+        <button onClick={toggleNextStep}>Next</button>
       </div>
     </>
   )

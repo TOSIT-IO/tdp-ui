@@ -1,4 +1,5 @@
-import { FieldHeader } from 'src/components'
+import { FieldHeader, Button } from 'src/components'
+import { useDeployContext } from 'src/contexts'
 import { DeployMethodsEnum, DeployMethodsType } from 'src/types/deployTypes'
 import { DeployOption } from './DeployOption'
 
@@ -27,15 +28,29 @@ const deployMethods: DeployMethodsType[] = [
   },
 ]
 
-export function DeployModeStep() {
+export function DeployModeStep({ toggleNextStep }) {
+  const {
+    state: { deployMethod },
+  } = useDeployContext()
+  const modeIsSelected = !!deployMethod
+
+  function handleOnClick() {
+    if (!modeIsSelected) return
+    toggleNextStep()
+  }
+
   return (
     <fieldset>
       <FieldHeader as="legend" title="Deploy type" />
-      <ul className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
         {deployMethods.map((v) => (
           <DeployOption key={v.name} method={v} />
         ))}
-      </ul>
+      </div>
+      {/* TODO: disabled style button */}
+      <Button onClick={handleOnClick} disabled={!modeIsSelected}>
+        Configuration
+      </Button>
     </fieldset>
   )
 }
