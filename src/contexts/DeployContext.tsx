@@ -52,7 +52,7 @@ export function DeployContextProvider({ children }) {
       deployReq[state.selectedDeployMode] = state.operations
     }
     const res = await deployApi.deployNodeApiV1DeployPost(deployReq)
-    res?.data?.state && toast.info(`Deploy status: ${res.data.state}`)
+    res?.data?.state && toast.info(`Deploy status: ${res.data.id}`)
   }
 
   return (

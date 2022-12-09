@@ -36,11 +36,6 @@ const DeployPage = () => {
       <div className="mt-24">
         <ProgressBar activeStepId={activeStepId} steps={stepsNames} />
       </div>
-      {/* Test Buttons */}
-      {/* <div className="flex justify-end gap-6 mt-3">
-        <button onClick={togglePreviousStep}>Prev</button>
-        <button onClick={toggleNextStep}>Next</button>
-      </div> */}
     </>
   )
 }
