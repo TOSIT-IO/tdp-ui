@@ -34,6 +34,7 @@ export function Button({
       className={classNames(
         getVariantStyles(),
         'rounded px-2.5 py-1.5 outline-none',
+        'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent',
         className
       )}
       {...props}

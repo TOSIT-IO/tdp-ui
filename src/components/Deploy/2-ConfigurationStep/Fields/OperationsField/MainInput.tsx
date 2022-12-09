@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDeployContext } from 'src/contexts'
 import { DeployActionEnum } from 'src/types/deployTypes'
+import { useOnClickOutside } from './hooks'
 
 export function MainInput({
   isFieldDisabled,
@@ -14,6 +15,7 @@ export function MainInput({
     state: { operations },
     dispatch,
   } = useDeployContext()
+  useOnClickOutside(mainRef, addOperation)
 
   const placeholder = !operations.length ? 'operation' : undefined
   const isOperationAlreadyRegistered = operations.includes(input.trim())
