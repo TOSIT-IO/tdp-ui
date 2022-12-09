@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from 'src/components/commons'
 import { useDeployContext } from 'src/contexts'
 import { DeployMethodsEnum } from 'src/types/deployTypes'
+import { classNames } from 'src/utils'
 import { RestartField, FilterField, OperationsField } from './Fields'
 import { FormDisplay } from './FormDisplay'
 
@@ -33,10 +34,15 @@ const deployModes: DeployModes = {
 
 export function ConfigurationStep({ togglePreviousStep, toggleNextStep }) {
   const {
-    state: { selectedDeployMode },
+    state: { selectedDeployMode, operations },
   } = useDeployContext()
   // Get the infos of the selected deploy method
   const { title, fieldList } = deployModes[selectedDeployMode]
+
+  function handleOnClickNext() {
+    if (!operations.length) return
+    toggleNextStep()
+  }
 
   return (
     <>
@@ -51,8 +57,9 @@ export function ConfigurationStep({ togglePreviousStep, toggleNextStep }) {
           <span>Deploy Mode</span>
         </Button>
         <Button
-          onClick={toggleNextStep}
+          onClick={handleOnClickNext}
           variant="outlined"
+          disabled={!operations.length}
           className="flex items-center gap-1"
         >
           <span>Review</span>
