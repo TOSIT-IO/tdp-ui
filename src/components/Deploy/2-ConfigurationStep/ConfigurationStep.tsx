@@ -55,7 +55,7 @@ export function ConfigurationStep({ togglePreviousStep, toggleNextStep }) {
           variant="outlined"
           className="flex items-center gap-1"
         >
-          <span>Preview</span>
+          <span>Review</span>
           <ChevronRightIcon className="h-5 w-5" />
         </Button>
       </div>
