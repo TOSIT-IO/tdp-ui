@@ -5,7 +5,7 @@ HASH_FILE="build/tdp-server_0.1.0_openapi.json.sha256"
 
 echo "Downloading $OPENAPI_JAR_URL"
 wget --no-clobber $OPENAPI_JAR_URL -O openapi-generator-cli.jar
-if [[ -z "$FORCE_OPENAPI_GEN" && -d "build/tdp-sdk" && $(sha256sum --check "$HASH_FILE") ]]
+if [[ -z "$FORCE_OPENAPI_GEN" && -d "build/tdp-sdk" ]] && sha256sum --check "$HASH_FILE"
 then
     echo "No schema change. Skipping client generation..."
     echo "If you want to force client generation, set the variable 'FORCE_OPENAPI_GEN=TRUE'"
