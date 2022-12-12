@@ -12,9 +12,9 @@ const apiConfig: ApiConfigType = {
   apiBasePath: process.env.SERVER_HOST || 'http://localhost:8000',
   oidcDiscoveryUrl:
     process.env.OPENID_CONNECT_DISCOVERY_URL ||
-    'http://localhost:8080/auth/realms/tdp_server_dev/.well-known/openid-configuration',
+    'http://localhost:8080/auth/realms/tdp_server/.well-known/openid-configuration',
   oidcConfig: {
-    oidcClientId: process.env.OPENID_CLIENT_ID || 'tdp_auth',
+    oidcClientId: process.env.OPENID_CLIENT_ID || 'tdp_server',
     redirectUri: 'http://localhost:3000/',
     scope: [
       'openid',
