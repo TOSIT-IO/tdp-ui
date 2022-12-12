@@ -528,7 +528,7 @@
                 "schema": {
                   "title": "Response Get Deployments Api V1 Deploy  Get",
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/Deployment" }
+                  "items": { "$ref": "#/components/schemas/DeploymentLog" }
                 }
               }
             }
@@ -633,6 +633,180 @@
         "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
       }
     },
+    "/api/v1/deploy/operations": {
+      "post": {
+        "tags": ["deploy"],
+        "summary": "Operations",
+        "description": "Run a list of operations on the cluster, can use operations outside\nof the dag",
+        "operationId": "operations_api_v1_deploy_operations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OperationsRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Error during authentication validation (reason)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "Authentication method to use",
+                "schema": { "type": "string" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": { "detail": "Not enough permissions" }
+              }
+            }
+          },
+          "409": {
+            "description": "Another deployment is still running, only one deployment at a time is allowed",
+            "content": {
+              "application/json": {
+                "example": { "detail": "another deployment is still running" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
+      }
+    },
+    "/api/v1/deploy/resume": {
+      "post": {
+        "tags": ["deploy"],
+        "summary": "Resume",
+        "operationId": "resume_api_v1_deploy_resume_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Resume Request",
+                "allOf": [{ "$ref": "#/components/schemas/ResumeRequest" }],
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Error during authentication validation (reason)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "Authentication method to use",
+                "schema": { "type": "string" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": { "detail": "Not enough permissions" }
+              }
+            }
+          },
+          "409": {
+            "description": "Another deployment is still running, only one deployment at a time is allowed",
+            "content": {
+              "application/json": {
+                "example": { "detail": "another deployment is still running" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
+      }
+    },
+    "/api/v1/deploy/reconfigure": {
+      "post": {
+        "tags": ["deploy"],
+        "summary": "Reconfigure",
+        "operationId": "reconfigure_api_v1_deploy_reconfigure_post",
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Error during authentication validation (reason)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "Authentication method to use",
+                "schema": { "type": "string" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": { "detail": "Not enough permissions" }
+              }
+            }
+          },
+          "409": {
+            "description": "Another deployment is still running, only one deployment at a time is allowed",
+            "content": {
+              "application/json": {
+                "example": { "detail": "another deployment is still running" }
+              }
+            }
+          }
+        },
+        "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
+      }
+    },
     "/api/v1/deploy/status": {
       "get": {
         "tags": ["deploy"],
@@ -670,7 +844,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeploymentWithOperations"
+                  "$ref": "#/components/schemas/DeploymentLogWithOperations"
                 }
               }
             }
@@ -735,7 +909,214 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Operation" }
+                "schema": { "$ref": "#/components/schemas/OperationLog" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Error during authentication validation (reason)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "Authentication method to use",
+                "schema": { "type": "string" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": { "detail": "Not enough permissions" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+      }
+    },
+    "/api/v1/operation/": {
+      "get": {
+        "tags": ["operation"],
+        "summary": "Get Operations",
+        "description": "Returns every operations possible",
+        "operationId": "get_operations_api_v1_operation__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Operations Api V1 Operation  Get",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Operation" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Error during authentication validation (reason)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "Authentication method to use",
+                "schema": { "type": "string" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": { "detail": "Not enough permissions" }
+              }
+            }
+          }
+        },
+        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+      }
+    },
+    "/api/v1/operation/dag": {
+      "get": {
+        "tags": ["operation"],
+        "summary": "Get Dag Operations",
+        "description": "Return list of every dag operation, topologically sorted",
+        "operationId": "get_dag_operations_api_v1_operation_dag_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Dag Operations Api V1 Operation Dag Get",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Operation" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Error during authentication validation (reason)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "Authentication method to use",
+                "schema": { "type": "string" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": { "detail": "Not enough permissions" }
+              }
+            }
+          }
+        },
+        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+      }
+    },
+    "/api/v1/operation/other": {
+      "get": {
+        "tags": ["operation"],
+        "summary": "Get Other Operations",
+        "description": "Returns operations outside of the dag",
+        "operationId": "get_other_operations_api_v1_operation_other_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Other Operations Api V1 Operation Other Get",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Operation" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Error during authentication validation (reason)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not enough privileges",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "Authentication method to use",
+                "schema": { "type": "string" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": { "detail": "Not enough permissions" }
+              }
+            }
+          }
+        },
+        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+      }
+    },
+    "/api/v1/plan/dag": {
+      "post": {
+        "tags": ["plan"],
+        "summary": "Get Dag Plan",
+        "description": "Returns operations generated by the dag",
+        "operationId": "get_dag_plan_api_v1_plan_dag_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Deploy Request",
+                "allOf": [{ "$ref": "#/components/schemas/DeployRequest" }],
+                "default": { "restart": false }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Dag Plan Api V1 Plan Dag Post",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Operation" }
+                }
               }
             }
           },
@@ -865,9 +1246,9 @@
         "type": "object",
         "properties": { "message": { "title": "Message", "type": "string" } }
       },
-      "Deployment": {
-        "title": "Deployment",
-        "required": ["id", "start_time", "state", "operations", "user"],
+      "DeploymentLog": {
+        "title": "DeploymentLog",
+        "required": ["id", "start_time", "state", "operations"],
         "type": "object",
         "properties": {
           "id": { "title": "Id", "type": "integer" },
@@ -906,12 +1287,16 @@
             "type": "array",
             "items": { "type": "string" }
           },
-          "user": { "title": "User", "type": "string" }
+          "user": {
+            "title": "User",
+            "type": "string",
+            "default": "NO_USER_RECORDED"
+          }
         }
       },
-      "DeploymentWithOperations": {
-        "title": "DeploymentWithOperations",
-        "required": ["id", "start_time", "state", "operations", "user"],
+      "DeploymentLogWithOperations": {
+        "title": "DeploymentLogWithOperations",
+        "required": ["id", "start_time", "state", "operations"],
         "type": "object",
         "properties": {
           "id": { "title": "Id", "type": "integer" },
@@ -948,9 +1333,13 @@
           "operations": {
             "title": "Operations",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Operation" }
+            "items": { "$ref": "#/components/schemas/OperationLog" }
           },
-          "user": { "title": "User", "type": "string" }
+          "user": {
+            "title": "User",
+            "type": "string",
+            "default": "NO_USER_RECORDED"
+          }
         }
       },
       "FilterTypeEnum": {
@@ -972,6 +1361,25 @@
       },
       "Operation": {
         "title": "Operation",
+        "required": ["name", "service", "action"],
+        "type": "object",
+        "properties": {
+          "name": { "title": "Name", "type": "string" },
+          "collection_name": { "title": "Collection Name", "type": "string" },
+          "depends_on": {
+            "title": "Depends On",
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+          },
+          "noop": { "title": "Noop", "type": "boolean", "default": false },
+          "service": { "title": "Service", "type": "string" },
+          "action": { "title": "Action", "type": "string" },
+          "component": { "title": "Component", "type": "string" }
+        }
+      },
+      "OperationLog": {
+        "title": "OperationLog",
         "required": ["operation", "start_time", "end_time", "state", "logs"],
         "type": "object",
         "properties": {
@@ -988,6 +1396,30 @@
           },
           "state": { "$ref": "#/components/schemas/StateEnum" },
           "logs": { "title": "Logs", "type": "string", "format": "binary" }
+        }
+      },
+      "OperationsRequest": {
+        "title": "OperationsRequest",
+        "required": ["operations"],
+        "type": "object",
+        "properties": {
+          "operations": {
+            "title": "Operations",
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of operations to be run on the cluster. Can be operations outside of the dag."
+          }
+        }
+      },
+      "ResumeRequest": {
+        "title": "ResumeRequest",
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Deployment ID",
+            "type": "integer",
+            "description": "Deployment ID to resume from. (must be a failed deployment)"
+          }
         }
       },
       "Service": {
