@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  HomeIcon,
-  BeakerIcon,
-  Cog6ToothIcon,
-  ServerIcon,
-  BellIcon,
-  WrenchIcon,
-} from '@heroicons/react/24/solid'
+import { BeakerIcon, Cog6ToothIcon } from '@heroicons/react/24/solid'
 import { useServicesList } from 'src/hooks'
 import { classNames } from 'src/utils'
 
@@ -26,13 +19,11 @@ type navItemType = {
 export default function Menu({ className: additionalStyles }) {
   const servicesList = useServicesList()
   const router = useRouter()
-  const currentPage = router.query.serviceId
 
   const menuItems: navItemType[] = [
-    // { name: 'Dashboard', href: '#', icon: HomeIcon },
     {
       name: 'Services',
-      href: '/services',
+      href: '#',
       icon: BeakerIcon,
       children: servicesList?.map((service) => ({
         name: service,
@@ -51,9 +42,6 @@ export default function Menu({ className: additionalStyles }) {
         },
       ],
     },
-    // { name: 'Hosts', href: '#', icon: ServerIcon },
-    // { name: 'Alerts', href: '#', icon: BellIcon },
-    // { name: 'Cluster Admin', href: '#', icon: WrenchIcon },
   ]
 
   return (
