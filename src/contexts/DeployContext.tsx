@@ -1,10 +1,8 @@
 import { toast } from 'react-toastify'
 import { useTdpClient } from 'src/contexts'
-
 import { DeployRequest, FilterTypeEnum } from '@/client-sdk'
 import { useReducer } from 'react'
 import { deployReducer } from 'src/utils/deployReducer'
-
 import { createContext, useContext } from 'react'
 import { DeployActions } from 'src/utils/deployReducer'
 import { DeployStateType } from '../types/deployTypes'
@@ -32,27 +30,32 @@ export function DeployContextProvider({ children }) {
       toast.error('Please select a deploy mode')
       return
     }
-    if (state.selectedDeployMode === 'custom') {
-      if (!state.operations.length) {
-        toast.error('Please select at least one operation')
-        return
-      }
-      const res = await deployApi.runNodesApiV1DeployRunPost({
-        targets: state.operations,
-      })
-      res?.data?.state && toast.info(`Deploy status: ${res.data.state}`)
-      return
-    }
-    const deployReq: DeployRequest = { restart: state.restart }
-    if (state.filterExpression.trim()) {
-      deployReq.filter_type = state.filterType
-      deployReq.filter_expression = state.filterExpression
-    }
-    if (state.selectedDeployMode !== 'all') {
-      deployReq[state.selectedDeployMode] = state.operations
+    const deployReq: DeployRequest = {}
+    switch (state.selectedDeployMode) {
+      case 'sources':
+      case 'targets':
+      case 'custom':
+        if (!state.operations.length) {
+          toast.error('Please select at least one operation')
+          return
+        }
+      case 'custom':
+        deployReq.targets = state.operations
+        break
+      case 'sources':
+      case 'targets':
+        deployReq.restart = state.restart
+        if (state.filterExpression.trim()) {
+          deployReq.filter_type = state.filterType
+          deployReq.filter_expression = state.filterExpression
+        }
+        deployReq[state.selectedDeployMode] = state.operations
+        break
+      default:
+        break
     }
     const res = await deployApi.deployNodeApiV1DeployPost(deployReq)
-    res?.data?.state && toast.info(`Deploy status: ${res.data.id}`)
+    res?.data?.state && toast.info(`Deploy id: ${res.data.id}`)
   }
 
   return (

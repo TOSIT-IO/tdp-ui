@@ -2,7 +2,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from 'src/components/commons'
 import { useDeployContext } from 'src/contexts'
 import { DeployMethodsEnum } from 'src/types/deployTypes'
-import { classNames } from 'src/utils'
 import { RestartField, FilterField, OperationsField } from './Fields'
 import { FormDisplay } from './FormDisplay'
 
@@ -16,7 +15,7 @@ type DeployModes = {
 const deployModes: DeployModes = {
   [DeployMethodsEnum.ALL]: {
     title: 'Deploy All',
-    fieldList: [FilterField, RestartField],
+    fieldList: [],
   },
   [DeployMethodsEnum.SOURCES]: {
     title: 'Deploy From Sources',
@@ -36,11 +35,12 @@ export function ConfigurationStep({ togglePreviousStep, toggleNextStep }) {
   const {
     state: { selectedDeployMode, operations },
   } = useDeployContext()
-  // Get the infos of the selected deploy method
   const { title, fieldList } = deployModes[selectedDeployMode]
+  const isDisabled =
+    !operations.length && selectedDeployMode !== DeployMethodsEnum.ALL
 
   function handleOnClickNext() {
-    if (!operations.length) return
+    if (isDisabled) return
     toggleNextStep()
   }
 
@@ -59,7 +59,7 @@ export function ConfigurationStep({ togglePreviousStep, toggleNextStep }) {
         <Button
           onClick={handleOnClickNext}
           variant="outlined"
-          disabled={!operations.length}
+          disabled={isDisabled}
           className="flex items-center gap-1"
         >
           <span>Review</span>
