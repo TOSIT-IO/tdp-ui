@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
 import type { HookInfosType } from 'src/types'
 import type { Component, ComponentUpdateResponse } from '@/client-sdk'
+import { toast } from 'react-toastify'
 
 export function useComponentInfos(
   serviceId: string,
@@ -30,7 +31,7 @@ export function useComponentInfos(
         componentId,
         { message, variables: newVariables }
       )
-    return res
+    res?.data?.message && toast.info(res.data.message)
   }
 
   return { initialInfos, setNewVariables, sendVariables }

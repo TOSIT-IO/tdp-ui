@@ -1,8 +1,3 @@
-import type {
-  ComponentUpdateResponse,
-  ServiceUpdateResponse,
-} from '@/client-sdk'
-import type { AxiosResponse } from 'axios'
 import type { Dispatch, SetStateAction } from 'react'
 import { useState } from 'react'
 import type { VariablesType, Service, Component } from 'src/clients'
@@ -14,11 +9,7 @@ import { VariablesList } from './VariablesList'
 type VariablesDisplayType = {
   initialVariables: VariablesType
   setNewVariables: Dispatch<SetStateAction<Service | Component>>
-  sendVariables: (
-    message: string
-  ) => Promise<
-    AxiosResponse<ComponentUpdateResponse | ServiceUpdateResponse, any>
-  >
+  sendVariables: (message: string) => void
 }
 
 interface ReduceType {
@@ -32,7 +23,6 @@ export function VariablesDisplay({
   sendVariables,
 }: VariablesDisplayType) {
   const [validateMessage, setValidateMessage] = useState('')
-  const [status, setStatus] = useState(null)
   const [isRaw, setIsRaw] = useState(false)
 
   const { simpleVariables: singleVariables, objectVariables: objectValues } =
@@ -48,12 +38,10 @@ export function VariablesDisplay({
       { simpleVariables: [], objectVariables: [] }
     )
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const res = await sendVariables(validateMessage)
-    setStatus(res.statusText)
+    sendVariables(validateMessage)
     setValidateMessage('')
-    setTimeout(() => setStatus(null), 3000)
   }
 
   return (
@@ -67,7 +55,6 @@ export function VariablesDisplay({
             onChange={(e) => setValidateMessage(e.target.value)}
             placeholder="Message..."
           />
-          <span className="text-green-800">{status}</span>
         </div>
         {/* Toggle view */}
         <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
