@@ -1,14 +1,16 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from 'src/components/commons'
 import { useDeployContext } from 'src/contexts'
+import { useDeploy } from 'src/hooks/useDeploy'
 import { PageHeader } from '../PageHeader'
 
 //TODO: #73 Preview operations execution plan before deploy
 export function ReviewStep({ togglePreviousStep, toggleNextStep }) {
-  const { deploy } = useDeployContext()
+  const deploy = useDeploy()
+  const { state } = useDeployContext()
 
   function handleOnClickNext() {
-    deploy()
+    deploy(state)
   }
   return (
     <div>

@@ -1,8 +1,10 @@
 import { FilterTypeEnum } from '@/client-sdk'
 import { createContext, useContext, useReducer } from 'react'
-import { useDeploy } from 'src/hooks/useDeploy'
-import { DeployActions, deployReducer } from 'src/utils/deployReducer'
-import { DeployStateType } from '../types/deployTypes'
+import {
+  DeployActionEnum,
+  DeployMethodsEnum,
+  DeployStateType,
+} from 'src/types/deployTypes'
 
 const initialState = {
   operations: [],
@@ -13,19 +15,15 @@ const initialState = {
 }
 
 const DeployContext = createContext<{
-  deploy: () => Promise<void>
   state: DeployStateType
   dispatch: React.Dispatch<DeployActions>
 }>(null)
 
 export function DeployContextProvider({ children }) {
   const [state, dispatch] = useReducer(deployReducer, initialState)
-  const deploy = useDeploy()
 
   return (
-    <DeployContext.Provider
-      value={{ deploy: () => deploy(state), state, dispatch }}
-    >
+    <DeployContext.Provider value={{ state, dispatch }}>
       {children}
     </DeployContext.Provider>
   )
@@ -40,3 +38,93 @@ export function useDeployContext() {
 
   return deployContext
 }
+
+function deployReducer(state: DeployStateType, action: DeployActions) {
+  const newOperations = [...state.operations]
+  switch (action.type) {
+    case DeployActionEnum.ADD_OPERATION:
+      return {
+        ...state,
+        operations: [...state.operations, action.payload.newOperation.trim()],
+      }
+    case DeployActionEnum.EDIT_OPERATION_AT:
+      newOperations.splice(
+        action.payload.index,
+        1,
+        action.payload.newOperation.trim()
+      )
+      return {
+        ...state,
+        operations: newOperations,
+      }
+    case DeployActionEnum.REMOVE_LAST_OPERATION:
+      newOperations.pop()
+      return {
+        ...state,
+        operations: newOperations,
+      }
+    case DeployActionEnum.REMOVE_OPERATION_AT:
+      newOperations.splice(action.payload.index, 1)
+      return {
+        ...state,
+        operations: newOperations,
+      }
+    case DeployActionEnum.SET_FILTER_EXPRESSION:
+      return {
+        ...state,
+        filterExpression: action.payload.newFilterExpression,
+      }
+    case DeployActionEnum.SET_FILTER_TYPE:
+      return {
+        ...state,
+        filterType: action.payload.newFilterType,
+      }
+    case DeployActionEnum.SET_DEPLOY_METHOD:
+      return {
+        ...state,
+        selectedDeployMode: action.payload.newSelectedDeployMode,
+      }
+    case DeployActionEnum.TOGGLE_RESTART:
+      return {
+        ...state,
+        restart: !state.restart,
+      }
+    default:
+      throw new Error()
+  }
+}
+
+type DeployActionPayload = {
+  [DeployActionEnum.ADD_OPERATION]: {
+    newOperation: string
+  }
+  [DeployActionEnum.EDIT_OPERATION_AT]: {
+    newOperation: string
+    index: number
+  }
+  [DeployActionEnum.REMOVE_LAST_OPERATION]: undefined
+  [DeployActionEnum.REMOVE_OPERATION_AT]: {
+    index: number
+  }
+  [DeployActionEnum.SET_FILTER_EXPRESSION]: {
+    newFilterExpression: string
+  }
+  [DeployActionEnum.SET_FILTER_TYPE]: {
+    newFilterType: FilterTypeEnum
+  }
+  [DeployActionEnum.SET_DEPLOY_METHOD]: {
+    newSelectedDeployMode: DeployMethodsEnum
+  }
+  [DeployActionEnum.TOGGLE_RESTART]: undefined
+}
+
+type DeployActions = {
+  [Key in keyof DeployActionPayload]: DeployActionPayload[Key] extends undefined
+    ? {
+        type: Key
+      }
+    : {
+        type: Key
+        payload: DeployActionPayload[Key]
+      }
+}[DeployActionEnum]
