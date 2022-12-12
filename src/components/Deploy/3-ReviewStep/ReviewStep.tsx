@@ -3,7 +3,7 @@ import { Button } from 'src/components/commons'
 import { useDeployContext } from 'src/contexts'
 import { PageHeader } from '../PageHeader'
 
-//TODO: Allow to review the configuration before deploying
+//TODO: #73 Preview operations execution plan before deploy
 export function ReviewStep({ togglePreviousStep, toggleNextStep }) {
   const { deploy } = useDeployContext()
 
