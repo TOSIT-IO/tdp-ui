@@ -13,20 +13,21 @@ export function useDeploy() {
     }
     let res = null
     switch (state.selectedDeployMode) {
-      case 'sources':
-      case 'targets':
       case 'custom':
         if (!state.operations.length) {
           toast.error('Please select at least one operation')
           return
         }
-      case 'custom':
         res = await deployApi.operationsApiV1DeployOperationsPost({
           operations: state.operations,
         })
         break
       case 'sources':
       case 'targets':
+        if (!state.operations.length) {
+          toast.error('Please select at least one operation')
+          return
+        }
         const deployReq: DeployRequest = { restart: state.restart }
         if (state.filterExpression.trim()) {
           deployReq.filter_type = state.filterType
