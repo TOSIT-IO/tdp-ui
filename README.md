@@ -34,6 +34,16 @@ npm run dev       # Run the app in development mode
 
 App should be available at <http://localhost:3000>.
 
+## Dev Environment
+
+You can use the `compose.yml`, it will set up needed dependencies to develop on the UI.
+
+To run the stack, you will needed a `tdp_server` image available locally, and to run:
+
+```bash
+docker compose -f env/compose.yml up -d
+```
+
 ### Export
 
 By default, Next.js runs along with a Node.js server for [various usecases](https://nextjs.org/docs/advanced-features/static-html-export#unsupported-features) (server-side data fetching, api routes...). `tdp-ui` doesn't need those features and can be exported to work without the Node.js server:

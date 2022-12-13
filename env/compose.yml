@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+  db:
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - ./config/init_script.sql:/docker-entrypoint-initdb.d/init_script.sql
+
+  keycloak:
+    command: start-dev --import-realm --hostname-strict=false
+    depends_on:
+      - db
+    environment:
+      KC_DB_PASSWORD: keycloak
+      KC_DB_SCHEMA: keycloak
+      KC_DB_URL: jdbc:postgresql://db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB: postgres
+      KC_HOSTNAME_URL: http://localhost:8080/auth
+      KC_HTTP_RELATIVE_PATH: /auth
+      KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
+      KEYCLOAK_ADMIN: admin
+    image: quay.io/keycloak/keycloak:20.0
+    ports:
+      - 8080:8080
+    volumes:
+      - ./config/realm.json:/opt/keycloak/data/import/realm.json
+
+  tdp_server:
+    command: ["uvicorn", "--host", "0.0.0.0", "tdp_server.main:app"]
+    depends_on:
+      - db
+      - keycloak
+    entrypoint: ["bash", "/entrypoint-ui.sh"]
+    env_file:
+      - ./config/tdp_server.env
+    image: tdp_server:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - ./config/entrypoint.sh:/entrypoint-ui.sh
