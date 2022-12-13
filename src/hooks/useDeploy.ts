@@ -11,7 +11,7 @@ export function useDeploy() {
       toast.error('Please select a deploy mode')
       return
     }
-    const deployReq: DeployRequest = {}
+    let res = null
     switch (state.selectedDeployMode) {
       case 'sources':
       case 'targets':
@@ -21,21 +21,24 @@ export function useDeploy() {
           return
         }
       case 'custom':
-        deployReq.targets = state.operations
+        res = await deployApi.operationsApiV1DeployOperationsPost({
+          operations: state.operations,
+        })
         break
       case 'sources':
       case 'targets':
-        deployReq.restart = state.restart
+        const deployReq: DeployRequest = { restart: state.restart }
         if (state.filterExpression.trim()) {
           deployReq.filter_type = state.filterType
           deployReq.filter_expression = state.filterExpression
         }
         deployReq[state.selectedDeployMode] = state.operations
+        res = await deployApi.deployNodeApiV1DeployPost(deployReq)
         break
       default:
+        res = await deployApi.deployNodeApiV1DeployPost()
         break
     }
-    const res = await deployApi.deployNodeApiV1DeployPost(deployReq)
     res?.data?.state && toast.info(`Deploy id: ${res.data.id}`)
   }
 
