@@ -19,7 +19,6 @@ export function createAxiosInstance(
 
   axiosInstance.interceptors.response.use(null, (err: Error | AxiosError) => {
     if (axios.isAxiosError(err)) {
-      console.error(err)
       toast.error(err.response?.data.detail, {
         theme: 'colored',
       })
