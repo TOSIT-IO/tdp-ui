@@ -1502,7 +1502,7 @@
     "securitySchemes": {
       "OpenIdConnect": {
         "type": "openIdConnect",
-        "openIdConnectUrl": "http://localhost:8080/auth/realms/tdp_server_dev/.well-known/openid-configuration"
+        "openIdConnectUrl": "http://localhost:8080/auth/realms/tdp_server/.well-known/openid-configuration"
       }
     }
   }
