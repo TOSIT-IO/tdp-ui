@@ -3,7 +3,6 @@
 import { useAuth } from 'react-oidc-context'
 import { PowerIcon, UserIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
-
 import { UserProfile } from 'src/components/UserProfile'
 
 export default function Topbar() {
@@ -17,13 +16,13 @@ export default function Topbar() {
   }
 
   return (
-    <nav className="static bg-slate-500 px-2 sm:px-4 py-2.5">
-      <div className="container flex justify-end">
+    <nav className="bg-slate-500 px-2 sm:px-4 py-2.5">
+      <div className="container flex justify-end gap-3">
         <button onClick={() => setisVisible((prev) => !prev)}>
-          <UserIcon className="block mx-3 h-8 w-8" />
+          <UserIcon className="h-8 w-8 text-white" />
         </button>
         <button onClick={() => auth.signoutRedirect()}>
-          <PowerIcon className="block mx-3 h-8 w-8" />
+          <PowerIcon className="h-8 w-8 text-white" />
         </button>
       </div>
       {isVisible && <UserProfile profile={profile} />}
