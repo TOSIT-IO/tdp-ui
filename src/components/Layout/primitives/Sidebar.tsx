@@ -27,7 +27,7 @@ export function Sidebar({
 
   function getSideContent(children: React.ReactElement) {
     return cloneElement(children, {
-      className: [children.props.className, 'flex-grow'].join(' '),
+      className: [children.props.className, 'flex-grow-0'].join(' '),
       style: {
         ...children.props.style,
         flexBasis: sideWidth,

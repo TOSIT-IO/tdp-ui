@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
+import { PageTitle } from 'src/components/Layout/primitives/PageTitle'
 import { useServiceInfos } from 'src/hooks'
-import ComponentMenu from './ComponentMenu'
+import ComponentMenu from 'src/components/Services/ComponentTabs'
 
 export default function ServiceLayout({ children }) {
   const router = useRouter()
@@ -11,12 +12,8 @@ export default function ServiceLayout({ children }) {
   const { initialInfos } = useServiceInfos(serviceId)
 
   return (
-    <div className="p-5">
-      <div className="mt-8 border-b border-gray-200 pb-5 mb-5">
-        <h3 className="text-3xl font-medium leading-6 text-gray-900">
-          {serviceId}
-        </h3>
-      </div>
+    <>
+      <PageTitle>{serviceId}</PageTitle>
       {initialInfos ? (
         <ComponentMenu
           serviceId={serviceId}
@@ -26,6 +23,6 @@ export default function ServiceLayout({ children }) {
         <p>Loading</p>
       )}
       {children}
-    </div>
+    </>
   )
 }

@@ -1,9 +1,14 @@
-import Sidebar from './Sidebar'
-import Topbar from './Topbar'
+import Image from 'next/image'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Menu } from 'src/components/Layout/compositions/Menu'
+import { Sidebar } from 'src/components/Layout/primitives/Sidebar'
+import { Topbar } from '../../components/Layout/compositions/Topbar'
 
 export default function DashboardLayout({ children }) {
+  const [logoInitialWidth, logoInitialHeight] = [126, 50]
+  const logoRatio = 0.8
+
   return (
     <>
       <ToastContainer
@@ -18,15 +23,27 @@ export default function DashboardLayout({ children }) {
         pauseOnHover
         theme="light"
       />
-      <Topbar />
-      <div className="flex h-screen">
-        <Sidebar className="basis-60 flex-grow" />
-        <main className="basis-0 grow-[999] overflow-auto">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-5xl py-10">{children}</div>
+      <Sidebar sideWidth="13rem" space="0">
+        <aside className="h-screen overflow-auto bg-gray-900 flex flex-col">
+          <div className="mb-3 py-3 self-center">
+            <p className="flex">
+              <Image
+                src="/TDP_LOGO_INVERSE_notext.png"
+                alt="tdp-logo"
+                width={logoInitialWidth * logoRatio}
+                height={logoInitialHeight * logoRatio}
+              />
+              <span className="text-lg font-bold text-white">UI</span>
+            </p>
           </div>
-        </main>
-      </div>
+
+          <Menu />
+        </aside>
+        <div className="h-screen overflow-y-auto">
+          {/* <Topbar className='bg-gray-900 sticky top-0' /> */}
+          <main className="p-5">{children}</main>
+        </div>
+      </Sidebar>
     </>
   )
 }
