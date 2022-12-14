@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function ComponentMenu({
+export default function ComponentTabs({
   serviceId,
   components,
 }: {
@@ -14,7 +14,7 @@ export default function ComponentMenu({
     }))
   )
   return (
-    <nav className="flex gap-3">
+    <nav className="flex flex-wrap gap-3">
       {menuItems.map((item) => (
         <Link href={item.link} key={item.id}>
           {item.id}

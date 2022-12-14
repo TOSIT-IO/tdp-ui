@@ -3,6 +3,7 @@ import DashboardLayout from 'src/app/dashboard/layout'
 import { DeployContextProvider } from 'src/contexts'
 import { ProgressBar } from 'src/components/Deploy/ProgressBar'
 import { ConfigurationStep, DeployModeStep, ReviewStep } from 'src/components'
+import DeployLayout from 'src/app/dashboard/deploy/layout'
 
 const steps = [
   { name: 'Deploy Mode', component: DeployModeStep },
@@ -41,7 +42,11 @@ const DeployPage = () => {
 }
 
 DeployPage.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>
+  return (
+    <DashboardLayout>
+      <DeployLayout>{page}</DeployLayout>
+    </DashboardLayout>
+  )
 }
 
 export default DeployPage

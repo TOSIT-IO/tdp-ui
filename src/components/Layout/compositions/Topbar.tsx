@@ -1,11 +1,14 @@
-'use client'
-
 import { useAuth } from 'react-oidc-context'
 import { PowerIcon, UserIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { UserProfile } from 'src/components/UserProfile'
+import { classNames } from 'src/utils'
 
-export default function Topbar() {
+export function Topbar({
+  className: additionalClassName,
+}: {
+  className?: string
+}) {
   const [isVisible, setisVisible] = useState(false)
   const auth = useAuth()
   const profile = {
@@ -16,7 +19,7 @@ export default function Topbar() {
   }
 
   return (
-    <nav className="bg-slate-500 px-2 sm:px-4 py-2.5">
+    <nav className={classNames('px-2 py-2.5', additionalClassName)}>
       <div className="container flex justify-end gap-3">
         <button onClick={() => setisVisible((prev) => !prev)}>
           <UserIcon className="h-8 w-8 text-white" />
