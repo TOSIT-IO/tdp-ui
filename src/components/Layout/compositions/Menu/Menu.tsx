@@ -17,6 +17,7 @@ const baseMenuItems = [
         name: 'Deploy',
         href: '/deploy',
       },
+      { name: 'Logs', href: '/deploy/logs' },
     ],
   },
 ]
