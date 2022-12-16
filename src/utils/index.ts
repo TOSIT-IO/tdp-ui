@@ -31,3 +31,7 @@ export function updateElementFromList(
   result.splice(index, 1, value)
   return result
 }
+
+export function getFirstElementIfArray<T>(value: T) {
+  return Array.isArray(value) ? value[0] : value
+}

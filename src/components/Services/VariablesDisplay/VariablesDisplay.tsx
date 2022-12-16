@@ -1,82 +1,49 @@
-import type { Dispatch, SetStateAction } from 'react'
-import { useState } from 'react'
-import type { VariablesType, Service, Component } from 'src/clients'
-import { Button, Disclosure } from 'src/components'
-import { RawViewButton } from './RawViewButton'
-import { VariablesContextProvider } from './contexts/VariablesContext'
+import { Disclosure } from 'src/components'
+import { useVariablesContext } from './contexts/VariablesContext'
 import { VariablesList } from './VariablesList'
 
-type VariablesDisplayType = {
-  initialVariables: VariablesType
-  setNewVariables: Dispatch<SetStateAction<Service | Component>>
-  sendVariables: (message: string) => void
-}
-
 interface ReduceType {
-  simpleVariables: [string, string][]
-  objectVariables: [string, Object][]
+  primitiveTypeVariables: [string, string][]
+  objectTypeVariables: [string, Object][]
 }
 
-export function VariablesDisplay({
-  initialVariables,
-  setNewVariables,
-  sendVariables,
-}: VariablesDisplayType) {
-  const [validateMessage, setValidateMessage] = useState('')
-  const [isRaw, setIsRaw] = useState(false)
+export function VariablesDisplay({ isRaw }: { isRaw: boolean }) {
+  const { initialVariables } = useVariablesContext()
 
-  const { simpleVariables: singleVariables, objectVariables: objectValues } =
-    Object.entries(initialVariables).reduce<ReduceType>(
-      (accumulator, currentValue) => {
-        if (typeof currentValue[1] === 'object') {
-          accumulator.objectVariables.push(currentValue)
-        } else {
-          accumulator.simpleVariables.push(currentValue)
-        }
-        return accumulator
-      },
-      { simpleVariables: [], objectVariables: [] }
-    )
+  if (!initialVariables) return <p>Loading</p>
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    sendVariables(validateMessage)
-    setValidateMessage('')
-  }
+  const { primitiveTypeVariables, objectTypeVariables } = Object.entries(
+    initialVariables
+  ).reduce<ReduceType>(
+    (accumulator, currentValue) => {
+      if (typeof currentValue[1] === 'object') {
+        accumulator.objectTypeVariables.push(currentValue)
+      } else {
+        accumulator.primitiveTypeVariables.push(currentValue)
+      }
+      return accumulator
+    },
+    { primitiveTypeVariables: [], objectTypeVariables: [] }
+  )
 
   return (
-    <VariablesContextProvider setNewVariables={setNewVariables}>
-      <form onSubmit={handleSubmit}>
-        {/* Toggle view */}
-        <div className="flex justify-end">
-          <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
-        </div>
-        {/* Display Service Variables */}
-        <div className="mb-3">
-          <VariablesList variables={singleVariables} isRaw={isRaw} />
-        </div>
-        {/* Display Service Variables Dicts */}
-        <div className="flex flex-col gap-2">
-          {objectValues.map(([k, v]) => (
-            <Disclosure key={k} title={k}>
-              <VariablesList
-                variables={v ? Object.entries(v) : []}
-                parent={k}
-                isRaw={isRaw}
-              />
-            </Disclosure>
-          ))}
-        </div>
-      </form>
-      {/* Validate Message */}
-      <div className="sticky bottom-0 w-full py-4 bg-white flex items-center justify-end">
-        <input
-          value={validateMessage}
-          onChange={(e) => setValidateMessage(e.target.value)}
-          placeholder="Commit message"
-        />
-        <Button type="submit">Validate</Button>
+    <form>
+      {/* Display Service Variables */}
+      <div className="mb-3">
+        <VariablesList variables={primitiveTypeVariables} isRaw={isRaw} />
       </div>
-    </VariablesContextProvider>
+      {/* Display Service Variables Dicts */}
+      <div className="flex flex-col gap-2">
+        {objectTypeVariables.map(([k, v]) => (
+          <Disclosure key={k} title={k}>
+            <VariablesList
+              variables={v ? Object.entries(v) : []}
+              parent={k}
+              isRaw={isRaw}
+            />
+          </Disclosure>
+        ))}
+      </div>
+    </form>
   )
 }
