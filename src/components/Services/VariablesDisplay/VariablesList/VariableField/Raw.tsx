@@ -3,28 +3,28 @@ import { classNames } from 'src/utils'
 import { useVariablesContext } from '../../contexts/VariablesContext'
 
 type VariableFieldType = {
-  prop: string
+  propName: string
   value: string | number | boolean | any[]
   parent?: string
 }
 
-export function Raw({ prop, value, parent }: VariableFieldType) {
+export function RawField({ propName, value, parent }: VariableFieldType) {
   const { setNewVariables } = useVariablesContext()
   const [error, setError] = useState(false)
-  const inputName = parent ? [parent, prop].join('.') : prop
+  const inputName = parent ? [parent, propName].join('.') : propName
 
   function handleVariableChange(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       const newVariable = JSON.parse(event.target.value)
       setError(false)
       if (!parent) {
-        setNewVariables((prev: any) => ({ ...prev, [prop]: newVariable }))
+        setNewVariables((prev: any) => ({ ...prev, [propName]: newVariable }))
         return
       }
       setNewVariables((prev: any) => {
         const data = { ...prev }
         data[parent] = prev[parent] || {}
-        data[parent][prop] = newVariable
+        data[parent][propName] = newVariable
         return data
       })
     } catch (err) {
@@ -33,13 +33,16 @@ export function Raw({ prop, value, parent }: VariableFieldType) {
   }
 
   return (
-    <div className="flex text-slate-600">
+    <div className="text-gray-600 text-sm flex">
       <label htmlFor={inputName} className="font-bold mr-2">
-        {prop}:
+        {propName}:
       </label>
       <input
         name={inputName}
-        className={classNames('grow', error && 'bg-red-200')}
+        className={classNames(
+          'grow outline-none bg-gray-100',
+          error && 'bg-red-200'
+        )}
         defaultValue={JSON.stringify(value)}
         onChange={handleVariableChange}
       />

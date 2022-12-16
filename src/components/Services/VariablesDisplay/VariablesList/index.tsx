@@ -1,5 +1,6 @@
+import { Sidebar } from 'src/components/Layout/primitives/Sidebar'
 import { ViewValue } from './VariableField'
-import { Raw } from './VariableField/Raw'
+import { RawField } from './VariableField/Raw'
 
 type VariablesListType = {
   isRaw: boolean
@@ -10,30 +11,30 @@ type VariablesListType = {
 export function VariablesList({ isRaw, variables, parent }: VariablesListType) {
   if (!variables.length) return <p className="text-slate-600">No value</p>
 
+  if (isRaw)
+    return (
+      <div className="flex flex-col gap-1">
+        {variables.map(([k, v]) => (
+          <RawField key={k} propName={k} value={v} parent={parent} />
+        ))}
+      </div>
+    )
+
   return (
-    <>
-      {isRaw ? (
-        variables.map(([k, v]) => (
-          <div key={k} className="flex flex-col gap-2">
-            <Raw prop={k} value={v} parent={parent} />
+    <div className="flex flex-col gap-1">
+      {variables.map(([k, v]) => (
+        <Sidebar
+          key={k}
+          className="text-gray-600 text-sm"
+          space="0"
+          sideWidth="17rem"
+        >
+          <p className="w-20 font-bold overflow-auto">{k}:</p>
+          <div className="w-full">
+            <ViewValue prop={k} value={v} parent={parent} />
           </div>
-        ))
-      ) : (
-        <table className="w-full">
-          <tbody className="flex flex-col gap-1 text-base divide-y">
-            {variables.map(([k, v]) => (
-              <tr key={k} className="flex">
-                <td className="w-[20%] font-bold text-gray-600 overflow-auto">
-                  {k}:
-                </td>
-                <td className="flex-grow text-gray-600">
-                  <ViewValue prop={k} value={v} parent={parent} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </>
+        </Sidebar>
+      ))}
+    </div>
   )
 }

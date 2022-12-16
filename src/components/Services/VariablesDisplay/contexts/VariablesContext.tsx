@@ -1,14 +1,35 @@
+import { Service } from '@/client-sdk'
 import { useContext, createContext } from 'react'
+import { useServiceInfos } from 'src/hooks'
 
 type VariablesContextType = {
-  setNewVariables: Function
+  initialVariables: Object
+  setNewVariables: React.Dispatch<React.SetStateAction<Service>>
+  sendVariables: (message: string) => void
 }
 
 export const VariablesContext = createContext<VariablesContextType>(null)
 
-export function VariablesContextProvider({ setNewVariables, children }) {
+export function VariablesContextProvider({
+  serviceId,
+  children,
+}: {
+  serviceId: string
+  children: React.ReactNode
+}) {
+  const { initialServiceConfig, setNewVariables, sendVariables } =
+    useServiceInfos(serviceId)
+
+  if (!initialServiceConfig) return <p>Loading</p>
+
   return (
-    <VariablesContext.Provider value={{ setNewVariables }}>
+    <VariablesContext.Provider
+      value={{
+        initialVariables: initialServiceConfig.variables,
+        setNewVariables,
+        sendVariables,
+      }}
+    >
       {children}
     </VariablesContext.Provider>
   )

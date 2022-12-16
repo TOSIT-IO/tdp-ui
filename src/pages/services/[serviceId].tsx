@@ -1,27 +1,30 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import ServiceLayout from 'src/app/dashboard/services/layout'
 import { VariablesDisplay } from 'src/components'
-import { useServiceInfos } from 'src/hooks'
+import { VariablesContextProvider } from 'src/components/Services/VariablesDisplay/contexts/VariablesContext'
+import { RawViewButton } from 'src/components/Services/VariablesDisplay/RawViewButton'
+import { ValidateBar } from 'src/components/Services/VariablesDisplay/ValidateBar'
+import { getFirstElementIfArray } from 'src/utils'
 
 const ServicePage = () => {
-  const router = useRouter()
-  const { serviceId: tempServiceId } = router.query
-  const serviceId = Array.isArray(tempServiceId)
-    ? tempServiceId[0]
-    : tempServiceId
-  const { initialInfos, setNewVariables, sendVariables } =
-    useServiceInfos(serviceId)
+  const [isRaw, setIsRaw] = useState(false)
+  const {
+    query: { serviceId: tempServiceId },
+  } = useRouter()
+  const serviceId = getFirstElementIfArray(tempServiceId)
 
-  if (!initialInfos) return <p>Loading</p>
+  if (!serviceId) return <p>Loading</p>
 
   return (
-    <VariablesDisplay
-      initialVariables={initialInfos.variables}
-      setNewVariables={setNewVariables}
-      sendVariables={sendVariables}
-    />
+    <VariablesContextProvider serviceId={serviceId}>
+      <div className="flex justify-end mb-4 ">
+        <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
+      </div>
+      <VariablesDisplay isRaw={isRaw} />
+      <ValidateBar />
+    </VariablesContextProvider>
   )
 }
 

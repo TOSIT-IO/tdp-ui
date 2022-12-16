@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
-import type { Service, ServiceUpdateResponse } from '@/client-sdk'
-import type { HookInfosType } from 'src/types'
+import type { Service } from '@/client-sdk'
 import { toast } from 'react-toastify'
 
-export function useServiceInfos(
-  serviceId: string
-): HookInfosType<Service, ServiceUpdateResponse> {
+export function useServiceInfos(serviceId: string) {
   const { servicesApi } = useTdpClient()
-  const [initialInfos, setInitialInfos] = useState<Service>(null)
+  const [initialServiceConfig, setInitialServiceConfig] =
+    useState<Service>(null)
   const [newVariables, setNewVariables] = useState<Service['variables']>({})
 
   useEffect(() => {
@@ -16,7 +14,7 @@ export function useServiceInfos(
       const res = await servicesApi.getServiceApiV1ServiceServiceIdGet(
         serviceId
       )
-      setInitialInfos(res.data)
+      setInitialServiceConfig(res.data)
     }
     serviceId && fetchServiceInfos()
   }, [servicesApi, serviceId])
@@ -29,5 +27,5 @@ export function useServiceInfos(
     res?.data?.message && toast.info(res.data.message)
   }
 
-  return { initialInfos, setNewVariables, sendVariables }
+  return { initialServiceConfig, setNewVariables, sendVariables }
 }

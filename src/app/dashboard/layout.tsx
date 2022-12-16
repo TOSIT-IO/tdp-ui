@@ -36,7 +36,6 @@ export default function DashboardLayout({ children }) {
               <span className="text-lg font-bold text-white">UI</span>
             </p>
           </div>
-
           <Menu />
         </aside>
         <div className="h-screen overflow-y-auto">
