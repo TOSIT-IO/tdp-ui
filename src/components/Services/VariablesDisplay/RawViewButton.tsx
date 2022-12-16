@@ -1,4 +1,6 @@
+import { Bars3CenterLeftIcon, EyeIcon } from '@heroicons/react/24/solid'
 import React from 'react'
+import { HeroIcon } from 'src/types'
 import { classNames } from 'src/utils'
 
 interface RawViewButtonType {
@@ -9,29 +11,50 @@ interface RawViewButtonType {
 export function RawViewButton({ isRaw, setIsRaw }: RawViewButtonType) {
   return (
     <div>
-      <div className="isolate inline-flex rounded-md shadow-sm">
-        <p className="relative inline-flex items-center pr-2">Presentation :</p>
-        <button
-          type="button"
+      <div className="rounded-md inline-flex border border-gray-400 overflow-hidden">
+        <IconButon
           onClick={() => setIsRaw(true)}
-          className={classNames(
-            isRaw ? 'bg-gray-400/60' : 'bg-gray-50',
-            'relative inline-flex items-center rounded-l-md border border-gray-300 px-4 py- text-sm font-medium text-gray-700 hover:bg-gray-400/40 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
-          )}
-        >
-          Raw
-        </button>
-        <button
-          type="button"
+          isActive={isRaw}
+          icon={Bars3CenterLeftIcon}
+          text="Raw"
+        />
+        <IconButon
           onClick={() => setIsRaw(false)}
-          className={classNames(
-            !isRaw ? 'bg-gray-400/60' : 'bg-gray-50',
-            'relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-400/40 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
-          )}
-        >
-          View
-        </button>
+          isActive={!isRaw}
+          className="-ml-px border-l-gray-400 border-l"
+          icon={EyeIcon}
+          text="View"
+        />
       </div>
     </div>
+  )
+}
+
+function IconButon({
+  icon: Icon,
+  text,
+  onClick,
+  className: additionalClassName,
+  isActive,
+}: {
+  icon: HeroIcon
+  text?: string
+  onClick: () => void
+  className?: string
+  isActive: boolean
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={classNames(
+        isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-500',
+        'px-2 py-[0.15rem] hover:bg-gray-200 text-sm flex gap-1 items-center',
+        additionalClassName
+      )}
+    >
+      <Icon className="w-4 h-4" />
+      {text}
+    </button>
   )
 }
