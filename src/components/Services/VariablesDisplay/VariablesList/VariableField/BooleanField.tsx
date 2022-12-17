@@ -1,4 +1,4 @@
-import { useVariablesContext } from '../../contexts/VariablesContext'
+import { useVariablesContext } from '../../VariablesContext'
 import { Toggle } from 'src/components/Toggle'
 
 type VariableFieldType = {

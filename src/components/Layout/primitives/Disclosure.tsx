@@ -2,29 +2,35 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { classNames } from 'src/utils'
 
-type DisclosureType = {
+export function Disclosure({
+  title,
+  className: additionalClassName,
+  children,
+}: {
   title: string
+  className?: string
   children: JSX.Element
-}
-
-export function Disclosure({ title, children }: DisclosureType) {
+}) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
       <button
         type="button"
-        className="flex w-full justify-between rounded-md bg-slate-100 px-4 py-2 text-left font-medium text-slate-900"
+        className={classNames(
+          'flex w-full justify-between bg-gray-100 px-4 py-2 text-left font-medium text-slate-900',
+          additionalClassName
+        )}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span>{title}</span>
+        <span className="overflow-x-hidden">{title}</span>
         {isOpen ? (
           <ChevronUpIcon className="h-5 w-5" />
         ) : (
           <ChevronDownIcon className="h-5 w-5" />
         )}
       </button>
-      <div className={classNames(!isOpen && 'hidden', 'py-2 text-gray-500')}>
+      <div className={classNames(!isOpen && 'hidden', 'py-1 px-2')}>
         {children}
       </div>
     </>

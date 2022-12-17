@@ -11,9 +11,9 @@ export default function ServiceLayout({ children }) {
   } = useRouter()
   const serviceId = getFirstElementIfArray(tempServiceId)
   const componentId = getFirstElementIfArray(tempComponentId)
-  const { initialServiceConfig } = useServiceInfos(serviceId)
+  const { componentList } = useServiceInfos(serviceId)
 
-  if (!isReady || !initialServiceConfig) return <p>Loading</p>
+  if (!isReady || !componentList.length) return <p>Loading</p>
 
   return (
     <>
@@ -21,7 +21,7 @@ export default function ServiceLayout({ children }) {
       <ComponentsTabs
         currentServiceId={serviceId}
         currentComponentId={componentId}
-        components={initialServiceConfig.components.map((c) => c.id)}
+        components={componentList}
       />
       {children}
     </>

@@ -1,31 +1,85 @@
 import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
-import type { Service } from '@/client-sdk'
+import type { ComponentUpdate, Service, ServiceUpdate } from '@/client-sdk'
 import { toast } from 'react-toastify'
 
-export function useServiceInfos(serviceId: string) {
-  const { servicesApi } = useTdpClient()
-  const [initialServiceConfig, setInitialServiceConfig] =
-    useState<Service>(null)
+export function useServiceInfos(serviceId: string, componentId?: string) {
+  const { servicesApi, componentsApi } = useTdpClient()
+  const [initialVariablesConfig, setInitialVariablesConfig] = useState({})
   const [newVariables, setNewVariables] = useState<Service['variables']>({})
+  const [componentList, setComponentList] = useState<string[]>([])
 
   useEffect(() => {
-    async function fetchServiceInfos() {
+    async function fetchComponentList(serviceId: string) {
       const res = await servicesApi.getServiceApiV1ServiceServiceIdGet(
         serviceId
       )
-      setInitialServiceConfig(res.data)
+      setComponentList(res.data.components.map((c) => c.id))
     }
-    serviceId && fetchServiceInfos()
+    serviceId && fetchComponentList(serviceId)
   }, [servicesApi, serviceId])
 
-  async function sendVariables(message: string) {
+  useEffect(() => {
+    async function fetchComponentVariables() {
+      const res =
+        await componentsApi.getComponentApiV1ServiceServiceIdComponentComponentIdGet(
+          serviceId,
+          componentId
+        )
+      setInitialVariablesConfig(res.data.variables)
+    }
+    async function fetchServiceVariables() {
+      const res = await servicesApi.getServiceApiV1ServiceServiceIdGet(
+        serviceId
+      )
+      setInitialVariablesConfig(res.data.variables)
+    }
+    componentId ? fetchComponentVariables() : fetchServiceVariables()
+  }, [componentsApi, servicesApi, serviceId, componentId])
+
+  async function sendServiceVariables(
+    serviceId: string,
+    serviceUpdate: ServiceUpdate
+  ) {
     const res = await servicesApi.patchServiceApiV1ServiceServiceIdPatch(
       serviceId,
-      { message, variables: newVariables }
+      serviceUpdate
     )
+    return res
+  }
+
+  async function sendComponentsVariables(
+    serviceId: string,
+    componentId: string,
+    componentUpdate: ComponentUpdate
+  ) {
+    const res =
+      await componentsApi.patchComponentApiV1ServiceServiceIdComponentComponentIdPatch(
+        serviceId,
+        componentId,
+        componentUpdate
+      )
+    return res
+  }
+
+  async function sendVariables(message: string) {
+    const res = !componentId
+      ? await sendServiceVariables(serviceId, {
+          message,
+          variables: newVariables,
+        })
+      : await sendComponentsVariables(serviceId, componentId, {
+          message,
+          variables: newVariables,
+        })
+    setNewVariables({})
     res?.data?.message && toast.info(res.data.message)
   }
 
-  return { initialServiceConfig, setNewVariables, sendVariables }
+  return {
+    componentList,
+    initialVariablesConfig,
+    setNewVariables,
+    sendVariables,
+  }
 }

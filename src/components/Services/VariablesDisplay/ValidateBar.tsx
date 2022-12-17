@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from 'src/components/commons'
-import { useVariablesContext } from './contexts/VariablesContext'
+import { useVariablesContext } from './VariablesContext'
 
 export function ValidateBar() {
   const { sendVariables } = useVariablesContext()
