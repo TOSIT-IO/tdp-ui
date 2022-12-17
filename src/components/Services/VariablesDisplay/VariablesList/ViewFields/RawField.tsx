@@ -2,13 +2,15 @@ import { useState } from 'react'
 import { classNames } from 'src/utils'
 import { useVariablesContext } from '../../VariablesContext'
 
-type VariableFieldType = {
+export function RawField({
+  propName,
+  value,
+  parent,
+}: {
   propName: string
   value: string | number | boolean | any[]
   parent?: string
-}
-
-export function RawField({ propName, value, parent }: VariableFieldType) {
+}) {
   const { setNewVariables } = useVariablesContext()
   const [error, setError] = useState(false)
   const inputName = parent ? [parent, propName].join('.') : propName
