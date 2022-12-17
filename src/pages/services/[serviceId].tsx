@@ -2,10 +2,12 @@ import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
 import ServiceLayout from 'src/app/dashboard/services/layout'
-import { VariablesDisplay } from 'src/components'
-import { VariablesContextProvider } from 'src/components/Services/VariablesDisplay/contexts/VariablesContext'
-import { RawViewButton } from 'src/components/Services/VariablesDisplay/RawViewButton'
-import { ValidateBar } from 'src/components/Services/VariablesDisplay/ValidateBar'
+import {
+  RawViewButton,
+  ValidateBar,
+  VariablesContextProvider,
+  VariablesDisplay,
+} from 'src/components'
 import { getFirstElementIfArray } from 'src/utils'
 
 const ServicePage = () => {

@@ -1,38 +1,38 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { useState } from 'react'
+import {
+  RawViewButton,
+  ValidateBar,
+  VariablesContextProvider,
+  VariablesDisplay,
+} from 'src/components'
+import { getFirstElementIfArray } from 'src/utils'
+//Layouts
 import DashboardLayout from 'src/app/dashboard/layout'
 import ServiceLayout from 'src/app/dashboard/services/layout'
-import { VariablesDisplay } from 'src/components'
-import { useComponentInfos } from 'src/hooks'
 
 const ComponentPage = () => {
-  const router = useRouter()
-  const { serviceId: tempServiceId, componentId: tempComponentId } =
-    router.query
-  const serviceId = Array.isArray(tempServiceId)
-    ? tempServiceId[0]
-    : tempServiceId
-  const componentId = Array.isArray(tempComponentId)
-    ? tempComponentId[0]
-    : tempComponentId
+  const [isRaw, setIsRaw] = useState(false)
+  const {
+    query: { serviceId: tempServiceId, componentId: tempComponentId },
+  } = useRouter()
+  const serviceId = getFirstElementIfArray(tempServiceId)
+  const componentId = getFirstElementIfArray(tempComponentId)
 
-  const { initialInfos, setNewVariables, sendVariables } = useComponentInfos(
-    serviceId,
-    componentId
-  )
-
-  if (!initialInfos) return <p>Loading...</p>
+  if (!serviceId || !componentId) return <p>Loading...</p>
 
   return (
-    <VariablesDisplay
-      initialVariables={initialInfos.variables}
-      setNewVariables={setNewVariables}
-      sendVariables={sendVariables}
-    />
+    <VariablesContextProvider serviceId={serviceId} componentId={componentId}>
+      <div className="flex justify-end mb-4 ">
+        <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
+      </div>
+      <VariablesDisplay isRaw={isRaw} />
+      <ValidateBar />
+    </VariablesContextProvider>
   )
 }
 
-ComponentPage.getLayout = function getLayout(page: ReactElement) {
+ComponentPage.getLayout = function getLayout(page: React.ReactElement) {
   return (
     <DashboardLayout>
       <ServiceLayout>{page}</ServiceLayout>

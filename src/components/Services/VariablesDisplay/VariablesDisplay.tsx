@@ -1,6 +1,6 @@
-import { Disclosure } from 'src/components'
-import { useVariablesContext } from './contexts/VariablesContext'
-import { VariablesList } from './VariablesList'
+import { Disclosure } from 'src/components/Layout/primitives'
+import { useVariablesContext } from './VariablesContext'
+import { VariablesList } from './VariablesList/VariablesList'
 
 interface ReduceType {
   primitiveTypeVariables: [string, string][]

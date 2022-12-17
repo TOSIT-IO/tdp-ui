@@ -12,20 +12,22 @@ export const VariablesContext = createContext<VariablesContextType>(null)
 
 export function VariablesContextProvider({
   serviceId,
+  componentId,
   children,
 }: {
   serviceId: string
+  componentId?: string
   children: React.ReactNode
 }) {
-  const { initialServiceConfig, setNewVariables, sendVariables } =
-    useServiceInfos(serviceId)
+  const { initialVariablesConfig, setNewVariables, sendVariables } =
+    useServiceInfos(serviceId, componentId)
 
-  if (!initialServiceConfig) return <p>Loading</p>
+  if (!initialVariablesConfig) return <p>Loading</p>
 
   return (
     <VariablesContext.Provider
       value={{
-        initialVariables: initialServiceConfig.variables,
+        initialVariables: initialVariablesConfig,
         setNewVariables,
         sendVariables,
       }}

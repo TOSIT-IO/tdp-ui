@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { classNames } from 'src/utils'
-import { useVariablesContext } from '../../contexts/VariablesContext'
+import { useVariablesContext } from '../../VariablesContext'
 
 type VariableFieldType = {
   propName: string
