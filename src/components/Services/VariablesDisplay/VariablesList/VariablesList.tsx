@@ -1,6 +1,6 @@
 import { Sidebar } from 'src/components/Layout/primitives/Sidebar'
-import { ViewValue } from './VariableField'
-import { RawField } from './VariableField/Raw'
+import { ViewField } from './ViewFields'
+import { RawField } from './ViewFields/RawField'
 
 type VariablesListType = {
   isRaw: boolean
@@ -31,7 +31,7 @@ export function VariablesList({ isRaw, variables, parent }: VariablesListType) {
         >
           <p className="w-20 font-bold overflow-auto">{k}:</p>
           <div className="w-full">
-            <ViewValue prop={k} value={v} parent={parent} />
+            <ViewField prop={k} value={v} parent={parent} />
           </div>
         </Sidebar>
       ))}

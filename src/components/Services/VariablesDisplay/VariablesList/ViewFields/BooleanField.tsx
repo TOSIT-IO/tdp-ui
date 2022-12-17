@@ -1,14 +1,15 @@
 import { useVariablesContext } from '../../VariablesContext'
 import { Toggle } from 'src/components/Toggle'
 
-type VariableFieldType = {
+export function BooleanField({
+  prop,
+  value,
+  parent,
+}: {
   prop: string
-  value: string | number | boolean | any[]
+  value: boolean
   parent?: string
-}
-
-//TODO: Impose value as boolean
-export function BooleanField({ prop, value, parent }: VariableFieldType) {
+}) {
   const { setNewVariables } = useVariablesContext()
 
   function handleChecked(event: React.ChangeEvent<HTMLInputElement>) {
@@ -24,14 +25,9 @@ export function BooleanField({ prop, value, parent }: VariableFieldType) {
       })
     }
   }
-
-  if (typeof value === 'boolean') {
-    return (
-      <div className="flex flex-grow flex-col">
-        <Toggle handleChecked={handleChecked} defaultValue={value} />
-      </div>
-    )
-  } else {
-    return <></>
-  }
+  return (
+    <div className="flex flex-grow flex-col">
+      <Toggle handleChecked={handleChecked} defaultValue={value} />
+    </div>
+  )
 }
