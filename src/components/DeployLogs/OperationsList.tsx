@@ -19,18 +19,46 @@ export function OperationsList({ operations }: { operations: OperationLog[] }) {
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
+                    Start time
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    End time
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
                     State
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    Logs
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {operations.map((op) => (
-                  <tr key={op.operation}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                {operations.reverse().map((op) => (
+                  <tr key={op.operation} className="whitespace-nowrap ">
+                    <td className="px-3 py-2 text-sm font-medium text-gray-900">
                       {op.operation}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <td className="px-3 py-2 text-sm text-gray-500">
+                      {op.start_time}
+                    </td>
+                    <td className="px-3 py-2 text-sm text-gray-500">
+                      {op.end_time}
+                    </td>
+                    <td className="px-3 py-2 text-sm text-gray-500">
                       {op.state}
+                    </td>
+                    <td className="px-3 py-2 text-sm text-gray-500">
+                      {/* todo : get logs details */}
+                      {'View'}
                     </td>
                   </tr>
                 ))}
