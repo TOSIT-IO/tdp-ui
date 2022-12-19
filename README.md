@@ -38,7 +38,7 @@ App should be available at <http://localhost:3000>.
 
 You can use the `compose.yml`, it will set up needed dependencies to develop on the UI.
 
-To run the stack, you will needed a `tdp_server` image available locally, and to run:
+To run the stack, simply type:
 
 ```bash
 docker compose -f env/compose.yml up -d

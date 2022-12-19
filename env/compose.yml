@@ -34,6 +34,9 @@ services:
       - ./config/realm.json:/opt/keycloak/data/import/realm.json
 
   tdp_server:
+    build:
+      context: https://github.com/TOSIT-IO/tdp-server.git
+      dockerfile: docker/Dockerfile
     command: ["uvicorn", "--host", "0.0.0.0", "tdp_server.main:app"]
     depends_on:
       - db
@@ -41,7 +44,6 @@ services:
     entrypoint: ["bash", "/entrypoint-ui.sh"]
     env_file:
       - ./config/tdp_server.env
-    image: tdp_server:latest
     ports:
       - 8000:8000
     volumes:
