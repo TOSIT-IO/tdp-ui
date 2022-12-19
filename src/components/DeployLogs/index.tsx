@@ -1,2 +1,3 @@
-export * from './ListPastDeployLogs'
-export * from './TableDeployLogs/PastDeployLogs'
+export * from './DeploysInfos'
+export * from './DeployLogs'
+export * from './OperationsList'
