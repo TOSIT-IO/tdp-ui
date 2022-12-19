@@ -1,36 +1,9 @@
+import { DeploymentLog } from '@/client-sdk'
 import Link from 'next/link'
-import { title } from 'process'
-// import { useDeployContext } from 'src/contexts/deployContext'
-import type {
-  deploymentType,
-  deploymentTabType,
-} from 'src/hooks/usePastDeploymentsList'
-import { DeployActionEnum } from 'src/types/deployTypes'
-import type { deployLogWithOpType } from './TableDeployLogs/PastDeployLogs'
 
-//   const pastDeploymentsRichList: deploymentType[] = usePastDeploymentsRichList()
-
-// export function ListPastDeployLogs({ title: String }): JSX.Element {
-export function ListPastDeployLogs({
-  deployTab,
-}: deploymentTabType): JSX.Element {
+export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <header className="border-b border-gray-200 pb-5">
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-              {/* Past Deploy Logs :{title} */}
-              Past Deploy Logs
-            </h1>
-            <p className="mt-2 text-sm text-gray-700">
-              A list of all the past deployed logs including their id deploy,
-              start deploy, end deploy and state. Click on a deployment to view
-              it
-            </p>
-          </header>
-        </div>
-      </div>
       <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -62,13 +35,11 @@ export function ListPastDeployLogs({
                     >
                       State Deploy
                     </th>
-                    {/* <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6"> */}
                     <th
                       scope="col"
                       className="px-3 py-3.5 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6 text-gray-900"
                     >
                       Deploy Detail
-                      {/* <span className="sr-only">Edit</span> */}
                     </th>
                   </tr>
                 </thead>
@@ -88,19 +59,11 @@ export function ListPastDeployLogs({
                         {d.state}
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        {/* <a href="#" className="text-indigo-600 hover:text-indigo-900"> */}
-                        {/* Details <span className="sr-only">, {d.operations.toString()}</span> */}
-                        {/* Details , {d.operations.map(o=><p key={o}>{o}</p>)} */}
-                        {/* </a> */}
                         <Link
-                          href={'/deploy/logs/' + d.id.toString()}
+                          href={`/deploy/logs/${d.id}`}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
-                          {/* Details <span className="sr-only">, {d.operations.toString()}</span> */}
-                          Details{' '}
-                          {/* {d.operations.map((o) => (
-                              <p key={o}>{o}</p>
-                            ))} */}
+                          Details
                         </Link>
                       </td>
                     </tr>
