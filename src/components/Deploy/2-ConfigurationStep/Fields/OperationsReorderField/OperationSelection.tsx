@@ -8,16 +8,22 @@ export function OperationSelection({
 }: {
   className?: string
 }) {
-  const { dispatch } = useDeployContext()
+  const {
+    dispatch,
+    state: { operations },
+  } = useDeployContext()
   const { setNeedScrollDown } = useScrollContext()
 
   function handleOnKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === 'Enter') {
+    if (['Enter', ' ', ','].includes(event.key)) {
       event.preventDefault()
+      const input = event.currentTarget.value.trim()
+      const isOperationAlreadyDefined = operations.includes(input)
+      if (isOperationAlreadyDefined) return
       setNeedScrollDown(true)
       dispatch({
         type: DeployActionEnum.ADD_OPERATION,
-        payload: { newOperation: event.currentTarget.value },
+        payload: { newOperation: input },
       })
       event.currentTarget.value = ''
     }
