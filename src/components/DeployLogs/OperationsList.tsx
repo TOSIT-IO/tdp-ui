@@ -42,7 +42,7 @@ export function OperationsList({ operations }: { operations: OperationLog[] }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {operations.reverse().map((op) => (
+                {operations.map((op) => (
                   <tr key={op.operation} className="whitespace-nowrap ">
                     <td className="px-3 py-2 text-sm font-medium text-gray-900">
                       {op.operation}
