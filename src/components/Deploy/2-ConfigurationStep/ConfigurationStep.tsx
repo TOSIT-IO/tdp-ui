@@ -2,7 +2,12 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from 'src/components/commons'
 import { useDeployContext } from 'src/contexts'
 import { DeployMethodsEnum } from 'src/types/deployTypes'
-import { RestartField, FilterField, OperationsField } from './Fields'
+import {
+  RestartField,
+  FilterField,
+  OperationsField,
+  OperationsReorderField,
+} from './Fields'
 import { FormDisplay } from './FormDisplay'
 
 type DeployModes = {
@@ -27,7 +32,7 @@ const deployModes: DeployModes = {
   },
   [DeployMethodsEnum.CUSTOM]: {
     title: 'Custom Deploy',
-    fieldList: [OperationsField],
+    fieldList: [OperationsReorderField],
   },
 }
 

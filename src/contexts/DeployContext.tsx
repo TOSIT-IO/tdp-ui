@@ -57,6 +57,16 @@ function deployReducer(state: DeployStateType, action: DeployActions) {
         ...state,
         operations: newOperations,
       }
+    case DeployActionEnum.SWITCH_TWO_OPERATIONS:
+      const { sourceIndex, destinationIndex } = action.payload
+
+      const [removed] = newOperations.splice(sourceIndex, 1)
+      newOperations.splice(destinationIndex, 0, removed)
+
+      return {
+        ...state,
+        operations: newOperations,
+      }
     case DeployActionEnum.REMOVE_LAST_OPERATION:
       newOperations.pop()
       return {
@@ -101,6 +111,10 @@ type DeployActionPayload = {
   [DeployActionEnum.EDIT_OPERATION_AT]: {
     newOperation: string
     index: number
+  }
+  [DeployActionEnum.SWITCH_TWO_OPERATIONS]: {
+    sourceIndex: number
+    destinationIndex: number
   }
   [DeployActionEnum.REMOVE_LAST_OPERATION]: undefined
   [DeployActionEnum.REMOVE_OPERATION_AT]: {
