@@ -23,7 +23,7 @@ export function Operation({
   }
 
   return (
-    <Draggable draggableId={operation} index={index}>
+    <Draggable draggableId={operation + index} index={index}>
       {(draggableProvided) => (
         <div
           ref={draggableProvided.innerRef}
@@ -31,7 +31,7 @@ export function Operation({
           {...draggableProvided.dragHandleProps}
         >
           <div className="p-1 flex justify-between border border-gray-300 text-sm font-mono bg-white">
-            <span>{operation}</span>
+            <span className="select-none">{operation}</span>
             <button
               type="button"
               className="px-1"

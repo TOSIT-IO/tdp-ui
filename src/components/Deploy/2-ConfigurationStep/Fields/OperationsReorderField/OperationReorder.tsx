@@ -47,7 +47,7 @@ export function OperationReorder({
               <div ref={divRef} className="max-h-96 overflow-auto space-y-1">
                 {operations.map((operation, index) => (
                   <Operation
-                    key={operation}
+                    key={operation + index}
                     index={index}
                     operation={operation}
                   />

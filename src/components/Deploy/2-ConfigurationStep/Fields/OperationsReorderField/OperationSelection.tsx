@@ -18,8 +18,6 @@ export function OperationSelection({
     if (['Enter', ' ', ','].includes(event.key)) {
       event.preventDefault()
       const input = event.currentTarget.value.trim()
-      const isOperationAlreadyDefined = operations.includes(input)
-      if (isOperationAlreadyDefined) return
       setNeedScrollDown(true)
       dispatch({
         type: DeployActionEnum.ADD_OPERATION,
