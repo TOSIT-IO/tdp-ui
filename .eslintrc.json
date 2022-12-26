@@ -1,3 +1,8 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"]
+  "plugins": ["eslint-plugin-tsdoc", "eslint-plugin-unused-imports"],
+  "extends": ["next/core-web-vitals", "prettier"],
+  "rules": {
+    "tsdoc/syntax": "warn",
+    "unused-imports/no-unused-imports-ts": "warn"
+  }
 }

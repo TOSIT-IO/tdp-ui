@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import { useAuth } from 'react-oidc-context'
 import { PowerIcon, UserIcon } from '@heroicons/react/24/solid'
-import { useState } from 'react'
 import { UserProfile } from 'src/components/UserProfile'
 import { classNames } from 'src/utils'
 
