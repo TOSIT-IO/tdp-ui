@@ -16,6 +16,7 @@ export function AuthContextProvider({ children }): JSX.Element {
         client_id: config.oidcConfig.oidcClientId,
         redirect_uri: config.oidcConfig.redirectUri,
         scope: config.oidcConfig.scope,
+        post_logout_redirect_uri: config.oidcConfig.postLogoutRedirectUri,
       })
     }
     fetchAuthority()

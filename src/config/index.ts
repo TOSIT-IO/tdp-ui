@@ -4,6 +4,7 @@ type ApiConfigType = {
   oidcConfig: {
     oidcClientId: string
     redirectUri: string
+    postLogoutRedirectUri: string
     scope: string
   }
 }
@@ -16,6 +17,7 @@ const apiConfig: ApiConfigType = {
   oidcConfig: {
     oidcClientId: process.env.OPENID_CLIENT_ID || 'tdp_server',
     redirectUri: 'http://localhost:3000/',
+    postLogoutRedirectUri: 'http://localhost:3000/',
     scope: [
       'openid',
       'tdp_server:read',
