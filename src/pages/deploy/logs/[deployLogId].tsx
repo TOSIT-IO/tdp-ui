@@ -4,7 +4,7 @@ import DashboardLayout from 'src/app/dashboard/layout'
 import { useDeployLogInfos } from 'src/hooks'
 import LogsLayout from 'src/app/dashboard/logs/layout'
 import { getFirstElementIfArray } from 'src/utils'
-import { DeploysInfos, OperationsList } from 'src/components/DeployLogs'
+import { DeploysInfos, OperationsList } from 'src/components/Deploy/DeployLogs'
 
 const DeployLogPage = () => {
   const {
