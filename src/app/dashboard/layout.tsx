@@ -1,9 +1,8 @@
 import Image from 'next/image'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Menu } from 'src/components/Layout/compositions/Menu'
+import { Menu, Topbar } from 'src/components/Layout'
 import { Sidebar } from 'src/components/Layout/primitives/Sidebar'
-import { Topbar } from '../../components/Layout/compositions/Topbar'
 
 export default function DashboardLayout({ children }) {
   const [logoInitialWidth, logoInitialHeight] = [126, 50]

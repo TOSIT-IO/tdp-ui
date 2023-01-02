@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { TNavItem } from 'src/components/Layout/compositions/Menu'
+import { TNavItem } from 'src/components/Layout/Menu'
 import { useTdpClient } from 'src/contexts'
 
 export function useServicesList(baseMenuItems: TNavItem[]) {
