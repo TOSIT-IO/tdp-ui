@@ -1,9 +1,9 @@
 import 'react-toastify/dist/ReactToastify.css'
 import {
   Menu,
-  Topbar,
   ToastProvider,
   TdpUiLogo,
+  UserInfos,
   Sidebar,
 } from 'src/components/Layout'
 
@@ -17,10 +17,12 @@ export default function DashboardLayout({ children }) {
             <TdpUiLogo width={100} height={40} />
           </div>
           <Menu />
+          <div className="p-2 mt-auto mb-3">
+            <UserInfos />
+          </div>
         </aside>
         {/* Main content */}
         <div className="h-screen overflow-y-auto">
-          <Topbar className="bg-gray-900 sticky top-0" />
           <main className="p-5">{children}</main>
         </div>
       </Sidebar>
