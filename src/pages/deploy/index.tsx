@@ -1,6 +1,6 @@
 import DashboardLayout from 'src/app/dashboard/layout'
 import { usePastDeploymentsRichList } from 'src/hooks'
-import { DeployLogs } from 'src/components/Deploy/DeployLogs'
+import { DeployLogs } from 'src/components/Deploy'
 import { PageTitle } from 'src/components/Layout/primitives'
 import LogsLayout from 'src/app/dashboard/logs/layout'
 
