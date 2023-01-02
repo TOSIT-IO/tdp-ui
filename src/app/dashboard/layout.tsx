@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Menu } from 'src/components/Layout/compositions/Menu'
 import { Sidebar } from 'src/components/Layout/primitives/Sidebar'
-// import { Topbar } from '../../components/Layout/compositions/Topbar'
+import { Topbar } from '../../components/Layout/compositions/Topbar'
 
 export default function DashboardLayout({ children }) {
   const [logoInitialWidth, logoInitialHeight] = [126, 50]
@@ -39,7 +39,7 @@ export default function DashboardLayout({ children }) {
           <Menu />
         </aside>
         <div className="h-screen overflow-y-auto">
-          {/* <Topbar className='bg-gray-900 sticky top-0' /> */}
+          <Topbar className="bg-gray-900 sticky top-0" />
           <main className="p-5">{children}</main>
         </div>
       </Sidebar>
