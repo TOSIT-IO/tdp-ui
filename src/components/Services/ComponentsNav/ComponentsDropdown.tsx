@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
-import type { Tab } from './types'
+import { TTab } from './type'
 
 export function ComponentsDropdown({
   tabs,
   currentTab,
 }: {
-  tabs: Tab[]
+  tabs: TTab[]
   currentTab: string
 }) {
   const { push, isReady } = useRouter()
