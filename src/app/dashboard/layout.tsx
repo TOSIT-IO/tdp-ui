@@ -1,28 +1,20 @@
-import Image from 'next/image'
 import 'react-toastify/dist/ReactToastify.css'
-import { Menu, Topbar } from 'src/components/Layout'
-import { ToastProvider } from 'src/components/Layout/context'
-import { Sidebar } from 'src/components/Layout/primitives'
+import {
+  Menu,
+  Topbar,
+  ToastProvider,
+  TdpUiLogo,
+  Sidebar,
+} from 'src/components/Layout'
 
 export default function DashboardLayout({ children }) {
-  const [logoInitialWidth, logoInitialHeight] = [126, 50]
-  const logoRatio = 0.8
-
   return (
     <ToastProvider>
       <Sidebar sideWidth="13rem" space="0">
         {/* Sidebar */}
         <aside className="h-screen overflow-auto bg-gray-900 flex flex-col">
           <div className="mb-3 py-3 self-center">
-            <p className="flex">
-              <Image
-                src="/TDP_LOGO_INVERSE_notext.png"
-                alt="tdp-logo"
-                width={logoInitialWidth * logoRatio}
-                height={logoInitialHeight * logoRatio}
-              />
-              <span className="text-lg font-bold text-white">UI</span>
-            </p>
+            <TdpUiLogo width={100} height={40} />
           </div>
           <Menu />
         </aside>
