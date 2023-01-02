@@ -7,17 +7,6 @@ export function useServiceInfos(serviceId: string, componentId?: string) {
   const { servicesApi, componentsApi } = useTdpClient()
   const [initialVariablesConfig, setInitialVariablesConfig] = useState({})
   const [newVariables, setNewVariables] = useState<Service['variables']>({})
-  const [componentList, setComponentList] = useState<string[]>([])
-
-  useEffect(() => {
-    async function fetchComponentList(serviceId: string) {
-      const res = await servicesApi.getServiceApiV1ServiceServiceIdGet(
-        serviceId
-      )
-      setComponentList(res.data.components.map((c) => c.id))
-    }
-    serviceId && fetchComponentList(serviceId)
-  }, [servicesApi, serviceId])
 
   useEffect(() => {
     async function fetchComponentVariables() {
@@ -77,7 +66,6 @@ export function useServiceInfos(serviceId: string, componentId?: string) {
   }
 
   return {
-    componentList,
     initialVariablesConfig,
     setNewVariables,
     sendVariables,
