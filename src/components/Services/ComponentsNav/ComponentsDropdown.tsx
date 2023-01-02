@@ -3,10 +3,10 @@ import { TTab } from './type'
 
 export function ComponentsDropdown({
   tabs,
-  currentTab,
+  currentTabId,
 }: {
   tabs: TTab[]
-  currentTab: string
+  currentTabId: string
 }) {
   const { push, isReady } = useRouter()
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -22,7 +22,7 @@ export function ComponentsDropdown({
         id="tabs"
         name="tabs"
         className="block w-full rounded-md border-gray-300"
-        defaultValue={currentTab}
+        defaultValue={currentTabId}
         onChange={handleChange}
       >
         {tabs.map((tab) => (

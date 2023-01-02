@@ -14,7 +14,7 @@ export function classNames(...classes: any[]) {
  * @param value - The value to check
  * @returns The first element of the array or the value
  */
-export function getFirstElementIfArray<T>(value: T) {
+export function getFirstElementIfArray<T>(value: T | T[]) {
   return Array.isArray(value) ? value[0] : value
 }
 

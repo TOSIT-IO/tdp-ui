@@ -8,14 +8,18 @@ type ComponentsTabsProps = {
 }
 
 export function ComponentsTabs({ tabs, currentTabId }: ComponentsTabsProps) {
-  const isCurrentTab = (tab: string) => tab === currentTabId
+  const isCurrentTab = (tab: string, index: number) => {
+    if (currentTabId === tab) return true
+    if (index === 0 && !currentTabId) return true
+    return false
+  }
   return (
     <nav className="flex flex-wrap gap-1" aria-label="Tabs">
-      {tabs.map((tab) => (
+      {tabs.map((tab, i) => (
         <ComponentTab
           key={tab.id}
           tab={tab}
-          isCurrentTab={isCurrentTab(tab.id)}
+          isCurrentTab={isCurrentTab(tab.id, i)}
         />
       ))}
     </nav>
