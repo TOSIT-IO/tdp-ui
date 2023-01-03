@@ -1,6 +1,7 @@
 'use client'
 
 import { useAuth } from 'react-oidc-context'
+import { Login } from 'src/components/Login'
 
 export function LoginPortal({ children }) {
   const auth = useAuth()
@@ -23,5 +24,5 @@ export function LoginPortal({ children }) {
   if (auth.isAuthenticated) {
     return <>{children}</>
   }
-  return <button onClick={() => void auth.signinRedirect()}>Log in</button>
+  return <Login />
 }

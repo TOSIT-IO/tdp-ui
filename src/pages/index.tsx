@@ -1,19 +1,15 @@
-import Link from 'next/link'
-import { useServerStatus } from 'src/hooks'
+import DashboardLayout from 'src/app/dashboard/layout'
 
-export default function App() {
-  const isServerRunning = useServerStatus()
+const DashboardPage = () => {
   return (
     <>
-      <h1 className="font-black text-lg">Login page</h1>
-      <div className="flex gap-2">
-        <p>tdp-server running: </p>
-        <pre>{JSON.stringify(isServerRunning, null, 2)}</pre>
-      </div>
-
-      <Link href="/dashboard" className="text-blue-800 underline">
-        To the dashboard
-      </Link>
+      <p>Page content</p>
     </>
   )
 }
+
+DashboardPage.getLayout = function getLayout(page: React.ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>
+}
+
+export default DashboardPage
