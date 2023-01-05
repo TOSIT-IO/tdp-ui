@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router'
-import { TTab } from './type'
+import { ComponentsNavProps } from './type'
 
 export function ComponentsDropdown({
-  tabs,
+  usedComponents,
+  unusedComponents,
   currentTabId,
-}: {
-  tabs: TTab[]
-  currentTabId: string
-}) {
+}: ComponentsNavProps) {
   const { push, isReady } = useRouter()
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     e.preventDefault()
@@ -25,7 +23,13 @@ export function ComponentsDropdown({
         defaultValue={currentTabId}
         onChange={handleChange}
       >
-        {tabs.map((tab) => (
+        {usedComponents.map((tab) => (
+          <option key={tab.id} value={tab.href}>
+            {tab.id}
+          </option>
+        ))}
+        <option disabled>──────────</option>
+        {unusedComponents.map((tab) => (
           <option key={tab.id} value={tab.href}>
             {tab.id}
           </option>

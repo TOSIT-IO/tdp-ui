@@ -1,27 +1,42 @@
 import Link from 'next/link'
+import { useState } from 'react'
 import { classNames } from 'src/utils'
-import { TTab } from './type'
+import { ComponentNav, ComponentsNavProps } from './type'
 
-type ComponentsTabsProps = {
-  tabs: TTab[]
-  currentTabId: string
-}
+export function ComponentsTabs({
+  usedComponents,
+  unusedComponents,
+  currentTabId,
+}: ComponentsNavProps) {
+  const [showUnused, setShowUnused] = useState(false)
 
-export function ComponentsTabs({ tabs, currentTabId }: ComponentsTabsProps) {
   const isCurrentTab = (tab: string, index: number) => {
     if (currentTabId === tab) return true
     if (index === 0 && !currentTabId) return true
     return false
   }
+
+  function toggleShowUnused() {
+    setShowUnused(!showUnused)
+  }
+
   return (
-    <nav className="flex flex-wrap gap-1" aria-label="Tabs">
-      {tabs.map((tab, i) => (
-        <ComponentTab
-          key={tab.id}
-          tab={tab}
-          isCurrentTab={isCurrentTab(tab.id, i)}
-        />
-      ))}
+    <nav className="flex flex-wrap gap-1 items-center" aria-label="Tabs">
+      {usedComponents
+        .concat(showUnused ? unusedComponents : [])
+        .map((tab, i) => (
+          <ComponentTab
+            key={tab.id}
+            tab={tab}
+            isCurrentTab={isCurrentTab(tab.id, i)}
+          />
+        ))}
+      <p
+        className="ml-1 text-xs text-gray-600 cursor-pointer"
+        onClick={toggleShowUnused}
+      >
+        {`[${showUnused ? '-' : '+'}]`}
+      </p>
     </nav>
   )
 }
@@ -30,7 +45,7 @@ export function ComponentTab({
   tab,
   isCurrentTab,
 }: {
-  tab: TTab
+  tab: ComponentNav
   isCurrentTab: boolean
 }) {
   return (

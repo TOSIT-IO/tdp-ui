@@ -15,19 +15,40 @@ export function ComponentsNav() {
 
   if (!isReady && loading) return <p>Loading</p>
 
-  const tabs = [{ id: serviceId, href: `/services/${serviceId}` }].concat(
-    components.map((component) => ({
-      id: component,
-      href: `/services/${serviceId}/components/${component}`,
-    }))
+  const [usedComponents, unusedComponents] = components.reduce(
+    (acc, component) => {
+      const { id: componentId, isUsed } = component
+      if (isUsed) {
+        acc[0].push({
+          id: componentId,
+          href: `/services/${serviceId}/components/${componentId}`,
+        })
+      } else {
+        acc[1].push({
+          id: componentId,
+          href: `/services/${serviceId}/components/${componentId}`,
+        })
+      }
+      return acc
+    },
+    [[{ id: serviceId, href: `/services/${serviceId}` }], []]
   )
+
   return (
     <div className="mb-5">
       <div className="sm:hidden">
-        <ComponentsDropdown tabs={tabs} currentTabId={componentId} />
+        <ComponentsDropdown
+          usedComponents={usedComponents}
+          unusedComponents={unusedComponents}
+          currentTabId={componentId}
+        />
       </div>
       <div className="hidden sm:block">
-        <ComponentsTabs tabs={tabs} currentTabId={componentId} />
+        <ComponentsTabs
+          usedComponents={usedComponents}
+          unusedComponents={unusedComponents}
+          currentTabId={componentId}
+        />
       </div>
     </div>
   )
