@@ -18,7 +18,12 @@ export function LoginPortal({ children }) {
   }
 
   if (auth.error) {
-    return <div>Oops... {auth.error.message}</div>
+    return (
+      <div>
+        <div>ops... {auth.error.message}</div>
+        <button onClick={() => void auth.signinRedirect()}>Log in</button>
+      </div>
+    )
   }
 
   if (auth.isAuthenticated) {
