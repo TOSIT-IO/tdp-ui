@@ -5,7 +5,7 @@ import {
   ValidateBar,
   VariablesContextProvider,
   VariablesDisplay,
-} from 'src/components'
+} from 'src/components/Services'
 import { getFirstElementIfArray } from 'src/utils'
 //Layouts
 import DashboardLayout from 'src/app/dashboard/layout'
