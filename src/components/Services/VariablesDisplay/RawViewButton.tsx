@@ -10,22 +10,20 @@ interface RawViewButtonType {
 
 export function RawViewButton({ isRaw, setIsRaw }: RawViewButtonType) {
   return (
-    <div>
-      <div className="rounded-md inline-flex border border-gray-400 overflow-hidden">
-        <IconButon
-          onClick={() => setIsRaw(true)}
-          isActive={isRaw}
-          icon={Bars3CenterLeftIcon}
-          text="Raw"
-        />
-        <IconButon
-          onClick={() => setIsRaw(false)}
-          isActive={!isRaw}
-          className="-ml-px border-l-gray-400 border-l"
-          icon={EyeIcon}
-          text="View"
-        />
-      </div>
+    <div className="rounded-md inline-flex border border-gray-400 overflow-hidden">
+      <IconButon
+        onClick={() => setIsRaw(true)}
+        isActive={isRaw}
+        icon={Bars3CenterLeftIcon}
+        text="Raw"
+      />
+      <IconButon
+        onClick={() => setIsRaw(false)}
+        isActive={!isRaw}
+        className="-ml-px border-l-gray-400 border-l"
+        icon={EyeIcon}
+        text="View"
+      />
     </div>
   )
 }

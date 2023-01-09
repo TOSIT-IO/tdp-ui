@@ -7,7 +7,7 @@ import {
   ValidateBar,
   VariablesContextProvider,
   VariablesDisplay,
-} from 'src/components'
+} from 'src/components/Services'
 import { getFirstElementIfArray } from 'src/utils'
 
 const ServicePage = () => {
