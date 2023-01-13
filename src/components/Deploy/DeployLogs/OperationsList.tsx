@@ -1,4 +1,4 @@
-import { OperationLog } from '@/client-sdk'
+import { OperationLog } from 'src/clients/tdpClient'
 
 export function OperationsList({ operations }: { operations: OperationLog[] }) {
   return (

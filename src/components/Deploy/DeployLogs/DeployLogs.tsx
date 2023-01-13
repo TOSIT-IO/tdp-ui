@@ -1,4 +1,4 @@
-import { DeploymentLog } from '@/client-sdk'
+import { DeploymentLog } from 'src/clients/tdpClient'
 import Link from 'next/link'
 
 export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {

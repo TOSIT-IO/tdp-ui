@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
-import { Operation } from '@/client-sdk'
+import { Operation } from 'src/clients/tdpClient'
 import { Button } from 'src/components/commons'
 import { NavigationBar } from 'src/components/Layout/primitives'
 import { classNames } from 'src/utils'

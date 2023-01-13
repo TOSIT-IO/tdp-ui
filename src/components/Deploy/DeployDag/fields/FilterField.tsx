@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FilterTypeEnum } from '@/client-sdk'
+import { FilterTypeEnum } from 'src/clients/tdpClient'
 import { classNames } from 'src/utils'
 import { FieldHeader } from 'src/components/commons'
 import { useFilterExpression, useFilterType } from '../hooks'

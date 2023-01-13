@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { DeployRequest } from '@/client-sdk'
+import { DeployRequest } from 'src/clients/tdpClient'
 import { useTdpClient } from 'src/contexts'
 
 /**
@@ -7,10 +7,10 @@ import { useTdpClient } from 'src/contexts'
  * @returns The deploy DAG function.
  */
 export function useDagDeploy() {
-  const { deployApi } = useTdpClient()
+  const { dagDeploy } = useTdpClient()
 
   async function deployDag(req: DeployRequest) {
-    const res = await deployApi.deployNodeApiV1DeployPost(req)
+    const res = await dagDeploy(req)
     res?.data?.state && toast.info(`Deploy id: ${res.data.id}`)
   }
 

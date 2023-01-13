@@ -1,4 +1,4 @@
-import { OperationsRequest } from '@/client-sdk'
+import { OperationsRequest } from 'src/clients/tdpClient'
 import { toast } from 'react-toastify'
 import { useTdpClient } from 'src/contexts'
 
@@ -7,10 +7,10 @@ import { useTdpClient } from 'src/contexts'
  * @returns The deploy operations function.
  */
 export function useDeployOperations() {
-  const { deployApi } = useTdpClient()
+  const { operationsDeploy } = useTdpClient()
 
   async function deployOperations(req: OperationsRequest) {
-    const res = await deployApi.operationsApiV1DeployOperationsPost(req)
+    const res = await operationsDeploy(req)
     res?.data?.state && toast.info(`Deploy id: ${res.data.id}`)
   }
 

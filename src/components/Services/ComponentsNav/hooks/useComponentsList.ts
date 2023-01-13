@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
 
 export function useComponentsList(serviceId: string) {
-  const { servicesApi } = useTdpClient()
+  const { getService } = useTdpClient()
   const [components, setComponents] = useState<{ id: string; isUsed: any }[]>(
     []
   )
@@ -13,9 +13,7 @@ export function useComponentsList(serviceId: string) {
     async (serviceId: string) => {
       setLoading(true)
       try {
-        const res = await servicesApi.getServiceApiV1ServiceServiceIdGet(
-          serviceId
-        )
+        const res = await getService(serviceId)
         setComponents(
           res.data.components.map((c) => ({
             id: c.id,
@@ -28,7 +26,7 @@ export function useComponentsList(serviceId: string) {
         setLoading(false)
       }
     },
-    [servicesApi]
+    [getService]
   )
 
   useEffect(() => {

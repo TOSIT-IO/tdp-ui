@@ -1,4 +1,4 @@
-import { FilterTypeEnum } from '@/client-sdk'
+import { FilterTypeEnum } from 'src/clients/tdpClient'
 
 export enum DeployMethodsEnum {
   ALL = 'all',

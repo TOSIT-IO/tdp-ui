@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { DeployRequest, Operation } from '@/client-sdk'
+import { DeployRequest, Operation } from 'src/clients/tdpClient'
 import { useTdpClient } from 'src/contexts'
 
 /**
@@ -8,7 +8,7 @@ import { useTdpClient } from 'src/contexts'
  * @returns The DAG deploy preview, an error and a loading flag.
  */
 export function useDagDeployPreview(deployDagReq: DeployRequest) {
-  const { planApi } = useTdpClient()
+  const { planDeployDag } = useTdpClient()
   const [preview, setPreview] = useState<Operation[]>([])
   const [error, setError] = useState<Error | null>(null)
   const [loading, setLoading] = useState(false)
@@ -17,7 +17,7 @@ export function useDagDeployPreview(deployDagReq: DeployRequest) {
     async (deployDagReq: DeployRequest) => {
       setLoading(true)
       try {
-        const res = await planApi.getDagPlanApiV1PlanDagPost(deployDagReq)
+        const res = await planDeployDag(deployDagReq)
         setPreview(res.data)
       } catch (e) {
         setError(e)
@@ -25,7 +25,7 @@ export function useDagDeployPreview(deployDagReq: DeployRequest) {
         setLoading(false)
       }
     },
-    [planApi]
+    [planDeployDag]
   )
 
   useEffect(() => {

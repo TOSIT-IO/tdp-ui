@@ -1,9 +1,9 @@
-import { DeploymentLog } from '@/client-sdk'
+import { DeploymentLog } from 'src/clients/tdpClient'
 import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
 
 export function usePastDeploymentsRichList() {
-  const { deployApi } = useTdpClient()
+  const { getDeployments } = useTdpClient()
 
   const [pastDeploymentsList, setPastDeploymentsList] = useState<
     DeploymentLog[]
@@ -11,11 +11,11 @@ export function usePastDeploymentsRichList() {
 
   useEffect(() => {
     async function fetchPastDeploymentsList() {
-      const res = await deployApi.getDeploymentsApiV1DeployGet()
+      const res = await getDeployments()
       setPastDeploymentsList(res.data)
     }
     fetchPastDeploymentsList()
-  }, [deployApi])
+  }, [getDeployments])
 
   return pastDeploymentsList
 }

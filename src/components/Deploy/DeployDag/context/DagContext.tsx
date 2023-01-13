@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react'
-import { FilterTypeEnum } from '@/client-sdk'
+import { FilterTypeEnum } from 'src/clients/tdpClient'
 
 export enum DeployModeEnum {
   SOURCES = 'sources',

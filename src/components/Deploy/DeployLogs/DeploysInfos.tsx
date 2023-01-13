@@ -1,4 +1,4 @@
-import { DeploymentLogWithOperations } from '@/client-sdk'
+import { DeploymentLogWithOperations } from 'src/clients/tdpClient'
 
 export function DeploysInfos({
   deployInfos,

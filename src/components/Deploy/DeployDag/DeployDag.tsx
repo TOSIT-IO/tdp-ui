@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import { FilterTypeEnum } from '@/client-sdk'
+import { FilterTypeEnum } from 'src/clients/tdpClient'
 import { Button } from 'src/components/commons'
 import { NavigationBar } from 'src/components/Layout/primitives'
 import { DagContextProvider, DeployModeEnum } from './context'

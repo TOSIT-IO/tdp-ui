@@ -1,4 +1,4 @@
-import { OperationsRequest } from '@/client-sdk'
+import { OperationsRequest } from 'src/clients/tdpClient'
 import { useContext } from 'react'
 import { OperationsActionEnum, OperationsContext } from '../context'
 
