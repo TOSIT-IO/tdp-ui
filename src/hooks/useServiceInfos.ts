@@ -1,39 +1,35 @@
 import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
-import type { ComponentUpdate, Service, ServiceUpdate } from '@/client-sdk'
+import type {
+  ComponentUpdate,
+  Service,
+  ServiceUpdate,
+} from 'src/clients/tdpClient'
 import { toast } from 'react-toastify'
 
 export function useServiceInfos(serviceId: string, componentId?: string) {
-  const { servicesApi, componentsApi } = useTdpClient()
+  const { getComponent, getService, patchService, patchComponent } =
+    useTdpClient()
   const [initialVariablesConfig, setInitialVariablesConfig] = useState({})
   const [newVariables, setNewVariables] = useState<Service['variables']>({})
 
   useEffect(() => {
     async function fetchComponentVariables() {
-      const res =
-        await componentsApi.getComponentApiV1ServiceServiceIdComponentComponentIdGet(
-          serviceId,
-          componentId
-        )
+      const res = await getComponent(serviceId, componentId)
       setInitialVariablesConfig(res.data.variables)
     }
     async function fetchServiceVariables() {
-      const res = await servicesApi.getServiceApiV1ServiceServiceIdGet(
-        serviceId
-      )
+      const res = await getService(serviceId)
       setInitialVariablesConfig(res.data.variables)
     }
     componentId ? fetchComponentVariables() : fetchServiceVariables()
-  }, [componentsApi, servicesApi, serviceId, componentId])
+  }, [getService, getComponent, serviceId, componentId])
 
   async function sendServiceVariables(
     serviceId: string,
     serviceUpdate: ServiceUpdate
   ) {
-    const res = await servicesApi.patchServiceApiV1ServiceServiceIdPatch(
-      serviceId,
-      serviceUpdate
-    )
+    const res = await patchService(serviceId, serviceUpdate)
     return res
   }
 
@@ -42,12 +38,7 @@ export function useServiceInfos(serviceId: string, componentId?: string) {
     componentId: string,
     componentUpdate: ComponentUpdate
   ) {
-    const res =
-      await componentsApi.patchComponentApiV1ServiceServiceIdComponentComponentIdPatch(
-        serviceId,
-        componentId,
-        componentUpdate
-      )
+    const res = await patchComponent(serviceId, componentId, componentUpdate)
     return res
   }
 

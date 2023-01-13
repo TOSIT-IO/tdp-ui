@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react'
-import { DeployRequest, FilterTypeEnum } from '@/client-sdk'
+import { DeployRequest, FilterTypeEnum } from 'src/clients/tdpClient'
 import { DagActionEnum, DagContext, DeployModeEnum } from '../context'
 
 /**

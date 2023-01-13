@@ -3,12 +3,12 @@ import { TNavItem } from 'src/components/Layout/Menu'
 import { useTdpClient } from 'src/contexts'
 
 export function useServicesList(baseMenuItems: TNavItem[]) {
-  const { servicesApi } = useTdpClient()
+  const { getServices } = useTdpClient()
   const [menuList, setMenuList] = useState(baseMenuItems)
 
   useEffect(() => {
     async function fetchServicesList() {
-      const res = await servicesApi.getServicesApiV1ServiceGet()
+      const res = await getServices()
       const servicesMenuSubList = res.data.map<TNavItem>((service) => ({
         name: service.id,
         href: `/services/${service.id}`,
@@ -21,7 +21,7 @@ export function useServicesList(baseMenuItems: TNavItem[]) {
       })
     }
     fetchServicesList()
-  }, [servicesApi])
+  }, [getServices])
 
   return menuList
 }

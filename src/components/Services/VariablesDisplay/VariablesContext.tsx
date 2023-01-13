@@ -1,4 +1,4 @@
-import { Service } from '@/client-sdk'
+import { Service } from 'src/clients/tdpClient'
 import { useContext, createContext } from 'react'
 import { useServiceInfos } from 'src/hooks'
 

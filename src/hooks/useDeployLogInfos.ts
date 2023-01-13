@@ -1,23 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
 
-import type { DeploymentLogWithOperations } from '@/client-sdk'
+import type { DeploymentLogWithOperations } from 'src/clients/tdpClient'
 
 export function useDeployLogInfos(deployLogId: number) {
-  const { deployApi } = useTdpClient()
+  const { getDeployment } = useTdpClient()
 
   const [deploymentLog, setDeploymentLog] =
     useState<DeploymentLogWithOperations>(null)
 
   useEffect(() => {
     async function fetchDeployInfos() {
-      const res = await deployApi.getDeploymentApiV1DeployDeploymentIdGet(
-        deployLogId
-      )
+      const res = await getDeployment(deployLogId)
       setDeploymentLog(res.data)
     }
     deployLogId && fetchDeployInfos()
-  }, [deployApi, deployLogId])
+  }, [getDeployment, deployLogId])
 
   return deploymentLog
 }
