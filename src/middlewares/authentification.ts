@@ -15,7 +15,4 @@ export const authenticationMiddleware: Middleware = {
       },
     }
   },
-  post(ctx): Promise<Response | void> {
-    return Promise.resolve(ctx.response)
-  },
 }
