@@ -11,10 +11,6 @@ export function getUser() {
   const oidcStorage = localStorage.getItem(
     `oidc.user:${config.oidcConfig.authority}:${config.oidcConfig.oidcClientId}`
   )
-  console.log(
-    `oidc.user:${config.oidcConfig.authority}:${config.oidcConfig.oidcClientId}`
-  )
-  console.log('oidcStorage', oidcStorage)
   if (!oidcStorage) {
     return null
   }
