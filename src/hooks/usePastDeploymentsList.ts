@@ -12,7 +12,7 @@ export function usePastDeploymentsRichList() {
   useEffect(() => {
     async function fetchPastDeploymentsList() {
       const res = await getDeployments()
-      setPastDeploymentsList(res.data)
+      setPastDeploymentsList(res)
     }
     fetchPastDeploymentsList()
   }, [getDeployments])

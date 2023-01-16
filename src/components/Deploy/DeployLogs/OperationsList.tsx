@@ -48,10 +48,10 @@ export function OperationsList({ operations }: { operations: OperationLog[] }) {
                       {op.operation}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
-                      {op.start_time}
+                      {op.startTime.toDateString()}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
-                      {op.end_time}
+                      {op.endTime.toDateString()}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
                       {op.state}

@@ -12,7 +12,7 @@ export function useDeployLogInfos(deployLogId: number) {
   useEffect(() => {
     async function fetchDeployInfos() {
       const res = await getDeployment(deployLogId)
-      setDeploymentLog(res.data)
+      setDeploymentLog(res)
     }
     deployLogId && fetchDeployInfos()
   }, [getDeployment, deployLogId])

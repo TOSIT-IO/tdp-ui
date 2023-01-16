@@ -2,6 +2,7 @@ import { useAuth } from 'react-oidc-context'
 import { Button } from '../commons'
 import { useServerStatus } from './hooks'
 
+//TODO: set running false when error and remove error when server is back running
 export function Login() {
   const { signinRedirect } = useAuth()
   const { data, error, loading } = useServerStatus()

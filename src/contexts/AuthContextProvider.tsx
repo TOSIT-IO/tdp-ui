@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { AuthProvider } from 'react-oidc-context'
 import type { AuthProviderProps } from 'react-oidc-context'
 import config from 'src/config'
-import { LoginPortal } from 'src/app/LoginPortal'
+import { LoginPortal } from 'src/components/Login'
+import { WebStorageStateStore } from 'oidc-client-ts'
 
 export function AuthContextProvider({ children }): JSX.Element {
   const [oidcConfig, setOidcConfig] = useState<AuthProviderProps>(null)
@@ -17,6 +18,7 @@ export function AuthContextProvider({ children }): JSX.Element {
         redirect_uri: config.oidcConfig.redirectUri,
         scope: config.oidcConfig.scope,
         post_logout_redirect_uri: config.oidcConfig.postLogoutRedirectUri,
+        userStore: new WebStorageStateStore({ store: localStorage }),
       })
     }
     fetchAuthority()

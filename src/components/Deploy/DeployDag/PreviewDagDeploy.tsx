@@ -66,7 +66,7 @@ function OperationRow({
   operation: Operation
   index: number
 }) {
-  const { name, collection_name, noop } = operation
+  const { name, collectionName, noop } = operation
   return (
     <tr
       key={index}
@@ -77,7 +77,7 @@ function OperationRow({
     >
       <td className="text-center px-4">{index + 1}</td>
       <td className="px-4">{name}</td>
-      <td className="text-center px-4">{collection_name}</td>
+      <td className="text-center px-4">{collectionName}</td>
       <td className="text-center px-4">{noop ? 'Yes' : 'No'}</td>
     </tr>
   )
