@@ -50,10 +50,10 @@ export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
                         {d.id}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {d.start_time}
+                        {d.startTime.toDateString()}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {d.end_time}
+                        {d.endTime.toDateString()}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {d.state}

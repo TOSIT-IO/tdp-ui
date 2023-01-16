@@ -18,7 +18,7 @@ export function useDagDeployPreview(deployDagReq: DeployRequest) {
       setLoading(true)
       try {
         const res = await planDeployDag(deployDagReq)
-        setPreview(res.data)
+        setPreview(res)
       } catch (e) {
         setError(e)
       } finally {

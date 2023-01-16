@@ -1,32 +1,27 @@
 import { createContext, useContext, useMemo } from 'react'
-import { User } from 'oidc-client-ts'
-import { useAuth } from 'react-oidc-context'
-import { createAxiosInstance, createTdpClientInstance } from 'src/clients'
+import { Configuration, createTdpClientInstance, TdpClient } from 'src/clients'
 import config from 'src/config'
+import { authenticationMiddleware } from 'src/middlewares'
 
-const TdpClientContext = createContext(
-  createTdpClientInstance(null, config.apiBasePath)
-)
+const TdpClientContext = createContext<TdpClient>(null)
 
 export const TdpClientContextProvider = ({ children }) => {
-  const { user } = useAuth()
-  const tdpClientInstance = useMemo(() => getTdpClientInstance(user), [user])
-
-  function getTdpClientInstance(user: User) {
-    const axiosInstance = createAxiosInstance(
-      { baseURL: config.apiBasePath },
-      user.access_token
-    )
-    return createTdpClientInstance(null, config.apiBasePath, axiosInstance)
-  }
+  const tdpClient = useMemo(() => {
+    const configuration = new Configuration({
+      basePath: config.apiBasePath,
+      middleware: [authenticationMiddleware],
+    })
+    return createTdpClientInstance(configuration)
+  }, [])
 
   return (
-    <TdpClientContext.Provider value={tdpClientInstance}>
+    <TdpClientContext.Provider value={tdpClient}>
       {children}
     </TdpClientContext.Provider>
   )
 }
 
+//TODO: move hook in the hooks dir
 export function useTdpClient() {
   const tdpClient = useContext(TdpClientContext)
   if (!tdpClient)

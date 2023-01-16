@@ -11,7 +11,7 @@ export function useDeployOperations() {
 
   async function deployOperations(req: OperationsRequest) {
     const res = await operationsDeploy(req)
-    res?.data?.state && toast.info(`Deploy id: ${res.data.id}`)
+    res?.data?.state && toast.info(`Deploy id: ${res.id}`)
   }
 
   return { deployOperations }

@@ -159,14 +159,15 @@ export function useDeployDagRequest(): DeployRequest {
   const [operations] = useOperations()
   const [deployMode] = useSelectedDeployMode()
 
+  //TODO: condionnaly add  all props to the object at first
   const deployDagRequest = useMemo(() => {
     const baseRequest = {
       restart,
     } as DeployRequest
     if (deployMode !== DeployModeEnum.ALL) baseRequest[deployMode] = operations
     if (filterExpression) {
-      baseRequest.filter_type = filterType
-      baseRequest.filter_expression = filterExpression
+      baseRequest.filterType = filterType
+      baseRequest.filterExpression = filterExpression
     }
     return baseRequest
   }, [deployMode, filterExpression, filterType, operations, restart])

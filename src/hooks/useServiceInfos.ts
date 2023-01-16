@@ -16,11 +16,11 @@ export function useServiceInfos(serviceId: string, componentId?: string) {
   useEffect(() => {
     async function fetchComponentVariables() {
       const res = await getComponent(serviceId, componentId)
-      setInitialVariablesConfig(res.data.variables)
+      setInitialVariablesConfig(res.variables)
     }
     async function fetchServiceVariables() {
       const res = await getService(serviceId)
-      setInitialVariablesConfig(res.data.variables)
+      setInitialVariablesConfig(res.variables)
     }
     componentId ? fetchComponentVariables() : fetchServiceVariables()
   }, [getService, getComponent, serviceId, componentId])
@@ -53,7 +53,7 @@ export function useServiceInfos(serviceId: string, componentId?: string) {
           variables: newVariables,
         })
     setNewVariables({})
-    res?.data?.message && toast.info(res.data.message)
+    res?.message && toast.info(res.message)
   }
 
   return {

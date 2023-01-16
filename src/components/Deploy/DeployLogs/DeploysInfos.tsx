@@ -48,7 +48,7 @@ export function DeploysInfos({
                         {k}
                       </td>
                       <td className="whitespace-nowrap px-3 py-1 text-sm text-gray-500">
-                        {v}
+                        {v instanceof Date ? v.toDateString() : v}
                       </td>
                     </tr>
                   ))}

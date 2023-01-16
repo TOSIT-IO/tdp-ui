@@ -12,5 +12,5 @@ then
     exit 0
 fi
 echo "Generating the API client..."
-java -jar openapi-generator-cli.jar generate -i schemas/tdp-server_0.1.0_openapi.json -g typescript-axios -o build/tdp-sdk
+java -jar openapi-generator-cli.jar generate -i schemas/tdp-server_0.1.0_openapi.json -g typescript-fetch -o build/tdp-sdk --additional-properties=useSingleRequestParameter=false
 sha256sum schemas/tdp-server_0.1.0_openapi.json > "$HASH_FILE"

@@ -8,17 +8,21 @@ export function useServicesList(baseMenuItems: TNavItem[]) {
 
   useEffect(() => {
     async function fetchServicesList() {
-      const res = await getServices()
-      const servicesMenuSubList = res.data.map<TNavItem>((service) => ({
-        name: service.id,
-        href: `/services/${service.id}`,
-      }))
-      setMenuList((prevMenuList) => {
-        const menuList = [...prevMenuList]
-        const servicesItem = menuList.find((v) => v.name === 'Services')
-        servicesItem.children = servicesMenuSubList
-        return menuList
-      })
+      try {
+        const res = await getServices()
+        const servicesMenuSubList = res.map<TNavItem>((service) => ({
+          name: service.id,
+          href: `/services/${service.id}`,
+        }))
+        setMenuList((prevMenuList) => {
+          const menuList = [...prevMenuList]
+          const servicesItem = menuList.find((v) => v.name === 'Services')
+          servicesItem.children = servicesMenuSubList
+          return menuList
+        })
+      } catch (e) {
+        console.error(e)
+      }
     }
     fetchServicesList()
   }, [getServices])

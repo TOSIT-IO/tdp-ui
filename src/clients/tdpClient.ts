@@ -1,25 +1,27 @@
 import {
   ComponentsApi,
-  ComponentUpdate,
-  DefaultApi,
   DeployApi,
-  DeployRequest,
   OperationApi,
-  OperationsRequest,
   PlanApi,
-  ResumeRequest,
   SchemaApi,
   ServicesApi,
+} from '@/client-sdk'
+import type {
+  ComponentUpdate,
+  Configuration,
+  DeployRequest,
+  OperationsRequest,
+  ResumeRequest,
   ServiceUpdate,
 } from '@/client-sdk'
-import type { Configuration } from '@/client-sdk'
-import type { AxiosInstance } from 'axios'
 
 export type {
   ComponentUpdate,
   DeploymentLog,
   DeploymentLogWithOperations,
   DeployRequest,
+  FetchParams,
+  Middleware,
   Operation,
   OperationLog,
   OperationsRequest,
@@ -27,26 +29,17 @@ export type {
   ServiceUpdate,
 } from '@/client-sdk'
 
-export { FilterTypeEnum } from '@/client-sdk'
+export { FilterTypeEnum, Configuration } from '@/client-sdk'
 
-export function createTdpClientInstance(
-  configuration?: Configuration,
-  basePath?: string,
-  axiosInstance?: AxiosInstance
-) {
-  const serviceApi = new ServicesApi(configuration, basePath, axiosInstance)
-  const componentsApi = new ComponentsApi(
-    configuration,
-    basePath,
-    axiosInstance
-  )
-  const deployApi = new DeployApi(configuration, basePath, axiosInstance)
-  const operationApi = new OperationApi(configuration, basePath, axiosInstance)
-  const planApi = new PlanApi(configuration, basePath, axiosInstance)
-  const schemaApi = new SchemaApi(configuration, basePath, axiosInstance)
-  const defaultApi = new DefaultApi(configuration, basePath, axiosInstance)
+export function createTdpClientInstance(configuration?: Configuration) {
+  const serviceApi = new ServicesApi(configuration)
+  const componentsApi = new ComponentsApi(configuration)
+  const deployApi = new DeployApi(configuration)
+  const operationApi = new OperationApi(configuration)
+  const planApi = new PlanApi(configuration)
+  const schemaApi = new SchemaApi(configuration)
 
-  //TODO: refactor in hooks
+  //TODO: export API and refactor function in hooks
   return {
     getServices: () => serviceApi.getServicesApiV1ServiceGet(),
     getService: (serviceId: string) =>
@@ -114,6 +107,7 @@ export function createTdpClientInstance(
     getSchemas: () => schemaApi.getSchemasApiV1SchemaGet(),
     getSchema: (serviceId: string) =>
       schemaApi.getSchemaApiV1SchemaServiceIdGet(serviceId),
-    getRoot: () => defaultApi.rootGet(),
   }
 }
+
+export type TdpClient = ReturnType<typeof createTdpClientInstance>

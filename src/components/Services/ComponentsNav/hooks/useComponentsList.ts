@@ -15,7 +15,7 @@ export function useComponentsList(serviceId: string) {
       try {
         const res = await getService(serviceId)
         setComponents(
-          res.data.components.map((c) => ({
+          res.components.map((c) => ({
             id: c.id,
             isUsed: Object.values(c.variables).length > 0,
           }))
