@@ -20,9 +20,15 @@ const deployModes: DeployModes = {
     href: '/deploy/new/dag',
   },
   operations: {
-    title: 'Deploy from a list',
+    title: 'Deploy operations',
     description: 'Launch a list of operation in the desired order.',
     href: '/deploy/new/operations',
+  },
+  reconfigure: {
+    title: 'Reconfigure',
+    description:
+      'Restart required services after configuration modification(s).',
+    href: '/deploy/new/reconfigure',
   },
 }
 
