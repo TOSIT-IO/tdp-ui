@@ -42,6 +42,11 @@ A Docker environment is provided with the required dependencies for development.
 docker compose -f env/dev/compose.yml up -d
 ```
 
+An user is provisioned in Keycloak to access the app. The credentials are:
+
+- username: `user@tdp.com`
+- password: `secret`
+
 ## Build and export
 
 By default, Next.js uses a Node.js server to serve the app. `tdp-ui` doesn't need a Node.js server and is exported to work without it:
