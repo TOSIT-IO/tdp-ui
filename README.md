@@ -2,63 +2,63 @@
 
 `tdp-ui` is a graphical interface for [`tdp-server`](https://github.com/TOSIT-IO/tdp-server).
 
-## Requirements
+## Pre-requisites
 
-The UI requires the following to work:
+We assume that are available:
+
+- An instance of [`tdp-server`](https://github.com/TOSIT-IO/tdp-server), with the appropriate `cors` configuration (`BACKEND_CORS_ORIGINS=[...,"http://tdp-ui-domain.local"]`).
+- An identity provider, provisioned and configured to work with `tdp-server`. `tdp-ui` domain has to be registered as a redirect URI.  
+  Note: `tdp_server` provides a [Docker environment](https://github.com/TOSIT-IO/tdp-server/tree/master/dev) containing an IDP for development purposes.
+
+The following are required to **build and develop** `tdp-ui`. They aren't needed when exporting the project. `tdp-ui` can be used with any web server (such as [NGINX](https://www.nginx.com/)):
 
 - [Node.js](https://nodejs.org/en/) 14.6.0 or later.  
-  _The UI is based on [Next.js](https://nextjs.org/), which requires Node.js to be installed._
+  _The UI is based on [Next.js](https://nextjs.org/), which requires Node.js._
 - [Java](https://www.java.com/).  
-  _Java is used to [generate the API client SDK](docs/openapi-client.md)._
+  _Java is used by the [OpenAPI generator](https://openapi-generator.tech/docs/generators/typescript-fetch) to [generate the API client SDK](docs/openapi-client.md)._
 
-It also assumes that you are running:
+## Development and testing
 
-- [`tdp-server`](https://github.com/TOSIT-IO/tdp-server) with the appropriate `cors` configuration (`BACKEND_CORS_ORIGINS=[...,"http://localhost:3000"]`).
-- An identity provider, provisioned to work with `tdp-server`. The idp must contain `http://localhost:3000/*` in its `redirectUris` list.  
-  Note: `tdp_server` provides ready-to-use [docker environment](https://github.com/TOSIT-IO/tdp-server/tree/master/dev) for development and testing purposes.
-
-## Usage
-
-Use the example `env/.env.dev` file to provide the `tdp-server` and idp informations:
+Use the sample `env/.env.dev` file to provide `tdp-ui` the required environment variables:
 
 ```bash
-cp env/.env.dev .env
+cp .env.dev .env
 ```
 
-Install and run the client in development mode:
+The npm `install` script installs all dependencies and generates the API client SDK. The SDK is generated in the `./src/api` folder. The npm `dev` script starts a Next.js development server:
 
 ```bash
-npm install       # Install dependencies
+npm install       # Install dependencies and generates the API client SDK
 npm run dev       # Run the app in development mode
 ```
 
-App should be available at <http://localhost:3000>.
+By default, the client is available at <http://localhost:3000>.
 
-## Dev Environment
+### Development with Docker
 
-You can use the `compose.yml`, it will set up needed dependencies to develop on the UI.
-
-To run the stack, simply type:
+A Docker environment is provided with the required dependencies for development. It contains both `tdp-server` and Keycloak as the identity provider. The environment is defined in the [`compose`](env/dev/docker-compose.yml) file:
 
 ```bash
 docker compose -f env/compose.yml up -d
 ```
 
-### Export
+## Build and export
 
-By default, Next.js runs along with a Node.js server for [various usecases](https://nextjs.org/docs/advanced-features/static-html-export#unsupported-features) (server-side data fetching, api routes...). `tdp-ui` doesn't need those features and can be exported to work without the Node.js server:
+By default, Next.js uses a Node.js server to serve the app. `tdp-ui` doesn't need a Node.js server and is exported to work without it:
 
 ```bash
 npm install       # Install dependencies
 npm run export    # Build and export the project
 ```
 
-The exported project is located in the `./out` folder. It can then be used allong with any web server (as [NGINX](https://www.nginx.com/)).
+The project is exported in the `./out` folder to be used with any web server (such as [NGINX](https://www.nginx.com/)).
 
-A dev environment, using NGINX, is provided through a [`docker-compose`](env/export/docker-compose.yml) to test the exported project:
+### Test export with Docker
+
+A Docker environment is provided with NGINX to test the exported project:
 
 ```bash
-docker-compose -f env/export/docker-compose.yml up -d
+docker compose -f env/export/docker-compose.yml up -d
 ```
 
 ## Contributions
@@ -69,4 +69,4 @@ Git hooks are defined using [Husky](https://typicode.github.io/husky/#/) to enfo
 - Format your staged files (see [Prettier](https://prettier.io/))
 - Lint your commit messages according to the [Conventional Commit specification](https://www.conventionalcommits.org/en/v1.0.0/) (see [commitlint](https://github.com/conventional-changelog/commitlint))
 
-Further instructions can be found in the [`docs`](docs/) folder.
+Further instructions are available in the [`docs`](docs/) folder.
