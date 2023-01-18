@@ -36,10 +36,10 @@ By default, the client is available at <http://localhost:3000>.
 
 ### Development with Docker
 
-A Docker environment is provided with the required dependencies for development. It contains both `tdp-server` and Keycloak as the identity provider. The environment is defined in the [`compose`](env/dev/docker-compose.yml) file:
+A Docker environment is provided with the required dependencies for development. It contains both `tdp-server` and Keycloak as the identity provider:
 
 ```bash
-docker compose -f env/compose.yml up -d
+docker compose -f env/dev/compose.yml up -d
 ```
 
 ## Build and export
@@ -58,7 +58,7 @@ The project is exported in the `./out` folder to be used with any web server (su
 A Docker environment is provided with NGINX to test the exported project:
 
 ```bash
-docker compose -f env/export/docker-compose.yml up -d
+docker compose -f env/export/compose.yml up -d
 ```
 
 ## Contributions
