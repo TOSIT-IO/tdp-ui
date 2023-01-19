@@ -15,10 +15,14 @@ server {
         try_files $uri $uri.html $uri/ =404;
     }
 
-    #error_page  404              /404.html;
+    location /config.json {
+        root /usr/share/nginx/html;
+        index config.json;
+
+        try_files $uri $uri/ =404;
+    }
 
     # redirect server error pages to the static page /50x.html
-    #
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
         root   /usr/share/nginx/html;

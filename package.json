@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export",
+    "export": "next build && next export && cp config.dev.json out/config.json",
     "lint": "next lint",
     "prepare": "husky install",
     "prettier:check": "npx prettier --check .",
@@ -15,12 +15,14 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.12",
+    "@reduxjs/toolkit": "^1.9.1",
     "next": "^13.0.0",
     "oidc-client-ts": "^2.1.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-oidc-context": "^2.2.0",
+    "react-redux": "^8.0.5",
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.1"
   },

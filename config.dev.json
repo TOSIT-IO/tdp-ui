@@ -1,0 +1,9 @@
+{
+  "apiBasePath": "http://localhost:8000",
+  "oidc": {
+    "discoveryUrl": "http://localhost:8080/auth/realms/tdp_server/.well-known/openid-configuration",
+    "redirectUri": "http://localhost:3000/",
+    "clientId": "tdp_server",
+    "scope": "openid tdp_server:read tdp_server:write tdp_server:execute"
+  }
+}
