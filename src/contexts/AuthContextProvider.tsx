@@ -1,34 +1,36 @@
-import { useState, useEffect } from 'react'
-import { AuthProvider } from 'react-oidc-context'
-import type { AuthProviderProps } from 'react-oidc-context'
-import config from 'src/config'
-import { LoginPortal } from 'src/components/Login'
+import { useEffect, useState } from 'react'
 import { WebStorageStateStore } from 'oidc-client-ts'
+import { AuthProvider, AuthProviderProps } from 'react-oidc-context'
+import { LoginPortal } from 'src/components/Login'
+import { useSelectConfig } from 'src/features/config/hooks'
 
-export function AuthContextProvider({ children }): JSX.Element {
+export function AuthContextProvider({ children }) {
+  const { value: config } = useSelectConfig()
   const [oidcConfig, setOidcConfig] = useState<AuthProviderProps>(null)
 
   useEffect(() => {
-    async function fetchAuthority() {
-      const response = await fetch(config.oidcDiscoveryUrl)
-      const { issuer }: { issuer: string } = await response.json()
+    async function createOidcConfig() {
+      const response = await fetch(config.oidc.discoveryUrl)
+      const { issuer } = await response.json()
       setOidcConfig({
         authority: issuer,
-        client_id: config.oidcConfig.oidcClientId,
-        redirect_uri: config.oidcConfig.redirectUri,
-        scope: config.oidcConfig.scope,
-        post_logout_redirect_uri: config.oidcConfig.postLogoutRedirectUri,
-        userStore: new WebStorageStateStore({ store: localStorage }),
+        client_id: config.oidc.clientId,
+        redirect_uri: config.oidc.redirectUri,
+        scope: config.oidc.scope,
+        post_logout_redirect_uri: config.oidc.redirectUri,
+        userStore:
+          typeof window !== 'undefined' &&
+          new WebStorageStateStore({ store: localStorage }),
       })
     }
-    fetchAuthority()
-  }, [])
+    createOidcConfig()
+  }, [config])
 
-  if (oidcConfig)
-    return (
-      <AuthProvider {...oidcConfig}>
-        <LoginPortal>{children}</LoginPortal>
-      </AuthProvider>
-    )
-  return <p>Loading oidc provider...</p>
+  if (!oidcConfig) return null
+
+  return (
+    <AuthProvider {...oidcConfig}>
+      <LoginPortal>{children}</LoginPortal>
+    </AuthProvider>
+  )
 }
