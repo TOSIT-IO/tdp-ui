@@ -11,7 +11,7 @@ export function Login() {
       <p>{`tdp-server running: ${loading ? 'Loading...' : data}`}</p>
       <Button
         variant="filled"
-        onClick={() => signinRedirect()}
+        onClick={() => signinRedirect({ state: window.location.pathname })}
         disabled={loading}
       >
         Log in
