@@ -21,7 +21,13 @@ export function LoginPortal({ children }) {
     return (
       <div>
         <div>ops... {auth.error.message}</div>
-        <button onClick={() => void auth.signinRedirect()}>Log in</button>
+        <button
+          onClick={() =>
+            void auth.signinRedirect({ state: window.location.pathname })
+          }
+        >
+          Log in
+        </button>
       </div>
     )
   }

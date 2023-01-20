@@ -3,6 +3,7 @@ import { WebStorageStateStore } from 'oidc-client-ts'
 import { AuthProvider, AuthProviderProps } from 'react-oidc-context'
 import { LoginPortal } from 'src/components/Login'
 import { useSelectConfig } from 'src/features/config/hooks'
+import router from 'next/router'
 
 export function AuthContextProvider({ children }) {
   const { value: config } = useSelectConfig()
@@ -21,7 +22,10 @@ export function AuthContextProvider({ children }) {
         userStore:
           typeof window !== 'undefined' &&
           new WebStorageStateStore({ store: localStorage }),
-      })
+        onSigninCallback: (user) => {
+          if (user) router.push(user.state)
+        },
+        })
     }
     createOidcConfig()
   }, [config])
