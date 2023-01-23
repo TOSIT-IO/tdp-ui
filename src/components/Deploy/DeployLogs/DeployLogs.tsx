@@ -54,7 +54,7 @@ export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
                         {dateAndTime(d.startTime)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {dateAndTime(d.endTime)}
+                        {d.endTime && dateAndTime(d.endTime)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {d.state}
