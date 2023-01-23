@@ -1,4 +1,5 @@
 import { OperationLog } from 'src/clients/tdpClient'
+import { dateAndTime } from 'src/utils'
 
 export function OperationsList({ operations }: { operations: OperationLog[] }) {
   return (
@@ -48,10 +49,10 @@ export function OperationsList({ operations }: { operations: OperationLog[] }) {
                       {op.operation}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
-                      {op.startTime.toDateString()}
+                      {dateAndTime(op.startTime)}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
-                      {op.endTime.toDateString()}
+                      {dateAndTime(op.endTime)}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
                       {op.state}

@@ -1,4 +1,5 @@
 import { DeploymentLogWithOperations } from 'src/clients/tdpClient'
+import { dateAndTime } from 'src/utils/dateAndTime'
 
 export function DeploysInfos({
   deployInfos,
@@ -48,7 +49,7 @@ export function DeploysInfos({
                         {k}
                       </td>
                       <td className="whitespace-nowrap px-3 py-1 text-sm text-gray-500">
-                        {v instanceof Date ? v.toDateString() : v}
+                        {v instanceof Date ? dateAndTime(v) : v}
                       </td>
                     </tr>
                   ))}
