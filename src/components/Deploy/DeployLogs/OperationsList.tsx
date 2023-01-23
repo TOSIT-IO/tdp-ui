@@ -52,7 +52,7 @@ export function OperationsList({ operations }: { operations: OperationLog[] }) {
                       {dateAndTime(op.startTime)}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
-                      {dateAndTime(op.endTime)}
+                      {op.endTime && dateAndTime(op.endTime)}
                     </td>
                     <td className="px-3 py-2 text-sm text-gray-500">
                       {op.state}
