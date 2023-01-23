@@ -1,5 +1,6 @@
 import { DeploymentLog } from 'src/clients/tdpClient'
 import Link from 'next/link'
+import { dateAndTime } from 'src/utils/dateAndTime'
 
 export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
   return (
@@ -50,10 +51,10 @@ export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
                         {d.id}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {d.startTime.toDateString()}
+                        {dateAndTime(d.startTime)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {d.endTime.toDateString()}
+                        {dateAndTime(d.endTime)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {d.state}
