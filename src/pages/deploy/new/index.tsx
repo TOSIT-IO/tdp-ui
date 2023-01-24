@@ -34,16 +34,21 @@ const deployModes: DeployModes = {
 
 const DeployModeStep = () => {
   return (
-    <div className="flex flex-col gap-3">
-      {Object.keys(deployModes).map((v) => (
-        <DeployOption
-          key={v}
-          description={deployModes[v].description}
-          title={deployModes[v].title}
-          href={deployModes[v].href}
-        />
-      ))}
-    </div>
+    <>
+      <div className="mt-2 border-b border-gray-200 pb-5 mb-5">
+        <h1 className="text-3xl font-medium text-gray-900">New deployment</h1>
+      </div>
+      <div className="flex flex-col gap-3">
+        {Object.keys(deployModes).map((v) => (
+          <DeployOption
+            key={v}
+            description={deployModes[v].description}
+            title={deployModes[v].title}
+            href={deployModes[v].href}
+          />
+        ))}
+      </div>
+    </>
   )
 }
 
