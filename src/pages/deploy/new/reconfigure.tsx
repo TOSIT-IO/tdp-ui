@@ -27,6 +27,11 @@ const ReconfigurePage = () => {
 
   return (
     <>
+      <div className="mt-2 border-b border-gray-200 pb-5 mb-5">
+        <h1 className="text-3xl font-medium text-gray-900">
+          Reconfigure cluster
+        </h1>
+      </div>
       <DeployPreview operations={preview} />
       <NavigationBar className="sticky bottom-0 bg-white py-3">
         <Button

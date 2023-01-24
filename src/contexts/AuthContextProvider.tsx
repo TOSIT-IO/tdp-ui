@@ -25,7 +25,7 @@ export function AuthContextProvider({ children }) {
         onSigninCallback: (user) => {
           if (user) router.push(user.state)
         },
-        })
+      })
     }
     createOidcConfig()
   }, [config])

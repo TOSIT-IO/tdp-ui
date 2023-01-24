@@ -15,13 +15,6 @@ const baseMenuItems = [
     name: 'Deployments',
     href: '/deploy',
     icon: Cog6ToothIcon,
-    children: [
-      {
-        name: 'Deploy',
-        href: '/deploy/new',
-      },
-      { name: 'Logs', href: '/deploy' },
-    ],
   },
 ]
 
