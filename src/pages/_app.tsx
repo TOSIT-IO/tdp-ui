@@ -7,6 +7,7 @@ import store from 'src/store'
 import { LoadingConfig } from 'src/features/config'
 
 import '../styles/globals.css'
+import { LoadVariables } from 'src/features/variables/LoadVariables'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -24,7 +25,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <LoadingConfig>
         <AuthContextProvider>
           <TdpClientContextProvider>
-            {getLayout(<Component {...pageProps} />)}
+            <LoadVariables>
+              {getLayout(<Component {...pageProps} />)}
+            </LoadVariables>
           </TdpClientContextProvider>
         </AuthContextProvider>
       </LoadingConfig>

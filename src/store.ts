@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
-import configSlice from './features/config/configSlice'
+import configReducer from './features/config/configSlice'
+import variablesReducer from './features/variables/variablesSlice'
 
 const store = configureStore({
   reducer: {
-    config: configSlice,
+    config: configReducer,
+    variables: variablesReducer,
   },
 })
 
