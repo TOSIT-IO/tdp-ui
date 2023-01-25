@@ -1473,10 +1473,11 @@
     "schemas": {
       "Component": {
         "title": "Component",
-        "required": ["id", "version"],
+        "required": ["id", "service_id", "version"],
         "type": "object",
         "properties": {
           "id": { "title": "Id", "type": "string" },
+          "service_id": { "title": "Service Id", "type": "string" },
           "variables": { "$ref": "#/components/schemas/Variables" },
           "version": { "title": "Version", "type": "string" }
         },
