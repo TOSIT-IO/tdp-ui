@@ -1,22 +1,9 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { BeakerIcon, Cog6ToothIcon } from '@heroicons/react/24/solid'
-import { useServicesList } from 'src/hooks'
 import { HeroIcon } from 'src/types'
 import { classNames } from 'src/utils'
-
-const baseMenuItems = [
-  {
-    name: 'Services',
-    href: '#',
-    icon: BeakerIcon,
-  },
-  {
-    name: 'Deployments',
-    href: '/deploy',
-    icon: Cog6ToothIcon,
-  },
-]
+import { useSelectServices } from 'src/features/variables'
 
 export type TNavItem = {
   name: string
@@ -26,7 +13,22 @@ export type TNavItem = {
 }
 
 export function Menu() {
-  const menuItems = useServicesList(baseMenuItems)
+  const menuItems = [
+    {
+      name: 'Services',
+      href: '#',
+      icon: BeakerIcon,
+      children: useSelectServices().value.map((v) => ({
+        name: v.value.id,
+        href: `/services/${v.value.id}`,
+      })),
+    },
+    {
+      name: 'Deployments',
+      href: '/deploy',
+      icon: Cog6ToothIcon,
+    },
+  ]
 
   return (
     <nav className="flex flex-col">
