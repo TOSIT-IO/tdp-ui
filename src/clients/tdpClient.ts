@@ -16,6 +16,7 @@ import type {
 } from '@/client-sdk'
 
 export type {
+  Component,
   ComponentUpdate,
   DeploymentLog,
   DeploymentLogWithOperations,
@@ -39,7 +40,6 @@ export function createTdpClientInstance(configuration?: Configuration) {
   const planApi = new PlanApi(configuration)
   const schemaApi = new SchemaApi(configuration)
 
-  //TODO: export API and refactor function in hooks
   return {
     getServices: () => serviceApi.getServicesApiV1ServiceGet(),
     getService: (serviceId: string) =>
