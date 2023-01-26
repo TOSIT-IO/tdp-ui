@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
+import { useSelectService } from 'src/features/variables'
 import { getFirstElementIfArray } from 'src/utils'
 import { ComponentsDropdown } from './ComponentsDropdown'
 import { ComponentsTabs } from './ComponentsTabs'
-import { useComponentsList } from './hooks'
 
 export function ComponentsNav() {
   const {
@@ -11,25 +11,27 @@ export function ComponentsNav() {
   } = useRouter()
   const componentId = isReady && getFirstElementIfArray(tempComponentId)
   const serviceId = isReady && getFirstElementIfArray(tempServiceId)
-  const { loading, components } = useComponentsList(serviceId)
 
-  if (!isReady && loading) return <p>Loading</p>
-
-  const [usedComponents, unusedComponents] = components.reduce(
-    (acc, component) => {
-      const { id: componentId, isUsed } = component
+  const [usedComponents, unusedComponents] = useSelectService(
+    serviceId
+  ).value.components.reduce(
+    ([usedComponents, unusedComponents], component) => {
+      const {
+        value: { id, variables },
+      } = component
+      const isUsed = Object.values(variables).length > 0
       if (isUsed) {
-        acc[0].push({
-          id: componentId,
+        usedComponents.push({
+          id,
           href: `/services/${serviceId}/components/${componentId}`,
         })
       } else {
-        acc[1].push({
-          id: componentId,
+        unusedComponents.push({
+          id,
           href: `/services/${serviceId}/components/${componentId}`,
         })
       }
-      return acc
+      return [usedComponents, unusedComponents]
     },
     [[{ id: serviceId, href: `/services/${serviceId}` }], []]
   )
