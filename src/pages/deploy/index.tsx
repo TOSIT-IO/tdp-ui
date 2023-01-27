@@ -26,7 +26,13 @@ const PastDeployLogsPage = () => {
           deploy, end deploy and state.
         </p>
       </div>
-      <DeployLogs deployTab={pastDeploymentsRichList} />
+      {pastDeploymentsRichList.length != 0 ? (
+        <div className="mt-2 text-sm text-center text-gray-700">
+          - No past deploy logs -
+        </div>
+      ) : (
+        <DeployLogs deployTab={pastDeploymentsRichList} />
+      )}
     </>
   )
 }
