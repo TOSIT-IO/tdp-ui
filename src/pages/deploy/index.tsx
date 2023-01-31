@@ -26,7 +26,7 @@ const PastDeployLogsPage = () => {
           deploy, end deploy and state.
         </p>
       </div>
-      {pastDeploymentsRichList.length != 0 ? (
+      {pastDeploymentsRichList.length === 0 ? (
         <div className="mt-2 text-sm text-center text-gray-700">
           - No past deployments to show -
         </div>
