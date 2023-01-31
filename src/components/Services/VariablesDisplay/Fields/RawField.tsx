@@ -3,30 +3,30 @@ import { classNames } from 'src/utils'
 import { useVariablesContext } from '../VariablesContext'
 
 export function RawField({
-  propName,
+  property,
   value,
-  parent,
+  dict,
 }: {
-  propName: string
+  property: string
   value: string | number | boolean | any[]
-  parent?: string
+  dict?: string
 }) {
   const { setNewVariables } = useVariablesContext()
   const [error, setError] = useState(false)
-  const inputName = parent ? [parent, propName].join('.') : propName
+  const inputName = dict ? [dict, property].join('.') : property
 
   function handleVariableChange(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       const newVariable = JSON.parse(event.target.value)
       setError(false)
-      if (!parent) {
-        setNewVariables((prev: any) => ({ ...prev, [propName]: newVariable }))
+      if (!dict) {
+        setNewVariables((prev: any) => ({ ...prev, [property]: newVariable }))
         return
       }
       setNewVariables((prev: any) => {
         const data = { ...prev }
-        data[parent] = prev[parent] || {}
-        data[parent][propName] = newVariable
+        data[dict] = prev[dict] || {}
+        data[dict][property] = newVariable
         return data
       })
     } catch (err) {
@@ -37,7 +37,7 @@ export function RawField({
   return (
     <div className="text-gray-600 text-sm flex">
       <label htmlFor={inputName} className="font-bold mr-2">
-        {propName}:
+        {property}:
       </label>
       <input
         name={inputName}

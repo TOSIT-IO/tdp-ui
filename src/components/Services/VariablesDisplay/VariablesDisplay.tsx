@@ -32,7 +32,7 @@ export function DisplayRaw({ variables }: { variables: Object }) {
   return (
     <div className="flex flex-col gap-1">
       {Object.entries(variables).map(([k, v]) => (
-        <RawField key={k} propName={k} value={v} />
+        <RawField key={k} property={k} value={v} />
       ))}
     </div>
   )
@@ -63,7 +63,7 @@ export function DisplayView({ variables }: { variables: Object }) {
       <div className="flex flex-col gap-2">
         {objectTypeVariables.map(([k, v]) => (
           <Disclosure key={k} title={k}>
-            <VariablesList variables={v ? Object.entries(v) : []} parent={k} />
+            <VariablesList variables={v ? Object.entries(v) : []} dict={k} />
           </Disclosure>
         ))}
       </div>
@@ -73,10 +73,10 @@ export function DisplayView({ variables }: { variables: Object }) {
 
 export function VariablesList({
   variables,
-  parent,
+  dict,
 }: {
   variables: [string, string | number | boolean | any[]][]
-  parent?: string
+  dict?: string
 }) {
   return (
     <div className="flex flex-col gap-1">
@@ -89,7 +89,7 @@ export function VariablesList({
         >
           <p className="w-20 font-bold overflow-auto">{k}:</p>
           <div className="w-full">
-            <ViewField prop={k} value={v} parent={parent} />
+            <ViewField property={k} value={v} dict={dict} />
           </div>
         </Sidebar>
       ))}

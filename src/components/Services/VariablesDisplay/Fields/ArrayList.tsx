@@ -3,29 +3,29 @@ import { classNames } from 'src/utils'
 import { useVariablesContext } from '../VariablesContext'
 
 export function ArrayList({
-  prop,
+  property,
   value,
-  parent,
+  dict,
 }: {
-  prop: string
+  property: string
   value: any[]
-  parent?: string
+  dict?: string
 }) {
   const { setNewVariables } = useVariablesContext()
   const [error, setError] = useState(false)
-  const inputName = parent ? [parent, prop].join('.') : prop
+  const inputName = dict ? [dict, property].join('.') : property
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       const newVariable = JSON.parse(event.target.value)
       setError(false)
-      if (!parent) {
-        setNewVariables((prev: any) => ({ ...prev, [prop]: newVariable }))
+      if (!dict) {
+        setNewVariables((prev: any) => ({ ...prev, [property]: newVariable }))
       } else {
         setNewVariables((prev: any) => {
           const data = { ...prev }
-          data[parent] = prev[parent] || {}
-          data[parent][prop] = newVariable
+          data[dict] = prev[dict] || {}
+          data[dict][property] = newVariable
           return data
         })
       }

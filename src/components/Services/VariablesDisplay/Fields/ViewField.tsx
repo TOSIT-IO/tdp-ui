@@ -3,25 +3,26 @@ import { BooleanField } from './BooleanField'
 import { StringNumberField } from './StringNumberField'
 
 export function ViewField({
-  prop,
+  property,
   value,
-  parent,
+  dict,
 }: {
-  prop: string
+  property: string
   value: string | number | boolean | any[]
-  parent?: string
+  dict?: string
 }) {
-  if (value === undefined) return <p>undefined</p>
   if (value === null) return <p>null</p>
   switch (typeof value) {
+    case 'undefined':
+      return <p>undefined</p>
     case 'string':
     case 'number':
-      return <StringNumberField prop={prop} value={value} parent={parent} />
+      return <StringNumberField property={property} value={value} dict={dict} />
     case 'boolean':
-      return <BooleanField prop={prop} value={value} parent={parent} />
+      return <BooleanField property={property} value={value} dict={dict} />
     case 'object':
       if (Array.isArray(value)) {
-        return <ArrayList prop={prop} value={value} parent={parent} />
+        return <ArrayList property={property} value={value} dict={dict} />
       }
     default:
       return <p>Type error</p>

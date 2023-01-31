@@ -2,25 +2,25 @@ import { useVariablesContext } from '../VariablesContext'
 import { Toggle } from 'src/components/commons'
 
 export function BooleanField({
-  prop,
+  property,
   value,
-  parent,
+  dict,
 }: {
-  prop: string
+  property: string
   value: boolean
-  parent?: string
+  dict?: string
 }) {
   const { setNewVariables } = useVariablesContext()
 
   function handleChecked(event: React.ChangeEvent<HTMLInputElement>) {
     const newVariable = event.target.checked
-    if (!parent) {
-      setNewVariables((prev: any) => ({ ...prev, [prop]: newVariable }))
+    if (!dict) {
+      setNewVariables((prev: any) => ({ ...prev, [property]: newVariable }))
     } else {
       setNewVariables((prev: any) => {
         const data = { ...prev }
-        data[parent] = prev[parent] || {}
-        data[parent][prop] = newVariable
+        data[dict] = prev[dict] || {}
+        data[dict][property] = newVariable
         return data
       })
     }
