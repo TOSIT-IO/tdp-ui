@@ -31,20 +31,14 @@ const configSlice = createSlice({
   reducers: {
     setServicesValue: (state, action: PayloadAction<Service[]>) => {
       state.value = action.payload.map((s) => ({
-        value: [...s.components].reduce(
-          (acc, c) => ({
-            ...acc,
-            components: [
-              ...acc.components,
-              {
-                value: c,
-                status: 'succeeded',
-                error: null,
-              },
-            ],
-          }),
-          { ...s, components: [] }
-        ),
+        value: {
+          ...s,
+          components: s.components.map((c) => ({
+            value: c,
+            status: 'succeeded',
+            error: null,
+          })),
+        },
         status: 'succeeded',
         error: null,
       }))
@@ -61,47 +55,46 @@ const configSlice = createSlice({
     },
     setServiceValue: (state, action: PayloadAction<Service>) => {
       const { id } = action.payload
-      state.value[id].value = {
+      state.value.find((s) => s.value.id === id).value = {
         ...action.payload,
-        components: [...action.payload.components].reduce(
-          (acc, c) => ({
-            ...acc,
-            components: [
-              ...acc.components,
-              {
-                value: c,
-                status: 'succeeded',
-                error: null,
-              },
-            ],
-          }),
-          { ...action.payload, components: [] }
-        ),
+        components: action.payload.components.map((c) => ({
+          value: c,
+          status: 'succeeded',
+          error: null,
+        })),
       }
-      state.value[id].status = 'succeeded'
-      state.value[id].error = null
+      state.value.find((s) => s.value.id === id).status = 'succeeded'
+      state.value.find((s) => s.value.id === id).error = null
     },
     setServiceError: (
       state,
       action: PayloadAction<{ serviceId: string; error: string }>
     ) => {
       const { serviceId, error } = action.payload
-      state.value[serviceId].status = 'failed'
-      state.value[serviceId].error = error
+      state.value.find((s) => s.value.id === serviceId).status = 'failed'
+      state.value.find((s) => s.value.id === serviceId).error = error
     },
     setServiceLoading: (
       state,
       action: PayloadAction<{ serviceId: string }>
     ) => {
       const { serviceId } = action.payload
-      state.value[serviceId].status = 'loading'
-      state.value[serviceId].error = null
+      state.value.find((s) => s.value.id === serviceId).status = 'loading'
+      state.value.find((s) => s.value.id === serviceId).error = null
     },
     setComponentValue: (state, action: PayloadAction<Component>) => {
-      const { serviceId, id } = action.payload
-      state.value[serviceId].value.components[id].value = action.payload
-      state.value[serviceId].value.components[id].status = 'succeeded'
-      state.value[serviceId].value.components[id].error = null
+      const { serviceId, id: componentId } = action.payload
+      state.value
+        .find((s) => s.value.id === serviceId)
+        .value.components.find((c) => c.value.id === componentId).value =
+        action.payload
+      state.value
+        .find((s) => s.value.id === serviceId)
+        .value.components.find((c) => c.value.id === componentId).status =
+        'succeeded'
+      state.value
+        .find((s) => s.value.id === serviceId)
+        .value.components.find((c) => c.value.id === componentId).error = null
     },
     setComponentError: (
       state,
@@ -112,16 +105,26 @@ const configSlice = createSlice({
       }>
     ) => {
       const { serviceId, componentId, error } = action.payload
-      state.value[serviceId].value.components[componentId].status = 'failed'
-      state.value[serviceId].value.components[componentId].error = error
+      state.value
+        .find((s) => s.value.id === serviceId)
+        .value.components.find((c) => c.value.id === componentId).status =
+        'failed'
+      state.value
+        .find((s) => s.value.id === serviceId)
+        .value.components.find((c) => c.value.id === componentId).error = error
     },
     setComponentLoading: (
       state,
       action: PayloadAction<{ serviceId: string; componentId: string }>
     ) => {
       const { serviceId, componentId } = action.payload
-      state.value[serviceId].value.components[componentId].status = 'loading'
-      state.value[serviceId].value.components[componentId].error = null
+      state.value
+        .find((s) => s.value.id === serviceId)
+        .value.components.find((c) => c.value.id === componentId).status =
+        'loading'
+      state.value
+        .find((s) => s.value.id === serviceId)
+        .value.components.find((c) => c.value.id === componentId).error = null
     },
   },
 })
