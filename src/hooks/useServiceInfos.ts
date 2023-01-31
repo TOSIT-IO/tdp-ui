@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTdpClient } from 'src/contexts'
 import type {
   ComponentUpdate,
@@ -8,22 +8,8 @@ import type {
 import { toast } from 'react-toastify'
 
 export function useServiceInfos(serviceId: string, componentId?: string) {
-  const { getComponent, getService, patchService, patchComponent } =
-    useTdpClient()
-  const [initialVariablesConfig, setInitialVariablesConfig] = useState({})
+  const { patchService, patchComponent } = useTdpClient()
   const [newVariables, setNewVariables] = useState<Service['variables']>({})
-
-  useEffect(() => {
-    async function fetchComponentVariables() {
-      const res = await getComponent(serviceId, componentId)
-      setInitialVariablesConfig(res.variables)
-    }
-    async function fetchServiceVariables() {
-      const res = await getService(serviceId)
-      setInitialVariablesConfig(res.variables)
-    }
-    componentId ? fetchComponentVariables() : fetchServiceVariables()
-  }, [getService, getComponent, serviceId, componentId])
 
   async function sendServiceVariables(
     serviceId: string,
@@ -57,7 +43,6 @@ export function useServiceInfos(serviceId: string, componentId?: string) {
   }
 
   return {
-    initialVariablesConfig,
     setNewVariables,
     sendVariables,
   }
