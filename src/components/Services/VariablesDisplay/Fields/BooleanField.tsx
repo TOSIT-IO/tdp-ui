@@ -1,4 +1,4 @@
-import { useVariablesContext } from '../../VariablesContext'
+import { useVariablesContext } from '../VariablesContext'
 import { Toggle } from 'src/components/commons'
 
 export function BooleanField({

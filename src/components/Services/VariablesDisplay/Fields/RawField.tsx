@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { classNames } from 'src/utils'
-import { useVariablesContext } from '../../VariablesContext'
+import { useVariablesContext } from '../VariablesContext'
 
 export function RawField({
   propName,

@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Disclosure, Sidebar } from 'src/components/Layout/primitives'
+import { ViewField, RawField } from './Fields'
 import { RawViewButton } from './RawViewButton'
-import { ViewField } from './VariablesList/ViewFields'
-import { RawField } from './VariablesList/ViewFields/RawField'
 
 interface ReduceType {
   primitiveTypeVariables: [string, string][]
