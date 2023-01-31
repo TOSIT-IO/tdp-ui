@@ -3,7 +3,6 @@ import { useContext, createContext } from 'react'
 import { useServiceInfos } from 'src/hooks'
 
 type VariablesContextType = {
-  initialVariables: Object
   setNewVariables: React.Dispatch<React.SetStateAction<Service>>
   sendVariables: (message: string) => void
 }
@@ -19,15 +18,14 @@ export function VariablesContextProvider({
   componentId?: string
   children: React.ReactNode
 }) {
-  const { initialVariablesConfig, setNewVariables, sendVariables } =
-    useServiceInfos(serviceId, componentId)
-
-  if (!initialVariablesConfig) return <p>Loading</p>
+  const { setNewVariables, sendVariables } = useServiceInfos(
+    serviceId,
+    componentId
+  )
 
   return (
     <VariablesContext.Provider
       value={{
-        initialVariables: initialVariablesConfig,
         setNewVariables,
         sendVariables,
       }}

@@ -9,31 +9,31 @@ export function ComponentsNav() {
     query: { serviceId: tempServiceId, componentId: tempComponentId },
     isReady,
   } = useRouter()
-  const componentId = isReady && getFirstElementIfArray(tempComponentId)
-  const serviceId = isReady && getFirstElementIfArray(tempServiceId)
+  const currentComponentId = isReady && getFirstElementIfArray(tempComponentId)
+  const currentServiceId = isReady && getFirstElementIfArray(tempServiceId)
 
   const [usedComponents, unusedComponents] = useSelectService(
-    serviceId
+    currentServiceId
   ).value.components.reduce(
     ([usedComponents, unusedComponents], component) => {
       const {
-        value: { id, variables },
+        value: { id: componentId, variables },
       } = component
       const isUsed = Object.values(variables).length > 0
       if (isUsed) {
         usedComponents.push({
-          id,
-          href: `/services/${serviceId}/components/${componentId}`,
+          id: componentId,
+          href: `/services/${currentServiceId}/components/${componentId}`,
         })
       } else {
         unusedComponents.push({
-          id,
-          href: `/services/${serviceId}/components/${componentId}`,
+          id: componentId,
+          href: `/services/${currentServiceId}/components/${componentId}`,
         })
       }
       return [usedComponents, unusedComponents]
     },
-    [[{ id: serviceId, href: `/services/${serviceId}` }], []]
+    [[{ id: currentServiceId, href: `/services/${currentServiceId}` }], []]
   )
 
   return (
@@ -42,14 +42,14 @@ export function ComponentsNav() {
         <ComponentsDropdown
           usedComponents={usedComponents}
           unusedComponents={unusedComponents}
-          currentTabId={componentId}
+          currentTabId={currentComponentId}
         />
       </div>
       <div className="hidden sm:block">
         <ComponentsTabs
           usedComponents={usedComponents}
           unusedComponents={unusedComponents}
-          currentTabId={componentId}
+          currentTabId={currentComponentId}
         />
       </div>
     </div>

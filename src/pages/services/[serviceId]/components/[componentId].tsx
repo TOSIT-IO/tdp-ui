@@ -1,32 +1,31 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import {
-  RawViewButton,
   ValidateBar,
   VariablesContextProvider,
   VariablesDisplay,
 } from 'src/components/Services'
 import { getFirstElementIfArray } from 'src/utils'
+import { useSelectComponent } from 'src/features/variables'
 //Layouts
 import DashboardLayout from 'src/app/dashboard/layout'
 import ServiceLayout from 'src/app/dashboard/services/layout'
 
 const ComponentPage = () => {
-  const [isRaw, setIsRaw] = useState(false)
   const {
     query: { serviceId: tempServiceId, componentId: tempComponentId },
   } = useRouter()
   const serviceId = getFirstElementIfArray(tempServiceId)
   const componentId = getFirstElementIfArray(tempComponentId)
 
-  if (!serviceId || !componentId) return <p>Loading...</p>
+  const {
+    value: { variables },
+  } = useSelectComponent(serviceId, componentId)
+
+  if (!serviceId || !componentId || !variables) return <p>Loading...</p>
 
   return (
     <VariablesContextProvider serviceId={serviceId} componentId={componentId}>
-      <div className="flex justify-end mb-4 ">
-        <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
-      </div>
-      <VariablesDisplay isRaw={isRaw} />
+      <VariablesDisplay variables={variables} />
       <ValidateBar />
     </VariablesContextProvider>
   )

@@ -1,19 +1,47 @@
-import { Disclosure } from 'src/components/Layout/primitives'
-import { useVariablesContext } from './VariablesContext'
-import { VariablesList } from './VariablesList/VariablesList'
+import { useState } from 'react'
+import { Disclosure, Sidebar } from 'src/components/Layout/primitives'
+import { RawViewButton } from './RawViewButton'
+import { ViewField } from './VariablesList/ViewFields'
+import { RawField } from './VariablesList/ViewFields/RawField'
 
 interface ReduceType {
   primitiveTypeVariables: [string, string][]
   objectTypeVariables: [string, Object][]
 }
 
-export function VariablesDisplay({ isRaw }: { isRaw: boolean }) {
-  const { initialVariables } = useVariablesContext()
+export function VariablesDisplay({ variables }: { variables: Object }) {
+  const [isRaw, setIsRaw] = useState(false)
 
-  if (!initialVariables) return <p>Loading</p>
+  if (!Object.entries(variables).length)
+    return <p className="text-slate-600">No value</p>
 
+  return (
+    <>
+      <div className="flex justify-end mb-4 ">
+        <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
+      </div>
+      {isRaw ? (
+        <DisplayRaw variables={variables} />
+      ) : (
+        <DisplayView variables={variables} />
+      )}
+    </>
+  )
+}
+
+export function DisplayRaw({ variables }: { variables: Object }) {
+  return (
+    <div className="flex flex-col gap-1">
+      {Object.entries(variables).map(([k, v]) => (
+        <RawField key={k} propName={k} value={v} />
+      ))}
+    </div>
+  )
+}
+
+export function DisplayView({ variables }: { variables: Object }) {
   const { primitiveTypeVariables, objectTypeVariables } = Object.entries(
-    initialVariables
+    variables
   ).reduce<ReduceType>(
     (accumulator, currentValue) => {
       if (typeof currentValue[1] === 'object') {
@@ -30,20 +58,42 @@ export function VariablesDisplay({ isRaw }: { isRaw: boolean }) {
     <form>
       {/* Display Service Variables */}
       <div className="mb-3">
-        <VariablesList variables={primitiveTypeVariables} isRaw={isRaw} />
+        <VariablesList variables={primitiveTypeVariables} />
       </div>
       {/* Display Service Variables Dicts */}
       <div className="flex flex-col gap-2">
         {objectTypeVariables.map(([k, v]) => (
           <Disclosure key={k} title={k}>
-            <VariablesList
-              variables={v ? Object.entries(v) : []}
-              parent={k}
-              isRaw={isRaw}
-            />
+            <VariablesList variables={v ? Object.entries(v) : []} parent={k} />
           </Disclosure>
         ))}
       </div>
     </form>
+  )
+}
+
+export function VariablesList({
+  variables,
+  parent,
+}: {
+  variables: [string, string | number | boolean | any[]][]
+  parent?: string
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      {variables.map(([k, v]) => (
+        <Sidebar
+          key={k}
+          className="text-gray-600 text-sm"
+          space="0"
+          sideWidth="17rem"
+        >
+          <p className="w-20 font-bold overflow-auto">{k}:</p>
+          <div className="w-full">
+            <ViewField prop={k} value={v} parent={parent} />
+          </div>
+        </Sidebar>
+      ))}
+    </div>
   )
 }
