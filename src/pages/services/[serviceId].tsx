@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import DashboardLayout from 'src/app/dashboard/layout'
-import ServiceLayout from 'src/app/dashboard/services/layout'
+
 import {
+  Layout as ServiceLayout,
   ValidateBar,
   VariablesContextProvider,
   VariablesDisplay,

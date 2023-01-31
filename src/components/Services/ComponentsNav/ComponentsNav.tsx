@@ -1,16 +1,11 @@
-import { useRouter } from 'next/router'
 import { useSelectService } from 'src/features/variables'
-import { getFirstElementIfArray } from 'src/utils'
+import { useParamsContext } from '../useParamsContext'
 import { ComponentsDropdown } from './ComponentsDropdown'
 import { ComponentsTabs } from './ComponentsTabs'
 
 export function ComponentsNav() {
-  const {
-    query: { serviceId: tempServiceId, componentId: tempComponentId },
-    isReady,
-  } = useRouter()
-  const currentComponentId = isReady && getFirstElementIfArray(tempComponentId)
-  const currentServiceId = isReady && getFirstElementIfArray(tempServiceId)
+  const { serviceId: currentServiceId, componentId: currentComponentId } =
+    useParamsContext()
 
   const [usedComponents, unusedComponents] = useSelectService(
     currentServiceId
