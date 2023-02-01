@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { setProperty } from 'src/features/userInput'
+import { useAppDispatch } from 'src/store'
 import { classNames } from 'src/utils'
-import { useVariablesContext } from '../VariablesContext'
+import { useParamsContext } from '../../useParamsContext'
 
 export function RawField({
   property,
@@ -11,24 +13,23 @@ export function RawField({
   value: string | number | boolean | any[]
   dict?: string
 }) {
-  const { setNewVariables } = useVariablesContext()
+  const { serviceId, componentId } = useParamsContext()
+  const dispatch = useAppDispatch()
   const [error, setError] = useState(false)
-  const inputName = dict ? [dict, property].join('.') : property
+  const fullProperty = [dict, property].filter(Boolean).join('.')
 
   function handleVariableChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setError(false)
     try {
-      const newVariable = JSON.parse(event.target.value)
-      setError(false)
-      if (!dict) {
-        setNewVariables((prev: any) => ({ ...prev, [property]: newVariable }))
-        return
-      }
-      setNewVariables((prev: any) => {
-        const data = { ...prev }
-        data[dict] = prev[dict] || {}
-        data[dict][property] = newVariable
-        return data
-      })
+      const newValue = JSON.parse(event.target.value)
+      dispatch(
+        setProperty({
+          serviceId,
+          componentId,
+          property: fullProperty,
+          value: newValue,
+        })
+      )
     } catch (err) {
       setError(true)
     }
@@ -36,11 +37,11 @@ export function RawField({
 
   return (
     <div className="text-gray-600 text-sm flex">
-      <label htmlFor={inputName} className="font-bold mr-2">
+      <label htmlFor={fullProperty} className="font-bold mr-2">
         {property}:
       </label>
       <input
-        name={inputName}
+        name={fullProperty}
         className={classNames(
           'grow outline-none bg-gray-100',
           error && 'bg-red-200'

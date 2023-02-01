@@ -5,7 +5,6 @@ import DashboardLayout from 'src/app/dashboard/layout'
 import {
   Layout as ServiceLayout,
   ValidateBar,
-  VariablesContextProvider,
   VariablesDisplay,
 } from 'src/components/Services'
 import { useSelectService } from 'src/features/variables'
@@ -24,10 +23,10 @@ const ServicePage = () => {
   if (!serviceId || !variables) return <p>Loading</p>
 
   return (
-    <VariablesContextProvider serviceId={serviceId}>
+    <>
       <VariablesDisplay variables={variables} />
       <ValidateBar />
-    </VariablesContextProvider>
+    </>
   )
 }
 

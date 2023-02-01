@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Button } from 'src/components/commons'
-import { useVariablesContext } from './VariablesContext'
+import { usePutServiceConfig } from 'src/hooks'
 
 export function ValidateBar() {
-  const { sendVariables } = useVariablesContext()
+  const { sendVariables } = usePutServiceConfig()
   const [validateMessage, setValidateMessage] = useState('')
 
   function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {

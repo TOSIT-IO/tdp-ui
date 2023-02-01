@@ -1,2 +1,2 @@
-export * from './ViewField'
+export * from './PrimitiveField'
 export * from './RawField'
