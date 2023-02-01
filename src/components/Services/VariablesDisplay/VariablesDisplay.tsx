@@ -1,12 +1,7 @@
 import { useState } from 'react'
-import { Disclosure, Sidebar } from 'src/components/Layout/primitives'
-import { ViewField, RawField } from './Fields'
+import { Disclosure } from 'src/components/Layout/primitives'
+import { PrimitiveField, RawField } from './Fields'
 import { RawViewButton } from './RawViewButton'
-
-interface ReduceType {
-  primitiveTypeVariables: [string, string][]
-  objectTypeVariables: [string, Object][]
-}
 
 export function VariablesDisplay({ variables }: { variables: Object }) {
   const [isRaw, setIsRaw] = useState(false)
@@ -38,17 +33,22 @@ export function DisplayRaw({ variables }: { variables: Object }) {
   )
 }
 
+interface ReduceType {
+  primitiveTypeVariables: [string, string][]
+  objectTypeVariables: [string, Object][]
+}
+
 export function DisplayView({ variables }: { variables: Object }) {
   const { primitiveTypeVariables, objectTypeVariables } = Object.entries(
     variables
   ).reduce<ReduceType>(
-    (accumulator, currentValue) => {
+    ({ primitiveTypeVariables, objectTypeVariables }, currentValue) => {
       if (typeof currentValue[1] === 'object') {
-        accumulator.objectTypeVariables.push(currentValue)
+        objectTypeVariables.push(currentValue)
       } else {
-        accumulator.primitiveTypeVariables.push(currentValue)
+        primitiveTypeVariables.push(currentValue)
       }
-      return accumulator
+      return { objectTypeVariables, primitiveTypeVariables }
     },
     { primitiveTypeVariables: [], objectTypeVariables: [] }
   )
@@ -61,9 +61,12 @@ export function DisplayView({ variables }: { variables: Object }) {
       </div>
       {/* Display Service Variables Dicts */}
       <div className="flex flex-col gap-2">
-        {objectTypeVariables.map(([k, v]) => (
-          <Disclosure key={k} title={k}>
-            <VariablesList variables={v ? Object.entries(v) : []} dict={k} />
+        {objectTypeVariables.map(([dictId, dictVariables]) => (
+          <Disclosure key={dictId} title={dictId}>
+            <VariablesList
+              variables={dictVariables ? Object.entries(dictVariables) : []}
+              dictId={dictId}
+            />
           </Disclosure>
         ))}
       </div>
@@ -73,25 +76,15 @@ export function DisplayView({ variables }: { variables: Object }) {
 
 export function VariablesList({
   variables,
-  dict,
+  dictId,
 }: {
   variables: [string, string | number | boolean | any[]][]
-  dict?: string
+  dictId?: string
 }) {
   return (
     <div className="flex flex-col gap-1">
       {variables.map(([k, v]) => (
-        <Sidebar
-          key={k}
-          className="text-gray-600 text-sm"
-          space="0"
-          sideWidth="17rem"
-        >
-          <p className="w-20 font-bold overflow-auto">{k}:</p>
-          <div className="w-full">
-            <ViewField property={k} value={v} dict={dict} />
-          </div>
-        </Sidebar>
+        <PrimitiveField key={k} property={k} value={v} dictId={dictId} />
       ))}
     </div>
   )

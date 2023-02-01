@@ -1,5 +1,7 @@
-import { useVariablesContext } from '../VariablesContext'
 import { Toggle } from 'src/components/commons'
+import { useAppDispatch } from 'src/store'
+import { useParamsContext } from '../../useParamsContext'
+import { setProperty } from 'src/features/userInput'
 
 export function BooleanField({
   property,
@@ -10,20 +12,21 @@ export function BooleanField({
   value: boolean
   dict?: string
 }) {
-  const { setNewVariables } = useVariablesContext()
+  const { serviceId, componentId } = useParamsContext()
+  const dispatch = useAppDispatch()
+
+  const fullProperty = [dict, property].filter(Boolean).join('.')
 
   function handleChecked(event: React.ChangeEvent<HTMLInputElement>) {
-    const newVariable = event.target.checked
-    if (!dict) {
-      setNewVariables((prev: any) => ({ ...prev, [property]: newVariable }))
-    } else {
-      setNewVariables((prev: any) => {
-        const data = { ...prev }
-        data[dict] = prev[dict] || {}
-        data[dict][property] = newVariable
-        return data
+    const newValue = event.target.checked
+    dispatch(
+      setProperty({
+        serviceId,
+        componentId,
+        property: fullProperty,
+        value: newValue,
       })
-    }
+    )
   }
   return (
     <div className="flex flex-grow flex-col">

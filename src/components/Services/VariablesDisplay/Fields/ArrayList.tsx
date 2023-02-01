@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { setProperty } from 'src/features/userInput'
+import { useAppDispatch } from 'src/store'
 import { classNames } from 'src/utils'
-import { useVariablesContext } from '../VariablesContext'
+import { useParamsContext } from '../../useParamsContext'
 
 export function ArrayList({
   property,
@@ -11,46 +13,60 @@ export function ArrayList({
   value: any[]
   dict?: string
 }) {
-  const { setNewVariables } = useVariablesContext()
+  console.log('dict', dict)
+  return (
+    <ol className="flex flex-grow flex-col gap-2">
+      {value.map((v) => (
+        <ValueArrayElement key={v} value={v} dict={dict} property={property} />
+      ))}
+    </ol>
+  )
+}
+
+function ValueArrayElement({
+  value,
+  dict,
+  property,
+}: {
+  value: any
+  dict?: string
+  property: string
+}) {
+  const { serviceId, componentId } = useParamsContext()
+  const dispatch = useAppDispatch()
   const [error, setError] = useState(false)
-  const inputName = dict ? [dict, property].join('.') : property
+  const fullProperty = [dict, property].filter(Boolean).join('.')
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setError(false)
     try {
-      const newVariable = JSON.parse(event.target.value)
-      setError(false)
-      if (!dict) {
-        setNewVariables((prev: any) => ({ ...prev, [property]: newVariable }))
-      } else {
-        setNewVariables((prev: any) => {
-          const data = { ...prev }
-          data[dict] = prev[dict] || {}
-          data[dict][property] = newVariable
-          return data
+      const parsedValue = JSON.parse(event.target.value)
+      dispatch(
+        setProperty({
+          serviceId,
+          componentId,
+          property: fullProperty,
+          value: parsedValue,
         })
-      }
+      )
     } catch (err) {
       setError(true)
     }
   }
 
   return (
-    <ol className="flex flex-grow flex-col gap-2">
-      {value.map((v) => (
-        <li key={inputName} className="flex grow">
-          <input
-            name={inputName}
-            className={classNames(
-              'grow',
-              error && 'bg-red-200',
-              typeof value === 'number' ? 'text-teal-600' : 'text-slate-700',
-              'hover:opacity-100 hover:bg-slate-200 transition duration-75 ease-in-out'
-            )}
-            defaultValue={JSON.stringify(v)}
-            onChange={handleChange}
-          />
-        </li>
-      ))}
-    </ol>
+    <li key={fullProperty} className="flex grow">
+      <input
+        name={fullProperty}
+        className={classNames(
+          'grow',
+          error && 'bg-red-200',
+          typeof value === 'number' ? 'text-teal-600' : 'text-slate-700',
+          'hover:opacity-100 hover:bg-slate-200 transition duration-75 ease-in-out'
+        )}
+        defaultValue={JSON.stringify(value)}
+        onChange={handleChange}
+      />
+    </li>
   )
 }

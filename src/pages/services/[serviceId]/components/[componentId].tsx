@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router'
 import {
+  Layout as ServiceLayout,
   ValidateBar,
-  VariablesContextProvider,
   VariablesDisplay,
 } from 'src/components/Services'
 import { getFirstElementIfArray } from 'src/utils'
 import { useSelectComponent } from 'src/features/variables'
 //Layouts
 import DashboardLayout from 'src/app/dashboard/layout'
-import ServiceLayout from 'src/app/dashboard/services/layout'
 
 const ComponentPage = () => {
   const {
@@ -24,10 +23,10 @@ const ComponentPage = () => {
   if (!serviceId || !componentId || !variables) return <p>Loading...</p>
 
   return (
-    <VariablesContextProvider serviceId={serviceId} componentId={componentId}>
+    <>
       <VariablesDisplay variables={variables} />
       <ValidateBar />
-    </VariablesContextProvider>
+    </>
   )
 }
 
