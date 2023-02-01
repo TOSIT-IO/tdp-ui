@@ -5,6 +5,7 @@ import { useTdpClient } from 'src/contexts'
 import { Button } from 'src/components/commons'
 import { DeployPreview } from 'src/components/Deploy'
 import { NavigationBar } from 'src/components/Layout'
+import { toast } from 'react-toastify'
 
 export default function ReconfigurePage() {
   const [preview, setPreview] = useState<Operation[]>([])
@@ -42,7 +43,7 @@ export default function ReconfigurePage() {
         <Button
           as="button"
           variant={'filled'}
-          onClick={() => reconfigureDeploy()}
+          onClick={() => toast.info('Reconfiguring...') && reconfigureDeploy()}
         >
           Deploy Reconfigure
         </Button>
