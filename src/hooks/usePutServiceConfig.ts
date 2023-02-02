@@ -2,10 +2,13 @@ import { useTdpClient } from 'src/contexts'
 import type { ComponentUpdate, ServiceUpdate } from 'src/clients/tdpClient'
 import { toast } from 'react-toastify'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
+import { useAppDispatch } from 'src/store'
+import { clearUserInput } from 'src/features/userInput'
 
 export function usePutServiceConfig() {
   const { patchService, patchComponent } = useTdpClient()
   const userInput = useSelectUserInput()
+  const dispatch = useAppDispatch()
 
   async function sendServiceVariables(
     serviceId: string,
@@ -23,6 +26,10 @@ export function usePutServiceConfig() {
   }
 
   async function sendVariables(message: string) {
+    if (!userInput.variables && !userInput.components) {
+      toast.info('No variables to change')
+      return
+    }
     try {
       if (userInput.variables) {
         sendServiceVariables(userInput.id, {
@@ -38,6 +45,7 @@ export function usePutServiceConfig() {
           })
         })
       }
+      dispatch(clearUserInput())
       toast.success('Variables chanded')
     } catch (error) {
       toast.error(error.message)
