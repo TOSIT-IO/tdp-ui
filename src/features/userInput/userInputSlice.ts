@@ -15,6 +15,7 @@ export const userInputSlice = createSlice({
   name: 'userInput',
   initialState,
   reducers: {
+    clearUserInput: () => initialState,
     setProperty: (
       state,
       action: PayloadAction<{
@@ -97,6 +98,6 @@ export const userInputSlice = createSlice({
   },
 })
 
-export const { setProperty } = userInputSlice.actions
+export const { setProperty, clearUserInput } = userInputSlice.actions
 
 export default userInputSlice.reducer
