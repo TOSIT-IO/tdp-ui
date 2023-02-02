@@ -1,4 +1,6 @@
-import { createContext } from 'react'
+import { createContext, useEffect } from 'react'
+import { clearUserInput } from 'src/features/userInput'
+import { useAppDispatch } from 'src/store'
 
 export const ParamsContext = createContext<{
   serviceId: string
@@ -6,6 +8,12 @@ export const ParamsContext = createContext<{
 }>(null)
 
 export function ParamsContextProvider({ children, serviceId, componentId }) {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(clearUserInput())
+  }, [serviceId, dispatch])
+
   return (
     <ParamsContext.Provider value={{ serviceId, componentId }}>
       {children}
