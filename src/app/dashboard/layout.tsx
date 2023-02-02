@@ -5,6 +5,7 @@ import {
   TdpUiLogo,
   UserInfos,
   Sidebar,
+  LegalNotice,
 } from 'src/components/Layout'
 
 export default function DashboardLayout({ children }) {
@@ -17,13 +18,14 @@ export default function DashboardLayout({ children }) {
             <TdpUiLogo width={100} height={40} />
           </div>
           <Menu />
-          <div className="p-2 mt-auto mb-3">
+          <div className="p-2 mt-auto mb-0">
             <UserInfos />
           </div>
         </aside>
         {/* Main content */}
-        <div className="h-screen overflow-y-auto">
+        <div className="h-screen overflow-y-auto flex flex-col">
           <main className="p-5">{children}</main>
+          <LegalNotice />
         </div>
       </Sidebar>
     </ToastProvider>
