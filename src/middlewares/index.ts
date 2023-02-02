@@ -1,2 +1,2 @@
 export * from './authentification'
-export * from './toastError'
+export * from './errors'

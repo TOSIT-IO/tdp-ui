@@ -32,14 +32,14 @@ export function usePutServiceConfig() {
     }
     try {
       if (userInput.variables) {
-        sendServiceVariables(userInput.id, {
+        await sendServiceVariables(userInput.id, {
           message,
           variables: userInput.variables,
         })
       }
       if (userInput.components) {
-        userInput.components.forEach((component) => {
-          sendComponentsVariables(component.id, userInput.id, {
+        userInput.components.forEach(async (component) => {
+          await sendComponentsVariables(component.id, userInput.id, {
             message,
             variables: component.variables,
           })
@@ -48,7 +48,8 @@ export function usePutServiceConfig() {
       dispatch(clearUserInput())
       toast.success('Variables chanded')
     } catch (error) {
-      toast.error(error.message)
+      const parsedError = await error.json()
+      toast.error(parsedError.detail)
     }
   }
 
