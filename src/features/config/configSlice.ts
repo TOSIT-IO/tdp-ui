@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import configJson from '../../../config.dev.json'
+import configJson from '../../../config.json'
 
 type Config = {
   apiBasePath: string
