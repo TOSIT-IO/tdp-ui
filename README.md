@@ -19,10 +19,10 @@ The following are required to **build and develop** `tdp-ui`. They aren't needed
 
 ## Development and testing
 
-Use the sample `env/.env.dev` file to provide `tdp-ui` the required environment variables:
+Use the sample `config.example.json` file to provide `tdp-ui` the required environment variables:
 
 ```bash
-cp .env.dev .env
+cp config.example.json config.json
 ```
 
 The npm `install` script installs all dependencies and generates the API client SDK. The SDK is generated in the `./src/api` folder. The npm `dev` script starts a Next.js development server:

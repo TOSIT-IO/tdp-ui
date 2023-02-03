@@ -33,3 +33,6 @@ next-env.d.ts
 
 # OpenAPI Generator
 openapi-generator-cli.jar
+
+# TDP-UI config
+config.json
