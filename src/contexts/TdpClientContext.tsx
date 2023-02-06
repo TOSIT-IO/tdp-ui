@@ -13,7 +13,10 @@ export const TdpClientContextProvider = ({ children }) => {
   const tdpClient = useMemo(() => {
     const configuration = new Configuration({
       basePath: config.apiBasePath,
-      middleware: [authenticationMiddleware(user), parseErrorMiddleware],
+      middleware: [
+        user && authenticationMiddleware(user),
+        parseErrorMiddleware
+      ].filter(Boolean),
     })
     return createTdpClientInstance(configuration)
   }, [config.apiBasePath, user])

@@ -6,19 +6,21 @@ import { useSelectConfig } from 'src/features/config/hooks'
 import router from 'next/router'
 
 export function AuthContextProvider({ children }) {
-  const { value: config } = useSelectConfig()
+  const {
+    value: { oidc, skipAuth },
+  } = useSelectConfig()
   const [oidcConfig, setOidcConfig] = useState<AuthProviderProps>(null)
 
   useEffect(() => {
     async function createOidcConfig() {
-      const response = await fetch(config.oidc.discoveryUrl)
+      const response = await fetch(oidc.discoveryUrl)
       const { issuer } = await response.json()
       setOidcConfig({
         authority: issuer,
-        client_id: config.oidc.clientId,
-        redirect_uri: config.oidc.redirectUri,
-        scope: config.oidc.scope,
-        post_logout_redirect_uri: config.oidc.redirectUri,
+        client_id: oidc.clientId,
+        redirect_uri: oidc.redirectUri,
+        scope: oidc.scope,
+        post_logout_redirect_uri: oidc.redirectUri,
         userStore:
           typeof window !== 'undefined' &&
           new WebStorageStateStore({ store: localStorage }),
@@ -27,14 +29,14 @@ export function AuthContextProvider({ children }) {
         },
       })
     }
-    createOidcConfig()
-  }, [config])
+    skipAuth ? setOidcConfig({}) : createOidcConfig()
+  }, [oidc, skipAuth])
 
   if (!oidcConfig) return null
 
   return (
     <AuthProvider {...oidcConfig}>
-      <LoginPortal>{children}</LoginPortal>
+      {!skipAuth ? <LoginPortal>{children}</LoginPortal> : children}
     </AuthProvider>
   )
 }
