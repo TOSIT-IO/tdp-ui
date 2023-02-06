@@ -1,12 +1,17 @@
 import { ArrowLeftOnRectangleIcon, UserIcon } from '@heroicons/react/24/solid'
 import { useAuth } from 'react-oidc-context'
+
 export function UserInfos() {
+  const auth = useAuth()
+
+  if (!auth.user) return null
+
   const {
     user: {
       profile: { email, preferred_username: username },
     },
     signoutRedirect,
-  } = useAuth()
+  } = auth
 
   return (
     <div className="flex items-center text-white">

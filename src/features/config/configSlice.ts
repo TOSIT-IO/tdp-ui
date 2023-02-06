@@ -3,12 +3,13 @@ import configJson from '../../../config.json'
 
 type Config = {
   apiBasePath: string
-  oidc: {
+  oidc?: {
     discoveryUrl: string
     redirectUri: string
     clientId: string
     scope: string
   }
+  skipAuth?: boolean
 }
 
 const initialState = {
