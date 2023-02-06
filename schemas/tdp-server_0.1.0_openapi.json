@@ -45,8 +45,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/service/{service_id}": {
@@ -112,8 +111,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       },
       "put": {
         "tags": ["services"],
@@ -187,8 +185,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:write"] }]
+        }
       },
       "patch": {
         "tags": ["services"],
@@ -262,8 +259,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:write"] }]
+        }
       }
     },
     "/api/v1/service/{service_id}/component/{component_id}": {
@@ -335,8 +331,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       },
       "put": {
         "tags": ["components"],
@@ -416,8 +411,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:write"] }]
+        }
       },
       "patch": {
         "tags": ["components"],
@@ -497,8 +491,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:write"] }]
+        }
       }
     },
     "/api/v1/deploy/dag": {
@@ -521,7 +514,11 @@
         "responses": {
           "202": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DeploymentLog" }
+              }
+            }
           },
           "401": {
             "description": "Unauthenticated",
@@ -563,8 +560,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
+        }
       }
     },
     "/api/v1/deploy/operations": {
@@ -584,7 +580,11 @@
         "responses": {
           "202": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DeploymentLog" }
+              }
+            }
           },
           "401": {
             "description": "Unauthenticated",
@@ -626,8 +626,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
+        }
       }
     },
     "/api/v1/deploy/resume": {
@@ -649,7 +648,11 @@
         "responses": {
           "202": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DeploymentLog" }
+              }
+            }
           },
           "401": {
             "description": "Unauthenticated",
@@ -691,8 +694,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
+        }
       }
     },
     "/api/v1/deploy/reconfigure": {
@@ -703,7 +705,11 @@
         "responses": {
           "202": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DeploymentLog" }
+              }
+            }
           },
           "401": {
             "description": "Unauthenticated",
@@ -737,8 +743,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:execute"] }]
+        }
       }
     },
     "/api/v1/deploy/status": {
@@ -755,8 +760,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/deploy/": {
@@ -775,6 +779,12 @@
             "required": false,
             "schema": { "title": "Offset", "type": "integer", "default": 0 },
             "name": "offset",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": { "title": "Status", "type": "string", "default": "" },
+            "name": "status",
             "in": "query"
           }
         ],
@@ -823,8 +833,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/deploy/{deployment_id}": {
@@ -883,8 +892,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/deploy/{deployment_id}/operation/{operation}": {
@@ -947,8 +955,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/operation/": {
@@ -994,8 +1001,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/operation/dag": {
@@ -1041,8 +1047,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/operation/other": {
@@ -1088,8 +1093,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/plan/dag": {
@@ -1154,8 +1158,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/plan/operations": {
@@ -1217,8 +1220,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/plan/resume": {
@@ -1283,8 +1285,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/plan/reconfigure": {
@@ -1330,8 +1331,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/schema/": {
@@ -1383,8 +1383,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/api/v1/schema/{service_id}": {
@@ -1452,8 +1451,7 @@
               }
             }
           }
-        },
-        "security": [{ "OpenIdConnect": ["tdp_server:read"] }]
+        }
       }
     },
     "/": {
@@ -1803,12 +1801,6 @@
           "hadoop_log_dir": "/var/log/hadoop",
           "yarn_site": { "yarn.http.policy": "HTTPS_ONLY" }
         }
-      }
-    },
-    "securitySchemes": {
-      "OpenIdConnect": {
-        "type": "openIdConnect",
-        "openIdConnectUrl": "http://keycloak:8080/auth/realms/tdp_server/.well-known/openid-configuration"
       }
     }
   }
