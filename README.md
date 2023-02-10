@@ -25,6 +25,8 @@ Use the sample `config.example.json` file to provide `tdp-ui` the required envir
 cp config.example.json config.json
 ```
 
+A `skipAuth` option is available to skip the authentication process. It is useful for development purposes.
+
 The npm `install` script installs all dependencies and generates the API client SDK. The SDK is generated in the `./src/api` folder. The npm `dev` script starts a Next.js development server:
 
 ```bash
