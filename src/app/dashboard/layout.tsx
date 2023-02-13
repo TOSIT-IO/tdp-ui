@@ -18,12 +18,12 @@ export default function DashboardLayout({ children }) {
             <TdpUiLogo width={100} height={40} />
           </div>
           <Menu />
-          <div className="p-2 mt-auto mb-0">
+          <div className="p-2 mt-auto mb-3">
             <UserInfos />
           </div>
         </aside>
         {/* Main content */}
-        <div className="h-screen overflow-y-auto flex flex-col">
+        <div className="h-screen overflow-y-auto mt-auto mb-3">
           <main className="p-5">{children}</main>
           <LegalNotice />
         </div>

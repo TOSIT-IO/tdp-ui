@@ -22,7 +22,7 @@ export function LegalNotice() {
   )
 
   return (
-    <p className="p-5 mt-auto mb-3 text-gray-500 text-sm text-center">
+    <p className="p-5 text-gray-500 text-sm text-center">
       &copy; {currentYear} {tositUrl} | License {apacheLink}
     </p>
   )
