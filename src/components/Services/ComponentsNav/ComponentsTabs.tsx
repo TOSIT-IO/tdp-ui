@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
+import { Button } from 'src/components/commons'
 import { classNames } from 'src/utils'
 import { ComponentNav, ComponentsNavProps } from './type'
 
@@ -31,13 +32,13 @@ export function ComponentsTabs({
             isCurrentTab={isCurrentTab(tab.id, i)}
           />
         ))}
-      <Link
-        href="#"
+      <Button
+        variant="text"
         className="ml-1 text-xs text-gray-600 cursor-pointer"
         onClick={toggleShowUnused}
       >
         {`[${showUnused ? '-' : '+'}]`}
-      </Link>
+      </Button>
     </nav>
   )
 }

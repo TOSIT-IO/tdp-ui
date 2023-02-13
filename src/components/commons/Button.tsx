@@ -39,7 +39,7 @@ export function Button({
   props.className = classNames(
     variantStyles[variant ?? 'filled'],
     props.disabled && 'opacity-50 pointer-events-none',
-    'rounded px-2.5 py-1.5 outline-none',
+    'rounded px-2.5 py-1.5',
     props.className
   )
 
