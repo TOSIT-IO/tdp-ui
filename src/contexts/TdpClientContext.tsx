@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo } from 'react'
 import { useAuth } from 'react-oidc-context'
 import { Configuration, createTdpClientInstance, TdpClient } from 'src/clients'
 import { useSelectConfig } from 'src/features/config'
-import { authenticationMiddleware, parseErrorMiddleware } from 'src/middlewares'
+import { authenticationMiddleware, toastErrorMiddleware } from 'src/middlewares'
 
 const TdpClientContext = createContext<TdpClient>(null)
 
@@ -13,10 +13,7 @@ export const TdpClientContextProvider = ({ children }) => {
   const tdpClient = useMemo(() => {
     const configuration = new Configuration({
       basePath: config.apiBasePath,
-      middleware: [
-        user && authenticationMiddleware(user),
-        parseErrorMiddleware,
-      ].filter(Boolean),
+      middleware: [authenticationMiddleware(user), toastErrorMiddleware],
     })
     return createTdpClientInstance(configuration)
   }, [config.apiBasePath, user])
