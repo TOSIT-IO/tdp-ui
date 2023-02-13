@@ -15,7 +15,7 @@ export const TdpClientContextProvider = ({ children }) => {
       basePath: config.apiBasePath,
       middleware: [
         user && authenticationMiddleware(user),
-        parseErrorMiddleware
+        parseErrorMiddleware,
       ].filter(Boolean),
     })
     return createTdpClientInstance(configuration)
