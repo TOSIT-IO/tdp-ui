@@ -31,12 +31,13 @@ export function ComponentsTabs({
             isCurrentTab={isCurrentTab(tab.id, i)}
           />
         ))}
-      <p
+      <Link
+        href="#"
         className="ml-1 text-xs text-gray-600 cursor-pointer"
         onClick={toggleShowUnused}
       >
         {`[${showUnused ? '-' : '+'}]`}
-      </p>
+      </Link>
     </nav>
   )
 }
