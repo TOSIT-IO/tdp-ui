@@ -1,30 +1,29 @@
 import Link from 'next/link'
-import { classNames } from 'src/utils'
 
 export function LegalNotice() {
+  const currentYear = new Date().getFullYear()
+
+  const tositUrl = (
+    <Link
+      className="text-gray-600 hover:underline"
+      href={'https://github.com/TOSIT-IO'}
+    >
+      {'TOSIT'}
+    </Link>
+  )
+
+  const apacheLink = (
+    <Link
+      className="text-gray-600 hover:underline"
+      href={'https://www.apache.org/licenses/LICENSE-2.0'}
+    >
+      {'Apache-2.0'}
+    </Link>
+  )
+
   return (
-    <div className="p-5 mt-auto mb-3 space-x-1 flex items-center justify-center text-gray-700">
-      {/* <UserInfos /> */}
-      <p>&copy; {new Date().getFullYear()} </p>
-      <Link
-        className={classNames(
-          'underline underline-offset-1',
-          'text-gray-500 hover:bg-gray-800 hover:text-white'
-        )}
-        href={'https://github.com/TOSIT-IO'}
-      >
-        {'TOSIT'}
-      </Link>
-      <p>| License</p>
-      <Link
-        className={classNames(
-          'underline underline-offset-1',
-          'text-gray-500 hover:bg-gray-800 hover:text-white'
-        )}
-        href={'https://www.apache.org/licenses/LICENSE-2.0'}
-      >
-        {'Apache-2.0.'}
-      </Link>
-    </div>
+    <p className="p-5 mt-auto mb-3 text-gray-500 text-sm text-center">
+      &copy; {currentYear} {tositUrl} | License {apacheLink}
+    </p>
   )
 }
