@@ -4,9 +4,10 @@ import { toast } from 'react-toastify'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
 import { useAppDispatch } from 'src/store'
 import { clearUserInput } from 'src/features/userInput'
+import { setServiceValue } from 'src/features/variables'
 
 export function usePutServiceConfig() {
-  const { patchService, patchComponent } = useTdpClient()
+  const { patchService, patchComponent, getService } = useTdpClient()
   const userInput = useSelectUserInput()
   const dispatch = useAppDispatch()
 
@@ -23,6 +24,11 @@ export function usePutServiceConfig() {
     componentUpdate: ComponentUpdate
   ) {
     return await patchComponent(componentId, serviceId, componentUpdate)
+  }
+
+  const fetchServices = async () => {
+    const service = await getService(userInput.id)
+    dispatch(setServiceValue(service))
   }
 
   async function sendVariables(message: string) {
@@ -45,6 +51,7 @@ export function usePutServiceConfig() {
           })
         })
       }
+      fetchServices()
       dispatch(clearUserInput())
       toast.success('Variables chanded')
     } catch (error) {
