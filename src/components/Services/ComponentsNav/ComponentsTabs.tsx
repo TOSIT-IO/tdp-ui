@@ -36,6 +36,7 @@ export function ComponentsTabs({
         variant="text"
         className="ml-1 text-xs text-gray-600 cursor-pointer"
         onClick={toggleShowUnused}
+        aria-label={showUnused ? 'fold' : 'unfold'}
       >
         {`[${showUnused ? '-' : '+'}]`}
       </Button>
