@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
+import { Button } from 'src/components/commons'
 import { classNames } from 'src/utils'
 import { ComponentNav, ComponentsNavProps } from './type'
 
@@ -31,12 +32,14 @@ export function ComponentsTabs({
             isCurrentTab={isCurrentTab(tab.id, i)}
           />
         ))}
-      <p
+      <Button
+        variant="text"
         className="ml-1 text-xs text-gray-600 cursor-pointer"
         onClick={toggleShowUnused}
+        aria-label={showUnused ? 'fold' : 'unfold'}
       >
         {`[${showUnused ? '-' : '+'}]`}
-      </p>
+      </Button>
     </nav>
   )
 }
