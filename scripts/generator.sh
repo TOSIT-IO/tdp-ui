@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 OPENAPI_JAR_URL=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.2.0/openapi-generator-cli-6.2.0.jar
 HASH_FILE="build/tdp-server_0.1.0_openapi.json.sha256"
