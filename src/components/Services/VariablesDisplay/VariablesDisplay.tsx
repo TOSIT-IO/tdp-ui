@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Disclosure } from 'src/components/Layout/primitives'
 import { PrimitiveField, RawField } from './Fields'
-import { RawViewButton } from './RawViewButton'
+import { ToggleViewModeButton } from './ToggleViewModeButton'
+import { Variable } from './types'
 
 export function VariablesDisplay({ variables }: { variables: Object }) {
   const [isRaw, setIsRaw] = useState(false)
@@ -12,7 +13,7 @@ export function VariablesDisplay({ variables }: { variables: Object }) {
   return (
     <>
       <div className="flex justify-end mb-4 ">
-        <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
+        <ToggleViewModeButton isRaw={isRaw} setIsRaw={setIsRaw} />
       </div>
       {isRaw ? (
         <DisplayRaw variables={variables} />
@@ -34,8 +35,8 @@ export function DisplayRaw({ variables }: { variables: Object }) {
 }
 
 interface ReduceType {
-  primitiveTypeVariables: [string, string][]
-  objectTypeVariables: [string, Object][]
+  primitiveTypeVariables: [string, Variable][]
+  objectTypeVariables: [string, Variable][]
 }
 
 export function DisplayView({ variables }: { variables: Object }) {
@@ -60,11 +61,11 @@ export function DisplayView({ variables }: { variables: Object }) {
 
   return (
     <form>
-      {/* Display Service Variables */}
+      {/* Display Variables */}
       <div className="mb-3">
         <VariablesList variables={primitiveTypeVariables} />
       </div>
-      {/* Display Service Variables Dicts */}
+      {/* Display Variables Dicts */}
       <div className="flex flex-col gap-2">
         {objectTypeVariables.map(([dictId, dictVariables]) => (
           <Disclosure key={dictId} title={dictId}>
@@ -83,7 +84,7 @@ export function VariablesList({
   variables,
   dictId,
 }: {
-  variables: [string, string | number | boolean | any[]][]
+  variables: [string, Variable][]
   dictId?: string
 }) {
   return (

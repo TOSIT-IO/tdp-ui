@@ -1,4 +1,5 @@
 import { Sidebar } from 'src/components/Layout'
+import { Variable } from '../types'
 import { ArrayList } from './ArrayList'
 import { BooleanField } from './BooleanField'
 import { StringNumberField } from './StringNumberField'
@@ -9,7 +10,7 @@ export function PrimitiveField({
   dictId,
 }: {
   property: string
-  value: string | number | boolean | any[]
+  value: Variable
   dictId?: string
 }) {
   return (

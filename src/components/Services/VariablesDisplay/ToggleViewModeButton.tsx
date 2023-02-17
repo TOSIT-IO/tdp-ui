@@ -3,12 +3,15 @@ import React from 'react'
 import { HeroIcon } from 'src/types'
 import { classNames } from 'src/utils'
 
-interface RawViewButtonType {
+interface ToggleViewModeButton {
   isRaw: boolean
   setIsRaw: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function RawViewButton({ isRaw, setIsRaw }: RawViewButtonType) {
+export function ToggleViewModeButton({
+  isRaw,
+  setIsRaw,
+}: ToggleViewModeButton) {
   return (
     <div className="rounded-md inline-flex border border-gray-400 overflow-hidden">
       <IconButon
