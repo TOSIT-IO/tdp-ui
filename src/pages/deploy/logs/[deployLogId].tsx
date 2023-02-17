@@ -1,12 +1,9 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
-import DashboardLayout from 'src/app/dashboard/layout'
 import { useDeployLogInfos } from 'src/hooks'
-import LogsLayout from 'src/app/dashboard/logs/layout'
 import { getFirstElementIfArray } from 'src/utils'
 import { DeploysInfos, OperationsList } from 'src/components/Deploy/DeployLogs'
 
-const DeployLogPage = () => {
+export default function DeployLogPage() {
   const {
     query: { deployLogId: tempDeployLogId },
   } = useRouter()
@@ -24,13 +21,3 @@ const DeployLogPage = () => {
     </>
   )
 }
-
-DeployLogPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <DashboardLayout>
-      <LogsLayout>{page}</LogsLayout>
-    </DashboardLayout>
-  )
-}
-
-export default DeployLogPage

@@ -6,10 +6,7 @@ import { Button } from 'src/components/commons'
 import { DeployPreview } from 'src/components/Deploy'
 import { NavigationBar } from 'src/components/Layout'
 
-import DeployLayout from 'src/app/dashboard/deploy/layout'
-import DashboardLayout from 'src/app/dashboard/layout'
-
-const ReconfigurePage = () => {
+export default function ReconfigurePage() {
   const [preview, setPreview] = useState<Operation[]>([])
   const { planDeployReconfigure, reconfigureDeploy } = useTdpClient()
 
@@ -53,13 +50,3 @@ const ReconfigurePage = () => {
     </>
   )
 }
-
-ReconfigurePage.getLayout = function getLayout(page: React.ReactElement) {
-  return (
-    <DashboardLayout>
-      <DeployLayout>{page}</DeployLayout>
-    </DashboardLayout>
-  )
-}
-
-export default ReconfigurePage

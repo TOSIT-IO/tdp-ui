@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
-import DashboardLayout from 'src/app/dashboard/layout'
 
 import {
   Layout as ServiceLayout,
@@ -10,7 +8,7 @@ import {
 import { useSelectService } from 'src/features/variables'
 import { getFirstElementIfArray } from 'src/utils'
 
-const ServicePage = () => {
+export default function ServicePage() {
   const {
     query: { serviceId: tempServiceId },
   } = useRouter()
@@ -23,19 +21,9 @@ const ServicePage = () => {
   if (!serviceId || !variables) return <p>Loading</p>
 
   return (
-    <>
+    <ServiceLayout>
       <VariablesDisplay variables={variables} />
       <ValidateBar />
-    </>
+    </ServiceLayout>
   )
 }
-
-ServicePage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <DashboardLayout>
-      <ServiceLayout>{page}</ServiceLayout>
-    </DashboardLayout>
-  )
-}
-
-export default ServicePage

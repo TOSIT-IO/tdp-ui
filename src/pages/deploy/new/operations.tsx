@@ -1,8 +1,6 @@
-import DeployLayout from 'src/app/dashboard/deploy/layout'
-import DashboardLayout from 'src/app/dashboard/layout'
 import { DeployOperations } from 'src/components/Deploy'
 
-const DeployOperationsPage = () => {
+export default function DeployOperationsPage() {
   return (
     <>
       <div className="mt-2 border-b border-gray-200 pb-5 mb-5">
@@ -14,13 +12,3 @@ const DeployOperationsPage = () => {
     </>
   )
 }
-
-DeployOperationsPage.getLayout = function getLayout(page: React.ReactElement) {
-  return (
-    <DashboardLayout>
-      <DeployLayout>{page}</DeployLayout>
-    </DashboardLayout>
-  )
-}
-
-export default DeployOperationsPage

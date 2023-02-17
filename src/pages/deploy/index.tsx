@@ -1,10 +1,8 @@
-import DashboardLayout from 'src/app/dashboard/layout'
 import { usePastDeploymentsRichList } from 'src/hooks'
 import { DeployLogs } from 'src/components/Deploy'
-import LogsLayout from 'src/app/dashboard/logs/layout'
 import { Button } from 'src/components/commons'
 
-const PastDeployLogsPage = () => {
+export default function PastDeployLogsPage() {
   const pastDeploymentsRichList = usePastDeploymentsRichList()
 
   return (
@@ -36,13 +34,3 @@ const PastDeployLogsPage = () => {
     </>
   )
 }
-
-PastDeployLogsPage.getLayout = function getLayout(page: React.ReactElement) {
-  return (
-    <DashboardLayout>
-      <LogsLayout>{page}</LogsLayout>
-    </DashboardLayout>
-  )
-}
-
-export default PastDeployLogsPage

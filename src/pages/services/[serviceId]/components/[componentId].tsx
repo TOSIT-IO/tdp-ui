@@ -6,10 +6,8 @@ import {
 } from 'src/components/Services'
 import { getFirstElementIfArray } from 'src/utils'
 import { useSelectComponent } from 'src/features/variables'
-//Layouts
-import DashboardLayout from 'src/app/dashboard/layout'
 
-const ComponentPage = () => {
+export default function ComponentPage() {
   const {
     query: { serviceId: tempServiceId, componentId: tempComponentId },
   } = useRouter()
@@ -23,19 +21,9 @@ const ComponentPage = () => {
   if (!serviceId || !componentId || !variables) return <p>Loading...</p>
 
   return (
-    <>
+    <ServiceLayout>
       <VariablesDisplay variables={variables} />
       <ValidateBar />
-    </>
+    </ServiceLayout>
   )
 }
-
-ComponentPage.getLayout = function getLayout(page: React.ReactElement) {
-  return (
-    <DashboardLayout>
-      <ServiceLayout>{page}</ServiceLayout>
-    </DashboardLayout>
-  )
-}
-
-export default ComponentPage
