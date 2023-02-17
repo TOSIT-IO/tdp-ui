@@ -42,11 +42,16 @@ export function DisplayView({ variables }: { variables: Object }) {
   const { primitiveTypeVariables, objectTypeVariables } = Object.entries(
     variables
   ).reduce<ReduceType>(
-    ({ primitiveTypeVariables, objectTypeVariables }, currentValue) => {
-      if (typeof currentValue[1] === 'object') {
-        objectTypeVariables.push(currentValue)
+    ({ primitiveTypeVariables, objectTypeVariables }, currentVariable) => {
+      const [_, currentValue] = currentVariable
+      if (
+        typeof currentValue === 'object' &&
+        !Array.isArray(currentValue) &&
+        currentValue !== null
+      ) {
+        objectTypeVariables.push(currentVariable)
       } else {
-        primitiveTypeVariables.push(currentValue)
+        primitiveTypeVariables.push(currentVariable)
       }
       return { objectTypeVariables, primitiveTypeVariables }
     },
