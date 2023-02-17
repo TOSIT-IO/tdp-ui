@@ -51,6 +51,9 @@ function getPrimitiveField({
       if (Array.isArray(value)) {
         return <ArrayList property={property} value={value} dict={dictId} />
       }
+      return (
+        <StringNumberField property={property} value={value} dict={dictId} />
+      )
     default:
       return <p>Type error</p>
   }
