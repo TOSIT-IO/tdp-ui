@@ -1,7 +1,5 @@
 import Link from 'next/link'
 import { ChevronRightIcon } from '@heroicons/react/24/solid'
-import DeployLayout from 'src/app/dashboard/deploy/layout'
-import DashboardLayout from 'src/app/dashboard/layout'
 
 type DeployModes = {
   [key: string]: DeployMode
@@ -32,7 +30,7 @@ const deployModes: DeployModes = {
   },
 }
 
-const DeployModeStep = () => {
+export default function DeployModeStep() {
   return (
     <>
       <div className="mt-2 border-b border-gray-200 pb-5 mb-5">
@@ -51,16 +49,6 @@ const DeployModeStep = () => {
     </>
   )
 }
-
-DeployModeStep.getLayout = function getLayout(page: React.ReactElement) {
-  return (
-    <DashboardLayout>
-      <DeployLayout>{page}</DeployLayout>
-    </DashboardLayout>
-  )
-}
-
-export default DeployModeStep
 
 function DeployOption({ title, description, href }: DeployMode) {
   return (

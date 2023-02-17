@@ -8,7 +8,7 @@ import {
   LegalNotice,
 } from 'src/components/Layout'
 
-export default function DashboardLayout({ children }) {
+export function DashboardLayout({ children }) {
   return (
     <ToastProvider>
       <Sidebar sideWidth="13rem" space="0">
@@ -23,9 +23,11 @@ export default function DashboardLayout({ children }) {
           </div>
         </aside>
         {/* Main content */}
-        <div className="h-screen overflow-y-auto mt-auto mb-3">
-          <main className="p-5">{children}</main>
-          <LegalNotice />
+        <div className="h-screen overflow-y-auto flex-col mb-3">
+          <main className="p-5 max-w-5xl mx-auto">{children}</main>
+          <div className="mt-auto">
+            <LegalNotice />
+          </div>
         </div>
       </Sidebar>
     </ToastProvider>
