@@ -23,7 +23,7 @@ export function DashboardLayout({ children }) {
           </div>
         </aside>
         {/* Main content */}
-        <div className="h-screen overflow-y-auto flex-col mb-3">
+        <div className="h-screen overflow-y-auto">
           <main className="p-5 max-w-5xl mx-auto">{children}</main>
           <div className="mt-auto">
             <LegalNotice />
