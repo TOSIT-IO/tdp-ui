@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Disclosure } from 'src/components/Layout/primitives'
-import { PrimitiveField, RawField } from './Fields'
+import { PrimitiveField } from './Fields'
 import { RawViewButton } from './RawViewButton'
+import Editor from '@monaco-editor/react'
 
 export function VariablesDisplay({ variables }: { variables: Object }) {
   const [isRaw, setIsRaw] = useState(false)
@@ -24,11 +25,29 @@ export function VariablesDisplay({ variables }: { variables: Object }) {
 }
 
 export function DisplayRaw({ variables }: { variables: Object }) {
+  const editorRef = useRef(null)
+
+  function handleEditorDidMount(editor) {
+    editorRef.current = editor
+  }
+
+  function showValue() {
+    alert(editorRef.current.getValue())
+  }
   return (
-    <div className="flex flex-col gap-1">
-      {Object.entries(variables).map(([k, v]) => (
-        <RawField key={k} property={k} value={v} />
-      ))}
+    <div className="border border-gray-400">
+      <button onClick={showValue}>Test</button>
+      <Editor
+        height="50vh"
+        defaultLanguage="json"
+        defaultValue={JSON.stringify(variables, null, 2)}
+        options={{
+          minimap: { enabled: false },
+          automaticLayout: true,
+          wordWrap: 'on',
+        }}
+        onMount={handleEditorDidMount}
+      />
     </div>
   )
 }

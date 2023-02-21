@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
+    "@monaco-editor/react": "^4.4.6",
     "@reduxjs/toolkit": "^1.9.1",
     "next": "^13.1.4",
     "oidc-client-ts": "^2.2.1",
