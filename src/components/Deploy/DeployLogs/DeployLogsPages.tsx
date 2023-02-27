@@ -1,8 +1,25 @@
 import { DeploymentLog } from 'src/clients/tdpClient'
 import Link from 'next/link'
 import { dateAndTime } from 'src/utils/dateAndTime'
+import { useState } from 'react'
+import { useDeployListPage } from 'src/hooks'
+import { classNames } from 'src/utils'
 
-export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
+export function DeployLogsPages() {
+  const DEPLOYLOGS_LIMIT = 15
+  const DEPLOYLOGS_OFFSET = 0
+  const [limit, setLimit] = useState(DEPLOYLOGS_LIMIT)
+  const [offset, setOffset] = useState(DEPLOYLOGS_OFFSET)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  // const [currentDeployLogsPage, setCurrentDeployLogsPage , limitDeployLogs, offsetDeployLogs] = useDeployListPage(limit,offset)
+  const currentDeployLogsPage: DeploymentLog[] = useDeployListPage(
+    limit,
+    offset
+  )
+
+  // const pastDeploymentsRichList = usePastDeploymentsRichList()
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -46,11 +63,10 @@ export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {deployTab.map((d) => (
+                    {currentDeployLogsPage.map((d) => (
                       <tr key={d.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {d.id}129-logs-pagination
-
+                          {d.id}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {dateAndTime(d.startTime)}
@@ -78,12 +94,55 @@ export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
           </div>
         </div>
         <div className="p-5 mt-auto mb-3 space-x-1 flex items-center justify-center text-gray-700">
-          <link></link>
-          <p>toto</p>
-          <link></link>
+          <button
+            type="button"
+            onClick={() => {
+              console.log(
+                `AVANT SET Page courante : ${Math.floor(
+                  offset / limit
+                )} offset : ${offset} limit : ${limit}`
+              )
+              // ((a % n ) + n ) % n
+              // if ((offset % limit) > 1) {
+              if (Math.floor(offset / limit) > 0) {
+                // setCurrentPage(currentPage - 1)
+                setOffset(offset - limit)
+              }
+              console.log(
+                `APRES SET Page courante : ${Math.floor(
+                  offset / limit
+                )} offset : ${offset} limit : ${limit}`
+              )
+            }}
+            className={classNames(
+              'bg-gray-200 text-gray-700',
+              'text-gray-500',
+              'px-2 py-[0.15rem] hover:bg-gray-200 text-sm flex gap-1 items-center'
+            )}
+          >
+            {'< Page précédente'}
+          </button>
+          <p>
+            Page courante : {Math.floor(offset / limit)} offset : {offset} limit
+            : {limit}
+          </p>
+          <button
+            type="button"
+            // onClick={() => setOffset(offset>0?offset+1:offset)}
+            onClick={() => {
+              // setCurrentPage(currentPage + 1)
+              setOffset(offset + limit)
+            }}
+            className={classNames(
+              'bg-gray-200 text-gray-700',
+              'text-gray-500',
+              'px-2 py-[0.15rem] hover:bg-gray-200 text-sm flex gap-1 items-center'
+            )}
+          >
+            {'Page suivante >'}
+          </button>
         </div>
       </div>
     </div>
   )
 }
-

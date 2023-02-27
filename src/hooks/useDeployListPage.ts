@@ -2,7 +2,10 @@ import { DeploymentLog } from 'src/clients/tdpClient'
 import { useEffect, useState } from 'react'
 import { useTdpClient } from 'src/contexts'
 
-export function usePastDeploymentsRichList() {
+export function useDeployListPage(
+  limit: number,
+  offset: number
+): DeploymentLog[] {
   const { getDeployments } = useTdpClient()
 
   const [pastDeploymentsList, setPastDeploymentsList] = useState<
@@ -10,13 +13,13 @@ export function usePastDeploymentsRichList() {
   >([])
 
   useEffect(() => {
-    async function fetchPastDeploymentsList() {
-      // const res = await getDeployments(15,18)
-      const res = await getDeployments()
+    async function fetchPastDeploymentsList(limit: number, offset: number) {
+      const res = await getDeployments(limit, offset)
       setPastDeploymentsList(res)
     }
-    fetchPastDeploymentsList()
-  }, [getDeployments])
+    fetchPastDeploymentsList(limit, offset)
+    console.log('limit : ' + limit + ' offset : ' + offset)
+  }, [getDeployments, limit, offset])
 
   return pastDeploymentsList
 }
