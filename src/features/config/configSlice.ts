@@ -23,12 +23,11 @@ const initialState = {
 }
 
 export const fetchConfig = createAsyncThunk('config/fetch', async () => {
-  if (process.env.NODE_ENV === 'development') {
-    return configJson
-  } else {
+  if (!process.env.NODE_ENV) {
     const response = await fetch('/config.json')
     return await response.json()
   }
+  return configJson
 })
 
 const configSlice = createSlice({
