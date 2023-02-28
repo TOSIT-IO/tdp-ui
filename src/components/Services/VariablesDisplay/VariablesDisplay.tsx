@@ -11,7 +11,7 @@ export function VariablesDisplay({ variables }: { variables: Object }) {
 
   return (
     <>
-      <div className="flex justify-end mb-4 ">
+      <div className="mb-4 flex justify-end ">
         <RawViewButton isRaw={isRaw} setIsRaw={setIsRaw} />
       </div>
       {isRaw ? (

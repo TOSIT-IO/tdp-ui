@@ -12,12 +12,12 @@ export function NavigationBar({
   if (Array.isArray(children)) {
     const [leftItem, rightItem] = children
     return (
-      <div className={classNames('flex mt-6', additionalClassNames)}>
+      <div className={classNames('mt-6 flex', additionalClassNames)}>
         {leftItem}
         <div className="ml-auto">{rightItem}</div>
       </div>
     )
   }
 
-  return <div className="flex mt-6">{children}</div>
+  return <div className="mt-6 flex">{children}</div>
 }

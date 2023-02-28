@@ -10,7 +10,7 @@ interface RawViewButtonType {
 
 export function RawViewButton({ isRaw, setIsRaw }: RawViewButtonType) {
   return (
-    <div className="rounded-md inline-flex border border-gray-400 overflow-hidden">
+    <div className="inline-flex overflow-hidden rounded-md border border-gray-400">
       <IconButon
         onClick={() => setIsRaw(true)}
         isActive={isRaw}
@@ -20,7 +20,7 @@ export function RawViewButton({ isRaw, setIsRaw }: RawViewButtonType) {
       <IconButon
         onClick={() => setIsRaw(false)}
         isActive={!isRaw}
-        className="-ml-px border-l-gray-400 border-l"
+        className="-ml-px border-l border-l-gray-400"
         icon={EyeIcon}
         text="View"
       />
@@ -47,11 +47,11 @@ function IconButon({
       onClick={onClick}
       className={classNames(
         isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-500',
-        'px-2 py-[0.15rem] hover:bg-gray-200 text-sm flex gap-1 items-center',
+        'flex items-center gap-1 px-2 py-[0.15rem] text-sm hover:bg-gray-200',
         additionalClassName
       )}
     >
-      <Icon className="w-4 h-4" />
+      <Icon className="h-4 w-4" />
       {text}
     </button>
   )

@@ -15,14 +15,14 @@ export function LoadingConfig({ children }) {
 
   if (status === 'loading')
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         <div className="text-2xl">Loading...</div>
       </div>
     )
 
   if (status === 'failed')
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         <div className="text-2xl">Error: {error}</div>
       </div>
     )

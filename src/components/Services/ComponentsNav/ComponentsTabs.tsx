@@ -22,7 +22,7 @@ export function ComponentsTabs({
   }
 
   return (
-    <nav className="flex flex-wrap gap-1 items-center" aria-label="Tabs">
+    <nav className="flex flex-wrap items-center gap-1" aria-label="Tabs">
       {usedComponents
         .concat(showUnused ? unusedComponents : [])
         .map((tab, i) => (
@@ -34,7 +34,7 @@ export function ComponentsTabs({
         ))}
       <Button
         variant="text"
-        className="ml-1 text-xs text-gray-600 cursor-pointer"
+        className="ml-1 cursor-pointer text-xs text-gray-600"
         onClick={toggleShowUnused}
         aria-label={showUnused ? 'fold' : 'unfold'}
       >
@@ -58,8 +58,8 @@ export function ComponentTab({
       className={classNames(
         isCurrentTab
           ? 'bg-gray-700 text-white'
-          : 'text-gray-500 hover:text-white hover:bg-gray-700',
-        'px-3 py-2 text-center font-medium text-sm bg-gray-200'
+          : 'text-gray-500 hover:bg-gray-700 hover:text-white',
+        'bg-gray-200 px-3 py-2 text-center text-sm font-medium'
       )}
       aria-current={isCurrentTab ? 'page' : undefined}
     >

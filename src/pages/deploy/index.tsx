@@ -7,7 +7,7 @@ export default function PastDeployLogsPage() {
 
   return (
     <>
-      <div className="mt-2 border-b border-gray-200 pb-5 mb-5">
+      <div className="mt-2 mb-5 border-b border-gray-200 pb-5">
         <div className="flex justify-between">
           <h1 className="text-3xl font-medium text-gray-900">Deployments</h1>
           <Button
@@ -25,7 +25,7 @@ export default function PastDeployLogsPage() {
         </p>
       </div>
       {pastDeploymentsRichList.length === 0 ? (
-        <div className="mt-2 text-sm text-center text-gray-700">
+        <div className="mt-2 text-center text-sm text-gray-700">
           - No past deployments to show -
         </div>
       ) : (

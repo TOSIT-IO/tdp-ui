@@ -44,7 +44,7 @@ function MenuItem({ menuItem: item }: { menuItem: TNavItem }) {
     <div>
       <Link
         href={item.href}
-        className="px-2 py-2 text-white flex items-center gap-2 hover:bg-gray-800"
+        className="flex items-center gap-2 px-2 py-2 text-white hover:bg-gray-800"
       >
         {item.icon && <item.icon className="h-5 w-5" />}
         {item.name}
@@ -65,8 +65,8 @@ function MenuSubItem({ menuItem: item }: { menuItem: TNavItem }) {
     <Link
       href={item.href}
       className={classNames(
-        isItemSelected ? 'text-white bg-gray-800' : 'text-gray-400',
-        'pl-6 py-[0.2rem] hover:bg-gray-800'
+        isItemSelected ? 'bg-gray-800 text-white' : 'text-gray-400',
+        'py-[0.2rem] pl-6 hover:bg-gray-800'
       )}
     >
       {item.name}

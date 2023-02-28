@@ -7,7 +7,7 @@ export function Login() {
   const { signinRedirect } = useAuth()
   const { data, error, loading } = useServerStatus()
   return (
-    <div className="pt-[30vh] flex items-center flex-col gap-2">
+    <div className="flex flex-col items-center gap-2 pt-[30vh]">
       <p>{`tdp-server running: ${loading ? 'Loading...' : data}`}</p>
       <Button
         variant="filled"

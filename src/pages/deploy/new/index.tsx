@@ -33,7 +33,7 @@ const deployModes: DeployModes = {
 export default function DeployModeStep() {
   return (
     <>
-      <div className="mt-2 border-b border-gray-200 pb-5 mb-5">
+      <div className="mt-2 mb-5 border-b border-gray-200 pb-5">
         <h1 className="text-3xl font-medium text-gray-900">New deployment</h1>
       </div>
       <div className="flex flex-col gap-3">
@@ -54,14 +54,14 @@ function DeployOption({ title, description, href }: DeployMode) {
   return (
     <Link
       href={href}
-      className="p-5 cursor-pointer text-gray-500 border border-gray-200 rounded-md hover:text-gray-600 hover:bg-gray-50 hover:border-gray-400 focus:outline-none"
+      className="cursor-pointer rounded-md border border-gray-200 p-5 text-gray-500 hover:border-gray-400 hover:bg-gray-50 hover:text-gray-600 focus:outline-none"
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
           <div className="text-lg font-semibold">{title}</div>
           <p>{description}</p>
         </div>
-        <ChevronRightIcon className="ml-3 w-6 h-6" aria-hidden="true" />
+        <ChevronRightIcon className="ml-3 h-6 w-6" aria-hidden="true" />
       </div>
     </Link>
   )
