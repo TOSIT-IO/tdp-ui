@@ -24,14 +24,14 @@ export function ListItem({ operation, index }: OperationProps) {
           {...draggableProvided.draggableProps}
           {...draggableProvided.dragHandleProps}
         >
-          <div className="p-1 flex justify-between border border-gray-300 text-sm font-mono bg-white">
+          <div className="flex justify-between border border-gray-300 bg-white p-1 font-mono text-sm">
             <span className="select-none">{operation}</span>
             <button
               type="button"
               className="px-1"
               onClick={handleRemoveOperation}
             >
-              <XMarkIcon className="w-4 h-4" />
+              <XMarkIcon className="h-4 w-4" />
             </button>
           </div>
         </div>

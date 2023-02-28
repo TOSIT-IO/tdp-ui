@@ -62,7 +62,7 @@ function ValueArrayElement({
           'grow',
           error && 'bg-red-200',
           typeof value === 'number' ? 'text-teal-600' : 'text-slate-700',
-          'hover:opacity-100 hover:bg-slate-200 transition duration-75 ease-in-out'
+          'transition duration-75 ease-in-out hover:bg-slate-200 hover:opacity-100'
         )}
         defaultValue={JSON.stringify(value)}
         onChange={handleChange}

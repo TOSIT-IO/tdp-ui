@@ -38,7 +38,7 @@ export function DeployLogs({ deployTab }: { deployTab: DeploymentLog[] }) {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6 text-gray-900"
+                      className="px-3 py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6"
                     >
                       Deploy Detail
                     </th>

@@ -15,16 +15,16 @@ export function UserInfos() {
 
   return (
     <div className="flex items-center text-white">
-      <UserIcon className="w-6 h-6 text-gray-200" />
-      <div className="flex flex-col ml-2 overflow-x-hidden">
-        <span className="text-sm leading-4 font-bold">{username}</span>
+      <UserIcon className="h-6 w-6 text-gray-200" />
+      <div className="ml-2 flex flex-col overflow-x-hidden">
+        <span className="text-sm font-bold leading-4">{username}</span>
         <span className="text-xs italic leading-4 text-gray-400">{email}</span>
       </div>
       <button
         onClick={() => signoutRedirect()}
-        className="ml-auto px-2 self-stretch text-sm text-gray-200 hover:text-red-400"
+        className="ml-auto self-stretch px-2 text-sm text-gray-200 hover:text-red-400"
       >
-        <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+        <ArrowLeftOnRectangleIcon className="h-5 w-5" />
       </button>
     </div>
   )

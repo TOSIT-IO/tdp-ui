@@ -15,11 +15,11 @@ export function PrimitiveField({
   return (
     <Sidebar
       key={property}
-      className="text-gray-600 text-sm"
+      className="text-sm text-gray-600"
       space="0"
       sideWidth="17rem"
     >
-      <p className="w-20 font-bold overflow-auto">{property}:</p>
+      <p className="w-20 overflow-auto font-bold">{property}:</p>
       <div className="w-full">
         {getPrimitiveField({ dictId, property, value })}
       </div>

@@ -21,7 +21,7 @@ export function RestartField() {
         type="checkbox"
         checked={restart}
         onChange={handleOnCheck}
-        className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300"
+        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600"
       />
       <label
         htmlFor="default-checkbox"

@@ -32,12 +32,12 @@ export function OperationInput({
     <div
       className={classNames(
         additionalClassNames,
-        'p-2 flex flex-col bg-gray-100'
+        'flex flex-col bg-gray-100 p-2'
       )}
     >
       <input
         type="text"
-        className="pl-1 border border-gray-300 font-mono"
+        className="border border-gray-300 pl-1 font-mono"
         placeholder="operation_name"
         onKeyDown={handleOnKeyDown}
       />

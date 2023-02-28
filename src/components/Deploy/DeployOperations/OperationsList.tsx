@@ -29,7 +29,7 @@ export function OperationsList({
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <div className={classNames(additionalClassNames, 'p-2 bg-gray-100')}>
+      <div className={classNames(additionalClassNames, 'bg-gray-100 p-2')}>
         <Droppable droppableId="droppable">
           {(droppableProvided) => (
             <div
@@ -38,7 +38,7 @@ export function OperationsList({
             >
               <div
                 ref={divToScroll}
-                className="max-h-96 overflow-auto space-y-1"
+                className="max-h-96 space-y-1 overflow-auto"
               >
                 {operations.map((operation, index) => (
                   <ListItem

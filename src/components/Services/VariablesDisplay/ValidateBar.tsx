@@ -13,7 +13,7 @@ export function ValidateBar() {
   }
 
   return (
-    <div className="sticky bottom-0 w-full py-4 bg-white flex items-center justify-end">
+    <div className="sticky bottom-0 flex w-full items-center justify-end bg-white py-4">
       <input
         value={validateMessage}
         onChange={(e) => setValidateMessage(e.target.value)}

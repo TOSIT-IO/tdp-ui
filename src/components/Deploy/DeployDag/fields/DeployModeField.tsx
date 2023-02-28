@@ -57,10 +57,10 @@ function Card({
     <button
       type="button"
       className={classNames(
-        'p-4 text-gray-500 border border-gray-200 rounded-md font-medium',
-        'hover:text-gray-600 hover:bg-gray-50 hover:border-gray-400',
+        'rounded-md border border-gray-200 p-4 font-medium text-gray-500',
+        'hover:border-gray-400 hover:bg-gray-50 hover:text-gray-600',
         'focus:outline-none',
-        isSelected && 'border-gray-400 text-gray-600 bg-gray-50',
+        isSelected && 'border-gray-400 bg-gray-50 text-gray-600',
         additionalClassname
       )}
       onClick={onClick}

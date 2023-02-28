@@ -46,7 +46,7 @@ export function FilterField() {
         htmlFor="filter"
       />
       <div className="flex items-stretch">
-        <div className="rounded-l-md border border-gray-300 shadow-sm -mr-1 overflow-hidden pr-1">
+        <div className="-mr-1 overflow-hidden rounded-l-md border border-gray-300 pr-1 shadow-sm">
           <label htmlFor="filter-type" className="sr-only">
             Filter Type
           </label>
@@ -65,7 +65,7 @@ export function FilterField() {
           type="text"
           name="filter"
           className={classNames(
-            'pl-2 w-full border rounded-r-md p-1 outline-none font-mono',
+            'w-full rounded-r-md border p-1 pl-2 font-mono outline-none',
             isFilterExpressionValid ? 'border-gray-300' : 'border-red-500'
           )}
           placeholder={filterTypes[filterType].placeholder}

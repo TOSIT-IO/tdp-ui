@@ -36,14 +36,14 @@ export function RawField({
   }
 
   return (
-    <div className="text-gray-600 text-sm flex">
-      <label htmlFor={fullProperty} className="font-bold mr-2">
+    <div className="flex text-sm text-gray-600">
+      <label htmlFor={fullProperty} className="mr-2 font-bold">
         {property}:
       </label>
       <input
         name={fullProperty}
         className={classNames(
-          'grow outline-none bg-gray-100',
+          'grow bg-gray-100 outline-none',
           error && 'bg-red-200'
         )}
         defaultValue={JSON.stringify(value)}
