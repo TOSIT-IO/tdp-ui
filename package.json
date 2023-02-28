@@ -9,8 +9,7 @@
     "export": "next build && next export && cp config.example.json out/config.json",
     "lint": "next lint",
     "prepare": "husky install",
-    "prettier:check": "npx prettier --check .",
-    "prettier:fix": "npx prettier --write .",
+    "format": "npx prettier --write .",
     "postinstall": "./scripts/generator.sh"
   },
   "dependencies": {
