@@ -12,7 +12,7 @@ We assume that are available:
 
 The following are required to **build and develop** `tdp-ui`. They aren't needed when exporting the project. `tdp-ui` can be used with any web server (such as [NGINX](https://www.nginx.com/)):
 
-- [Node.js](https://nodejs.org/en/) 14.6.0 or later.  
+- [Node.js](https://nodejs.org/en/) 14.13.0 or later.  
   _The UI is based on [Next.js](https://nextjs.org/), which requires Node.js._
 - [Java](https://www.java.com/).  
   _Java is used by the [OpenAPI generator](https://openapi-generator.tech/docs/generators/typescript-fetch) to [generate the API client SDK](docs/openapi-client.md)._
