@@ -1,8 +1,8 @@
-import { createContext, useCallback, useContext, useEffect } from 'react'
-import { useTdpClient } from 'src/contexts'
+import { createContext, useContext, useEffect } from 'react'
 import { useAppDispatch } from 'src/store'
-import { clearUserInput } from 'src/features/userInput'
-import { setServiceValue } from 'src/features/variables'
+import { clearUserInput, setServiceId } from 'src/features/userInput'
+import { useRouter } from 'next/router'
+import { getFirstElementIfArray } from 'src/utils'
 
 type ParamContextProps = {
   currentServiceId: string
@@ -11,26 +11,21 @@ type ParamContextProps = {
 
 const ParamsContext = createContext<ParamContextProps>(null)
 
-export function ParamsContextProvider({
-  children,
-  currentServiceId,
-  currentComponentId,
-}: React.PropsWithChildren<ParamContextProps>) {
-  const dispatch = useAppDispatch()
-  const { getService } = useTdpClient()
+export function ParamsContextProvider({ children }) {
+  // Needs to be in the context to share it on both services and components pages
+  const {
+    isReady,
+    query: { serviceId: tempServiceId, componentId: tempComponentId },
+  } = useRouter()
+  const currentServiceId = isReady && getFirstElementIfArray(tempServiceId)
+  const currentComponentId = isReady && getFirstElementIfArray(tempComponentId)
 
-  const updateServiceValue = useCallback(
-    async (serviceId: string) => {
-      const service = await getService(serviceId)
-      dispatch(setServiceValue(service))
-    },
-    [getService, dispatch]
-  )
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    updateServiceValue(currentServiceId)
     dispatch(clearUserInput())
-  }, [updateServiceValue, currentServiceId, dispatch])
+    dispatch(setServiceId(currentServiceId))
+  }, [dispatch, currentServiceId])
 
   return (
     <ParamsContext.Provider value={{ currentServiceId, currentComponentId }}>

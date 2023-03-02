@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { merge } from 'mixme'
 
 type userInput = {
   id: string
@@ -7,97 +8,72 @@ type userInput = {
     id: string
     variables: Object
   }[]
+  settings: {
+    showUnusedTabs: boolean
+    showRawMode: boolean
+  }
 }
 
-const initialState = {} as userInput
+const initialState = {
+  components: [],
+  settings: { showUnusedTabs: false, showRawMode: false },
+} as userInput
 
 export const userInputSlice = createSlice({
   name: 'userInput',
   initialState,
   reducers: {
-    clearUserInput: () => initialState,
-    setProperty: (
-      state,
-      action: PayloadAction<{
-        serviceId: string
-        componentId?: string
-        property: string
-        value: any
-      }>
-    ) => {
-      if (action.payload.componentId) {
-        userInputSlice.caseReducers.setComponentProperty(state, {
-          type: 'setComponentProperty',
-          payload: {
-            serviceId: action.payload.serviceId,
-            componentId: action.payload.componentId,
-            property: action.payload.property,
-            value: action.payload.value,
-          },
-        })
-      } else {
-        userInputSlice.caseReducers.setServiceProperty(state, action)
-      }
+    clearUserInput: (state) => {
+      state.components = []
+      state.variables = {}
+      state.id = null
     },
-    setServiceProperty: (
-      state,
-      action: PayloadAction<{
-        serviceId: string
-        property: string
-        value: any
-      }>
-    ) => {
-      const { serviceId, property, value } = action.payload
-      if (!state.id) {
-        state.id = serviceId
-        state.variables = {}
-      }
-      if (state.id !== serviceId) {
-        throw new Error(
-          `ServiceId mismatch: ${serviceId} does not match ${state.id}`
-        )
-      }
-      state.variables[property] = value
+    setServiceId: (state, action: PayloadAction<string>) => {
+      state.id = action.payload
     },
-    setComponentProperty: (
+    setServiceVariables: (state, action: PayloadAction<Object>) => {
+      const isVariablesEmpty = Object.keys(action.payload).length === 0
+      if (isVariablesEmpty) return
+      state.variables = merge(state.variables, action.payload)
+    },
+    setComponent: (
       state,
       action: PayloadAction<{
-        serviceId: string
         componentId: string
-        property: string
-        value: any
+        variables: Object
       }>
     ) => {
-      const { serviceId, componentId, property, value } = action.payload
-      if (!state.id) {
-        state.id = serviceId
-        state.variables = {}
-      }
-      if (!state.components) {
-        state.components = []
-      }
-      if (state.id !== serviceId) {
-        throw new Error(
-          `ServiceId mismatch: ${serviceId} does not match ${state.id}`
-        )
-      }
+      const { componentId, variables } = action.payload
+      const isVariablesEmpty = Object.keys(variables).length === 0
+      if (isVariablesEmpty) return
       const component = state.components.find(
         (component) => component.id === componentId
       )
       if (component) {
-        component.variables[property] = value
+        component.variables = merge(component.variables, variables)
       } else {
         state.components.push({
           id: componentId,
-          variables: {
-            [property]: value,
-          },
+          variables,
         })
       }
+    },
+    toogleShowUnusedTabs: (state) => {
+      state.settings.showUnusedTabs = !state.settings.showUnusedTabs
+    },
+    setRawMode: (state, action: PayloadAction<boolean>) => {
+      state.settings.showRawMode = action.payload
     },
   },
 })
 
-export const { setProperty, clearUserInput } = userInputSlice.actions
+export const {
+  clearUserInput,
+  setServiceId,
+  setServiceVariables,
+  setComponent,
+  toogleShowUnusedTabs,
+  setRawMode,
+} = userInputSlice.actions
 
 export default userInputSlice.reducer

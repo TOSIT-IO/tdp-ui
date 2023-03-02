@@ -7,8 +7,16 @@ import { DashboardLayout } from 'src/components/Layout'
 import '../styles/globals.css'
 import { LoadVariables } from 'src/features/variables/LoadVariables'
 import { AppProps } from 'next/app'
+import { NextPageWithLayout } from 'src/types'
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  // Use the layout defined at the page level, if available
+  // see https://nextjs.org/docs/basic-features/layouts#with-typescript
+  const getLayout = Component.getLayout ?? ((page) => page)
   return (
     <Provider store={store}>
       <LoadingConfig>
@@ -16,7 +24,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <TdpClientContextProvider>
             <LoadVariables>
               <DashboardLayout>
-                <Component {...pageProps} />
+                {getLayout(<Component {...pageProps} />)}
               </DashboardLayout>
             </LoadVariables>
           </TdpClientContextProvider>
