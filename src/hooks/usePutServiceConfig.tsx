@@ -3,7 +3,6 @@ import type { ComponentUpdate, ServiceUpdate } from 'src/clients/tdpClient'
 import { toast } from 'react-toastify'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
 import { useAppDispatch } from 'src/store'
-import { clearUserInput } from 'src/features/userInput'
 import { setServiceValue } from 'src/features/variables'
 import Link from 'next/link'
 
@@ -27,7 +26,7 @@ export function usePutServiceConfig() {
     return await patchComponent(componentId, serviceId, componentUpdate)
   }
 
-  const fetchServices = async () => {
+  const refreshService = async () => {
     const service = await getService(userInput.id)
     dispatch(setServiceValue(service))
   }
@@ -52,8 +51,7 @@ export function usePutServiceConfig() {
           })
         })
       }
-      fetchServices()
-      dispatch(clearUserInput())
+      refreshService()
       toast.success(
         <Link href="/deploy/new">
           Variables successfully updated for {userInput.id}

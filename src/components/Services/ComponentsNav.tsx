@@ -1,10 +1,12 @@
-import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ComponentAsValue, useSelectService } from 'src/features/variables'
 import { classNames } from 'src/utils'
 import { Button } from 'src/components/commons'
 import { useParamsContext } from './ParamsContext'
+import { useSelectUserInput } from 'src/features/userInput/hooks'
+import { useAppDispatch } from 'src/store'
+import { toogleShowUnusedTabs } from 'src/features/userInput'
 
 type ComponentNavItem = {
   id: string
@@ -15,9 +17,10 @@ type ComponentsNav = {
   usedComponents: ComponentNavItem[]
   unusedComponents: ComponentNavItem[]
   currentTabId: string
+  onChange: () => void
 }
 
-export function ComponentsNav() {
+export function ComponentsNav({ onChange }: { onChange: () => void }) {
   const { currentServiceId, currentComponentId } = useParamsContext()
   const {
     value: { components },
@@ -35,6 +38,7 @@ export function ComponentsNav() {
           usedComponents={usedComponents}
           unusedComponents={unusedComponents}
           currentTabId={currentComponentId || currentServiceId}
+          onChange={onChange}
         />
       </div>
       <div className="hidden sm:block">
@@ -42,6 +46,7 @@ export function ComponentsNav() {
           usedComponents={usedComponents}
           unusedComponents={unusedComponents}
           currentTabId={currentComponentId || currentServiceId}
+          onChange={onChange}
         />
       </div>
     </div>
@@ -52,6 +57,7 @@ function ComponentsDropdown({
   usedComponents,
   unusedComponents,
   currentTabId,
+  onChange,
 }: ComponentsNav) {
   const { push, isReady } = useRouter()
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -71,13 +77,13 @@ function ComponentsDropdown({
         onChange={handleChange}
       >
         {usedComponents.map((tab) => (
-          <option key={tab.id} value={tab.href}>
+          <option key={tab.id} value={tab.href} onClick={onChange}>
             {tab.id}
           </option>
         ))}
         <option disabled>──────────</option>
         {unusedComponents.map((tab) => (
-          <option key={tab.id} value={tab.href}>
+          <option key={tab.id} value={tab.href} onClick={onChange}>
             {tab.id}
           </option>
         ))}
@@ -90,8 +96,12 @@ function ComponentsTabs({
   usedComponents,
   unusedComponents,
   currentTabId,
+  onChange,
 }: ComponentsNav) {
-  const [showUnused, setShowUnused] = useState(false)
+  const {
+    settings: { showUnusedTabs },
+  } = useSelectUserInput()
+  const dispatch = useAppDispatch()
 
   const isCurrentTab = (tab: string) => {
     if (currentTabId === tab) return true
@@ -99,27 +109,30 @@ function ComponentsTabs({
   }
 
   function toggleShowUnused() {
-    setShowUnused(!showUnused)
+    dispatch(toogleShowUnusedTabs())
   }
 
   return (
     <nav className="flex flex-wrap gap-1 items-center" aria-label="Tabs">
-      {usedComponents.concat(showUnused ? unusedComponents : []).map((tab) => {
-        return (
-          <ComponentTab
-            key={tab.id}
-            tab={tab}
-            isCurrentTab={isCurrentTab(tab.id)}
-          />
-        )
-      })}
+      {usedComponents
+        .concat(showUnusedTabs ? unusedComponents : [])
+        .map((tab) => {
+          return (
+            <ComponentTab
+              key={tab.id}
+              tab={tab}
+              isCurrentTab={isCurrentTab(tab.id)}
+              onChange={onChange}
+            />
+          )
+        })}
       <Button
         variant="text"
         className="ml-1 text-xs text-gray-600 cursor-pointer"
         onClick={toggleShowUnused}
-        aria-label={showUnused ? 'fold' : 'unfold'}
+        aria-label={showUnusedTabs ? 'fold' : 'unfold'}
       >
-        {`[${showUnused ? '-' : '+'}]`}
+        {`[${showUnusedTabs ? '-' : '+'}]`}
       </Button>
     </nav>
   )
@@ -128,14 +141,17 @@ function ComponentsTabs({
 function ComponentTab({
   tab,
   isCurrentTab,
+  onChange,
 }: {
   tab: ComponentNavItem
   isCurrentTab: boolean
+  onChange: () => void
 }) {
   return (
     <Link
       key={tab.id}
       href={tab.href}
+      onClick={onChange}
       className={classNames(
         isCurrentTab
           ? 'bg-gray-700 text-white'
