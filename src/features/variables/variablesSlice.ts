@@ -1,7 +1,7 @@
 import { Service, Component } from 'src/clients'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type ComponentAsValue = {
+export type ComponentAsValue = {
   value: Component
   status: 'loading' | 'succeeded' | 'failed'
   error: string | null

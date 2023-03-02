@@ -1,30 +1,50 @@
-import { createContext, useEffect } from 'react'
+import { createContext, useCallback, useContext, useEffect } from 'react'
 import { useTdpClient } from 'src/contexts'
+import { useAppDispatch } from 'src/store'
 import { clearUserInput } from 'src/features/userInput'
 import { setServiceValue } from 'src/features/variables'
-import { useAppDispatch } from 'src/store'
 
-export const ParamsContext = createContext<{
-  serviceId: string
-  componentId?: string
-}>(null)
+type ParamContextProps = {
+  currentServiceId: string
+  currentComponentId?: string
+}
 
-export function ParamsContextProvider({ children, serviceId, componentId }) {
+const ParamsContext = createContext<ParamContextProps>(null)
+
+export function ParamsContextProvider({
+  children,
+  currentServiceId,
+  currentComponentId,
+}: React.PropsWithChildren<ParamContextProps>) {
   const dispatch = useAppDispatch()
   const { getService } = useTdpClient()
 
-  useEffect(() => {
-    async function updateServiceValue() {
+  const updateServiceValue = useCallback(
+    async (serviceId: string) => {
       const service = await getService(serviceId)
       dispatch(setServiceValue(service))
-    }
-    updateServiceValue()
+    },
+    [getService, dispatch]
+  )
+
+  useEffect(() => {
+    updateServiceValue(currentServiceId)
     dispatch(clearUserInput())
-  }, [serviceId, dispatch, getService])
+  }, [updateServiceValue, currentServiceId, dispatch])
 
   return (
-    <ParamsContext.Provider value={{ serviceId, componentId }}>
+    <ParamsContext.Provider value={{ currentServiceId, currentComponentId }}>
       {children}
     </ParamsContext.Provider>
   )
+}
+
+export function useParamsContext() {
+  const paramContext = useContext(ParamsContext)
+  if (!paramContext) {
+    throw new Error(
+      'useParamsContext must be used within a ParamsContextProvider'
+    )
+  }
+  return paramContext
 }
