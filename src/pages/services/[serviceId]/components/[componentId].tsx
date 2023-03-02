@@ -1,29 +1,35 @@
 import { useRouter } from 'next/router'
+import { PageTitle } from 'src/components/Layout'
 import {
-  Layout as ServiceLayout,
-  ValidateBar,
+  ComponentsNav,
+  ParamsContextProvider,
   VariablesDisplay,
 } from 'src/components/Services'
-import { getFirstElementIfArray } from 'src/utils'
 import { useSelectComponent } from 'src/features/variables'
+import { getFirstElementIfArray } from 'src/utils'
 
-export default function ComponentPage() {
+export default function ServicePage() {
   const {
+    isReady,
     query: { serviceId: tempServiceId, componentId: tempComponentId },
   } = useRouter()
-  const serviceId = getFirstElementIfArray(tempServiceId)
-  const componentId = getFirstElementIfArray(tempComponentId)
+  const serviceId = isReady && getFirstElementIfArray(tempServiceId)
+  const componentId = isReady && getFirstElementIfArray(tempComponentId)
 
   const {
     value: { variables },
   } = useSelectComponent(serviceId, componentId)
 
-  if (!serviceId || !componentId || !variables) return <p>Loading...</p>
+  if (!variables) return <p>Loading...</p>
 
   return (
-    <ServiceLayout>
+    <ParamsContextProvider
+      currentServiceId={serviceId}
+      currentComponentId={componentId}
+    >
+      <PageTitle>Variables configuration</PageTitle>
+      <ComponentsNav />
       <VariablesDisplay variables={variables} />
-      <ValidateBar />
-    </ServiceLayout>
+    </ParamsContextProvider>
   )
 }
