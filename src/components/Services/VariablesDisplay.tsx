@@ -1,31 +1,120 @@
 import { useState } from 'react'
+import {
+  useForm,
+  FormProvider,
+  useFormContext,
+  useFormState,
+} from 'react-hook-form'
 import Editor from '@monaco-editor/react'
 import { Bars3CenterLeftIcon, EyeIcon } from '@heroicons/react/24/solid'
 import { Disclosure, Sidebar } from 'src/components/Layout'
 import { Button, IconButon } from 'src/components/commons'
-import { useAppDispatch } from 'src/store'
-import { setProperty } from 'src/features/userInput'
 import { classNames } from 'src/utils'
 import { useParamsContext } from './ParamsContext'
 import { usePutServiceConfig } from 'src/hooks'
+import { ComponentsNav } from './ComponentsNav'
+import { useAppDispatch } from 'src/store'
+import {
+  clearUserInput,
+  setComponent,
+  setRawMode,
+  setServiceVariables,
+} from 'src/features/userInput'
+import { useSelectUserInput } from 'src/features/userInput/hooks'
 
 export function VariablesDisplay({ variables }: { variables: Object }) {
-  const [isRawMode, setIsRawMode] = useState(false)
-  const isVariableEmpty = !Object.entries(variables).length
+  const methods = useForm({ defaultValues: variables })
 
+  return (
+    <FormProvider {...methods}>
+      <Form variables={variables} />
+    </FormProvider>
+  )
+}
+
+function Form({ variables }: { variables: Object }) {
+  const { currentServiceId, currentComponentId } = useParamsContext()
+  const dispatch = useAppDispatch()
+  const { getValues, control } = useFormContext()
+  const { dirtyFields } = useFormState({ control })
+
+  function saveVariables() {
+    const dirtyValues = getDirtyValues(dirtyFields, getValues)
+    if (currentServiceId && currentComponentId) {
+      dispatch(
+        setComponent({
+          componentId: currentComponentId,
+          variables: dirtyValues,
+        })
+      )
+    }
+    if (currentServiceId && !currentComponentId) {
+      dispatch(setServiceVariables(dirtyValues))
+    }
+  }
+
+  return (
+    <>
+      <ComponentsNav onChange={saveVariables} />
+      {/* key let React re-render the component when the currentServiceId or currentComponentId changes */}
+      <Variables
+        key={currentServiceId + currentComponentId}
+        variables={variables}
+        saveVariables={saveVariables}
+      />
+    </>
+  )
+}
+
+function Variables({
+  variables,
+  saveVariables,
+}: {
+  variables: Object
+  saveVariables: () => void
+}) {
+  const { sendVariables } = usePutServiceConfig()
+  const dispatch = useAppDispatch()
+  const {
+    settings: { showRawMode },
+  } = useSelectUserInput()
+  const [message, setMessage] = useState('')
+  const methods = useFormContext()
+
+  function handleSubmit(data: Object) {
+    sendVariables(message)
+    setMessage('')
+    dispatch(clearUserInput())
+  }
+
+  const isVariableEmpty = !Object.entries(variables).length
   if (isVariableEmpty) return <NoVariableMessage />
 
   return (
     <>
-      <Toolbar isRawMode={isRawMode} setIsRawMode={setIsRawMode} />
-      {isRawMode ? (
-        <RawMode variables={variables} />
-      ) : (
-        <ViewMode variables={variables} />
-      )}
-      <ValidateBar />
+      <Toolbar saveVariables={saveVariables} />
+      <form onSubmit={methods.handleSubmit(handleSubmit)}>
+        {showRawMode ? (
+          <RawMode variables={variables} />
+        ) : (
+          <ViewMode variables={variables} />
+        )}
+        <ValidateBar
+          onValidate={saveVariables}
+          message={message}
+          setMessage={setMessage}
+        />
+      </form>
     </>
   )
+}
+
+function getDirtyValues(dirtyFields: Object, getValues: (key: string) => any) {
+  const dirtyValues = {}
+  Object.keys(dirtyFields).forEach((key) => {
+    dirtyValues[key] = getValues(key)
+  })
+  return dirtyValues
 }
 
 function NoVariableMessage() {
@@ -37,38 +126,36 @@ function NoVariableMessage() {
   )
 }
 
-function Toolbar({
-  isRawMode,
-  setIsRawMode,
-}: {
-  isRawMode: boolean
-  setIsRawMode: (isRaw: boolean) => void
-}) {
+function Toolbar({ saveVariables }: { saveVariables: () => void }) {
   return (
     <div className="flex justify-end mb-4 ">
-      <RawViewButton isRaw={isRawMode} setIsRaw={setIsRawMode} />
+      <RawViewButton saveVariables={saveVariables} />
     </div>
   )
 }
 
-function RawViewButton({
-  isRaw,
-  setIsRaw,
-}: {
-  isRaw: boolean
-  setIsRaw: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+function RawViewButton({ saveVariables }: { saveVariables: () => void }) {
+  const dispatch = useAppDispatch()
+  const {
+    settings: { showRawMode },
+  } = useSelectUserInput()
+
+  function handleSetRawMode(rawMode: boolean) {
+    saveVariables()
+    dispatch(setRawMode(rawMode))
+  }
+
   return (
     <div className="rounded-md inline-flex border border-gray-400 overflow-hidden">
       <IconButon
-        onClick={() => setIsRaw(true)}
-        isActive={isRaw}
+        onClick={() => handleSetRawMode(true)}
+        isActive={showRawMode}
         icon={Bars3CenterLeftIcon}
         text="Raw"
       />
       <IconButon
-        onClick={() => setIsRaw(false)}
-        isActive={!isRaw}
+        onClick={() => handleSetRawMode(false)}
+        isActive={!showRawMode}
         className="-ml-px border-l-gray-400 border-l"
         icon={EyeIcon}
         text="View"
@@ -92,12 +179,12 @@ function ViewMode({ variables }: { variables: Object }) {
   const { primitiveVariables, objectVariables: dictionaries } =
     splitObjectVariables(variables)
   return (
-    <form className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3">
       <PrimitiveVariables variables={primitiveVariables} />
       {dictionaries.map((dict) => (
         <Dictionary key={dict[0]} dict={dict} />
       ))}
-    </form>
+    </div>
   )
 }
 
@@ -123,7 +210,7 @@ function splitObjectVariables(variables: Object) {
 function Dictionary({ dict }: { dict: [string, Object] }) {
   const [dictId, dictVariables] = dict
   return (
-    <Disclosure key={dictId} title={dictId}>
+    <Disclosure title={dictId}>
       <PrimitiveVariables
         variables={Object.entries(dictVariables ?? {})}
         dictId={dictId}
@@ -183,7 +270,7 @@ function getField({
     return <StringNumberField value={value} property={property} />
   }
   if (typeof value === 'boolean') {
-    return <BooleanField value={value} property={property} />
+    return <BooleanField property={property} value={value} />
   }
   if (typeof value === 'object') {
     if (Array.isArray(value)) {
@@ -219,28 +306,16 @@ function BooleanField({
   property: string
   value: boolean
 }) {
-  const { currentServiceId, currentComponentId } = useParamsContext()
-  const dispatch = useAppDispatch()
+  const { register } = useFormContext()
 
-  function handleChecked(event: React.ChangeEvent<HTMLInputElement>) {
-    const newValue = event.target.checked
-    dispatch(
-      setProperty({
-        serviceId: currentServiceId,
-        componentId: currentComponentId,
-        property,
-        value: newValue,
-      })
-    )
-  }
   return (
     <div className="flex flex-grow flex-col">
       <label className="inline-flex relative items-center cursor-pointer hover:opacity-70 hover:bg-slate-200 transition duration-75 ease-in-out">
         <input
+          {...register(property)}
           type="checkbox"
-          className="sr-only peer"
-          onChange={handleChecked}
           defaultChecked={value}
+          className="sr-only peer"
         />
         <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
       </label>
@@ -255,61 +330,43 @@ function StringNumberField({
   property: string
   value: string | number
 }) {
-  const { currentServiceId, currentComponentId } = useParamsContext()
-  const dispatch = useAppDispatch()
-  const [error, setError] = useState(false)
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setError(false)
-    try {
-      const newValue = JSON.parse(event.target.value)
-      dispatch(
-        setProperty({
-          serviceId: currentServiceId,
-          componentId: currentComponentId,
-          property,
-          value: newValue,
-        })
-      )
-    } catch (err) {
-      setError(true)
-    }
-  }
+  const { register } = useFormContext()
+  //TODO: handle errors
+  let error
 
   return (
     <div className="flex">
       <input
+        {...register(property)}
+        defaultValue={value}
         name={property}
         className={classNames(
           'flex-grow bg-gray-100',
           error && 'bg-red-200',
           typeof value === 'number' ? 'text-teal-600' : 'text-slate-600'
         )}
-        defaultValue={JSON.stringify(value)}
-        onChange={handleChange}
       />
     </div>
   )
 }
 
-function ValidateBar() {
-  const { sendVariables } = usePutServiceConfig()
-  const [validateMessage, setValidateMessage] = useState('')
-
-  function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault()
-    sendVariables(validateMessage)
-    setValidateMessage('')
-  }
-
+function ValidateBar({
+  onValidate,
+  message,
+  setMessage,
+}: {
+  onValidate: () => void
+  message: string
+  setMessage: (message: string) => void
+}) {
   return (
     <div className="sticky bottom-0 w-full py-4 bg-white flex items-center justify-end">
       <input
-        value={validateMessage}
-        onChange={(e) => setValidateMessage(e.target.value)}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
         placeholder="Commit message"
       />
-      <Button type="button" onClick={handleSubmit}>
+      <Button type="submit" onClick={onValidate}>
         Validate
       </Button>
     </div>
