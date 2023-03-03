@@ -11,8 +11,7 @@ export function useDagDeploy() {
 
   async function deployDag(req: DeployRequest) {
     const res = await dagDeploy(req)
-    const resJSON = JSON.parse(res)
-    resJSON && toast.info(`Deploy id: ${resJSON.id} ; State: ${resJSON.state}`)
+    res?.data?.state && toast.info(`Deploy id: ${res.id}`)
   }
 
   return deployDag
