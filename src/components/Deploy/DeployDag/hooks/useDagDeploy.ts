@@ -10,8 +10,12 @@ export function useDagDeploy() {
   const { dagDeploy } = useTdpClient()
 
   async function deployDag(req: DeployRequest) {
-    const res = await dagDeploy(req)
-    res?.data?.state && toast.info(`Deploy id: ${res.id}`)
+    try {
+      const res = await dagDeploy(req)
+      res && res?.state && toast.info(`Deploy id: ${res.id}`)
+    } catch (error) {
+      toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
+    }
   }
 
   return deployDag

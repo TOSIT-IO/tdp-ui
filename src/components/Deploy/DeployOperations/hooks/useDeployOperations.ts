@@ -10,8 +10,12 @@ export function useDeployOperations() {
   const { operationsDeploy } = useTdpClient()
 
   async function deployOperations(req: OperationsRequest) {
-    const res = await operationsDeploy(req)
-    res?.data?.state && toast.info(`Deploy id: ${res.id}`)
+    try {
+      const res = await operationsDeploy(req)
+      res && res?.state && toast.info(`Deploy id: ${res.id}`)
+    } catch (error) {
+      toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
+    }
   }
 
   return { deployOperations }
