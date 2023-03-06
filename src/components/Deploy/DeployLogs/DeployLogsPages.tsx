@@ -8,17 +8,13 @@ import { classNames } from 'src/utils'
 export function DeployLogsPages() {
   const DEPLOYLOGS_LIMIT = 15
   const DEPLOYLOGS_OFFSET = 0
-  const [limit, setLimit] = useState(DEPLOYLOGS_LIMIT)
+  const limit = DEPLOYLOGS_LIMIT
   const [offset, setOffset] = useState(DEPLOYLOGS_OFFSET)
-  const [currentPage, setCurrentPage] = useState(1)
 
-  // const [currentDeployLogsPage, setCurrentDeployLogsPage , limitDeployLogs, offsetDeployLogs] = useDeployListPage(limit,offset)
   const currentDeployLogsPage: DeploymentLog[] = useDeployListPage(
-    limit,
+    limit + 1,
     offset
   )
-
-  // const pastDeploymentsRichList = usePastDeploymentsRichList()
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -56,87 +52,54 @@ export function DeployLogsPages() {
                       </th>
                       <th
                         scope="col"
-                        className="px-3 py-3.5 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6 text-gray-900"
+                        className="px-3 py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6"
                       >
                         Deploy Detail
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {currentDeployLogsPage.map((d) => (
-                      <tr key={d.id}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {d.id}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {dateAndTime(d.startTime)}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {d.endTime && dateAndTime(d.endTime)}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {d.state}
-                        </td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <Link
-                            href={`/deploy/logs/${d.id}`}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Details
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
+                    {currentDeployLogsPage
+                      .filter(function (d) {
+                        return d.id < offset + limit + 1
+                      })
+                      .map((d) => (
+                        <DeployLog key={d.id} deploylog={d} />
+                      ))}
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
         </div>
-        <div className="p-5 mt-auto mb-3 space-x-1 flex items-center justify-center text-gray-700">
+        <div className="mt-auto mb-3 flex items-center justify-center space-x-1 p-5 text-gray-700">
           <button
             type="button"
             onClick={() => {
-              console.log(
-                `AVANT SET Page courante : ${Math.floor(
-                  offset / limit
-                )} offset : ${offset} limit : ${limit}`
-              )
-              // ((a % n ) + n ) % n
-              // if ((offset % limit) > 1) {
               if (Math.floor(offset / limit) > 0) {
-                // setCurrentPage(currentPage - 1)
                 setOffset(offset - limit)
               }
-              console.log(
-                `APRES SET Page courante : ${Math.floor(
-                  offset / limit
-                )} offset : ${offset} limit : ${limit}`
-              )
             }}
             className={classNames(
               'bg-gray-200 text-gray-700',
               'text-gray-500',
-              'px-2 py-[0.15rem] hover:bg-gray-200 text-sm flex gap-1 items-center'
+              'flex items-center gap-1 px-2 py-[0.15rem] text-sm hover:bg-gray-200'
             )}
           >
             {'< Page précédente'}
           </button>
-          <p>
-            Page courante : {Math.floor(offset / limit)} offset : {offset} limit
-            : {limit}
-          </p>
+          <p>Page courante : {Math.floor(offset / limit)}</p>
           <button
             type="button"
-            // onClick={() => setOffset(offset>0?offset+1:offset)}
             onClick={() => {
-              // setCurrentPage(currentPage + 1)
-              setOffset(offset + limit)
+              currentDeployLogsPage.length >= offset + limit + 1
+                ? setOffset(offset + limit)
+                : 'vrai'
             }}
             className={classNames(
               'bg-gray-200 text-gray-700',
               'text-gray-500',
-              'px-2 py-[0.15rem] hover:bg-gray-200 text-sm flex gap-1 items-center'
+              'flex items-center gap-1 px-2 py-[0.15rem] text-sm hover:bg-gray-200'
             )}
           >
             {'Page suivante >'}
@@ -144,5 +107,33 @@ export function DeployLogsPages() {
         </div>
       </div>
     </div>
+  )
+}
+
+function DeployLog({ deploylog }: { deploylog: DeploymentLog }) {
+  const { id, startTime, endTime, state } = deploylog
+  return (
+    <tr key={id}>
+      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+        {id}
+      </td>
+      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        {dateAndTime(startTime)}
+      </td>
+      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        {endTime && dateAndTime(endTime)}
+      </td>
+      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        {state}
+      </td>
+      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+        <Link
+          href={`/deploy/logs/${id}`}
+          className="text-indigo-600 hover:text-indigo-900"
+        >
+          Details
+        </Link>
+      </td>
+    </tr>
   )
 }
