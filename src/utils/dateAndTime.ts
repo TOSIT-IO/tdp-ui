@@ -24,7 +24,7 @@ export function dateAndTime(time: Date) {
  */
 export function onlyTime(time: Date) {
   return time.toLocaleString('en-EN', {
-    hour12: false,
+    hour12: true,
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',

@@ -11,9 +11,6 @@ import {
   onlyTime,
 } from 'src/utils'
 
-{
-  /* format des donnees du tableau en dur avec du flex */
-}
 function DetailOperationLog({ operation }: { operation: OperationLog }) {
   const {
     operation: operationName,
@@ -24,27 +21,23 @@ function DetailOperationLog({ operation }: { operation: OperationLog }) {
   } = operation
   const [isOpen, setIsOpen] = useState(false)
 
-  // recuperation de deploylogid de l'url
   const {
     query: { deployLogId: tempDeployLogId },
   } = useRouter()
   const deployLogId = getFirstElementIfArray(tempDeployLogId)
 
-  // conversion de blob en string
   async function fetchLogsViewText(log: Blob) {
     const res = log.toString()
     return res
   }
   const logviewtext = fetchLogsViewText(logs)
 
-  // recuperation du logs
   const operationlogview = useDeploymentOperation(
     Number(deployLogId),
     operationName,
     isOpen
   )
 
-  // attribution d'un texte en cas d'absence du log
   const logview =
     (operationlogview &&
       operationlogview.logs &&
@@ -55,7 +48,7 @@ function DetailOperationLog({ operation }: { operation: OperationLog }) {
 
   return (
     <div className="flex flex-col">
-      <div className="flex py-3 px-3 items-center text-sm text-gray-500">
+      <div className="flex items-center py-3 px-3 text-sm text-gray-500">
         <div className="w-5/12">{operationName}</div>
         <div title={dateAndTime(startTime)} className="w-3/12">
           {onlyTime(startTime)}
@@ -65,11 +58,10 @@ function DetailOperationLog({ operation }: { operation: OperationLog }) {
         </div>
         <div className="w-1/12">{state}</div>
         <div className="w-1/12 text-right">
-          {/* View */}
           <button
             type="button"
             className={classNames(
-              'flex w-full justify-between items-center pl-4 py-2 text-right font-medium text-indigo-600 hover:text-indigo-900'
+              'flex w-full items-center justify-between py-2 pl-4 text-right font-medium text-indigo-600 hover:text-indigo-900'
             )}
             onClick={() => setIsOpen((prev) => !prev)}
           >
@@ -85,8 +77,8 @@ function DetailOperationLog({ operation }: { operation: OperationLog }) {
       <pre
         className={classNames(
           !isOpen && 'hidden',
-          'text-xs border px-2 py-2 m-2',
-          ' border-gray-300 overflow-x-auto font-mono'
+          'm-2 border px-2 py-2 text-xs',
+          ' overflow-x-auto border-gray-300 font-mono'
         )}
       >
         {logview.toString()}
@@ -100,13 +92,11 @@ export function OperationsList({ operations }: { operations: OperationLog[] }) {
 
   return (
     <>
-      {/* en-tête du tableau des operations */}
       <div>
         <div className="mt-8">
           <div className="py-2 md:px-6 lg:px-8">
             <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
               <div className="divide-y divide-gray-300">
-                {/* <EnteteOperationLog key={op.operation} operation={op}/> */}
                 <div className="flex bg-gray-50 py-3 px-3 text-sm font-semibold text-gray-900">
                   <div className="w-5/12">Operation name</div>
                   <div className="w-3/12">Start Time</div>
@@ -115,7 +105,6 @@ export function OperationsList({ operations }: { operations: OperationLog[] }) {
                   <div className="w-1/12 text-right">Logs</div>
                 </div>
 
-                {/* donnees du tableau des operations */}
                 {operations.map((op) => (
                   <DetailOperationLog key={op.operation} operation={op} />
                 ))}

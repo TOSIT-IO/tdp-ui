@@ -17,12 +17,8 @@ export function useDeploymentOperation(
       const res = await getDeploymentOperation(deployLogId, operationLogId)
       setOperationLog(res)
     }
-    // isOperationLogVisible &&
-    //   deployLogId &&
-    //   operationLogId &&
     if (isOperationLogVisible == true) {
       fetchOperationLog()
-      console.log('Appel de fetchOperationLog')
     }
   }, [
     getDeploymentOperation,
@@ -31,9 +27,5 @@ export function useDeploymentOperation(
     isOperationLogVisible,
   ])
 
-  operationLog && console.log('operationLog non null : ' + operationLog)
-  operationLog &&
-    operationLog.logs &&
-    console.log('operationLog.logs non null : ' + operationLog.logs)
   return operationLog
 }
