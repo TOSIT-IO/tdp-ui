@@ -61,9 +61,32 @@ function ServiceVariables({ variables }: { variables: Object }) {
   const dispatch = useAppDispatch()
   const { getValues, control } = useFormContext()
   const { dirtyFields } = useFormState({ control })
+  const editorRef = useRef(null)
+  const {
+    settings: { showRawMode },
+  } = useSelectUserInput()
+
+  function handleRawEditorDidMount(editor, monaco) {
+    editorRef.current = editor
+  }
 
   function saveVariables() {
-    const dirtyValues = getDirtyValues(dirtyFields, getValues)
+    let dirtyValues: Object
+    if (showRawMode) {
+      const editorValues = JSON.parse(editorRef.current.getValue()) as Object
+      dirtyValues = Object.keys(editorValues).reduce((acc, key) => {
+        if (variables.hasOwnProperty(key)) {
+          if (variables[key] !== editorValues[key]) {
+            acc[key] = editorValues[key]
+          }
+        } else {
+          acc[key] = editorValues[key]
+        }
+        return acc
+      }, {})
+    } else {
+      dirtyValues = getDirtyValues(dirtyFields, getValues)
+    }
     if (currentServiceId && currentComponentId) {
       dispatch(
         setComponent({
@@ -83,6 +106,7 @@ function ServiceVariables({ variables }: { variables: Object }) {
       <VariablesEditionZone
         variables={variables}
         saveVariables={saveVariables}
+        handleRawEditorDidMount={handleRawEditorDidMount}
       />
     </>
   )
@@ -91,9 +115,11 @@ function ServiceVariables({ variables }: { variables: Object }) {
 function VariablesEditionZone({
   variables,
   saveVariables,
+  handleRawEditorDidMount,
 }: {
   variables: Object
   saveVariables: () => void
+  handleRawEditorDidMount: (editor: any, monaco: any) => void
 }) {
   const isVariableEmpty = !Object.entries(variables).length
 
@@ -102,7 +128,11 @@ function VariablesEditionZone({
   return (
     <>
       <Toolbar saveVariables={saveVariables} />
-      <VariablesForm variables={variables} saveVariables={saveVariables} />
+      <VariablesForm
+        variables={variables}
+        saveVariables={saveVariables}
+        handleRawEditorDidMount={handleRawEditorDidMount}
+      />
     </>
   )
 }
@@ -165,20 +195,27 @@ function RawViewButton({ saveVariables }: { saveVariables: () => void }) {
 function VariablesForm({
   variables,
   saveVariables,
+  handleRawEditorDidMount,
 }: {
   variables: Object
   saveVariables: () => void
+  handleRawEditorDidMount: (editor: any, monaco: any) => void
 }) {
   const {
     settings: { showRawMode },
   } = useSelectUserInput()
   const [message, setMessage] = useState('')
 
-  const EditorMode = showRawMode ? RawMode : ViewMode
-
   return (
     <Form message={message} setMessage={setMessage}>
-      <EditorMode variables={variables} />
+      {showRawMode ? (
+        <RawMode
+          variables={variables}
+          handleRawEditorDidMount={handleRawEditorDidMount}
+        />
+      ) : (
+        <ViewMode variables={variables} />
+      )}
       <ValidateBar
         onValidate={saveVariables}
         message={message}
@@ -210,24 +247,20 @@ function Form({
   return <form onSubmit={methods.handleSubmit(handleSubmit)}>{children}</form>
 }
 
-function RawMode({ variables }: { variables: Object }) {
-  const editorRef = useRef(null)
-
-  function handleEditorDidMount(editor, monaco) {
-    editorRef.current = editor
-  }
-
-  function showValue() {
-    alert(editorRef.current.getValue())
-  }
-
+function RawMode({
+  variables,
+  handleRawEditorDidMount,
+}: {
+  variables: Object
+  handleRawEditorDidMount: (editor: any, monaco: any) => void
+}) {
   return (
     <Editor
       height="65vh"
       defaultLanguage="json"
       value={JSON.stringify(variables, null, 2)}
       options={{ minimap: { enabled: false }, wordWrap: 'on' }}
-      onMount={handleEditorDidMount}
+      onMount={handleRawEditorDidMount}
     />
   )
 }
