@@ -28,10 +28,10 @@ export default function ReconfigurePage() {
       const res = await reconfigureDeploy()
       res && toast.info(`Deploy id: ${res.id}`)
     } catch (error) {
-      if (error.status === undefined) {
-        toast.error(String(error))
-      } else {
+      if (error.status) {
         toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
+      } else {
+        toast.error(String(error))
       }
     }
   }
