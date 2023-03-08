@@ -24,15 +24,15 @@ export default function ReconfigurePage() {
   }, [planDeployReconfigure])
 
   async function reconfigureLaunch() {
-    const res = reconfigureDeploy()
     try {
       const res = await reconfigureDeploy()
-      console.log(res)
       res && toast.info(`Deploy id: ${res.id}`)
     } catch (error) {
-      error.status &&
+      if (error.status === undefined) {
+        toast.error(String(error))
+      } else {
         toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
-      error.status === undefined && toast.error(String(error))
+      }
     }
   }
 
