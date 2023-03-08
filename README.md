@@ -19,22 +19,30 @@ The following are required to **build and develop** `tdp-ui`. They aren't needed
 
 ## Development and testing
 
-Use the sample `config.example.json` file to provide `tdp-ui` the required environment variables:
+- Use the sample `config.example.json` file to provide `tdp-ui` the required environment variables:
 
-```bash
-cp config.example.json config.json
-```
+  ```bash
+  cp config.example.json config.json
+  ```
 
-A `skipAuth` option is available to skip the authentication process. It is useful for development purposes.
+  A `skipAuth` option is available to skip the authentication process. It is useful for development purposes.
 
-The npm `install` script installs all dependencies and generates the API client SDK. The SDK is generated in the `./src/api` folder. The npm `dev` script starts a Next.js development server:
+- Generate the API client SDK:
 
-```bash
-npm install       # Install dependencies and generates the API client SDK
-npm run dev       # Run the app in development mode
-```
+  ```bash
+  npm run generate
+  ```
 
-By default, the client is available at <http://localhost:3000>.
+  The SDK is generated in the `./build/tdp-sdk` folder.
+
+- Install dependencies and start the app in development mode:
+
+  ```bash
+  npm install
+  npm run dev
+  ```
+
+  By default, the client is available at <http://localhost:3000>.
 
 ### Development with Docker
 
@@ -55,6 +63,7 @@ By default, Next.js uses a Node.js server to serve the app. `tdp-ui` doesn't nee
 
 ```bash
 npm install       # Install dependencies
+npm run generate  # Generate the API client SDK
 npm run export    # Build and export the project
 ```
 
