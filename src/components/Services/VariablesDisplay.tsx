@@ -75,18 +75,9 @@ function ServiceVariables({ variables }: { variables: Object }) {
     let dirtyValues: Object
     if (showRawMode) {
       const editorValues = JSON.parse(editorRef.current.getValue()) as Object
-      dirtyValues = Object.keys(editorValues).reduce((acc, key) => {
-        if (variables.hasOwnProperty(key)) {
-          if (variables[key] !== editorValues[key]) {
-            acc[key] = editorValues[key]
-          }
-        } else {
-          acc[key] = editorValues[key]
-        }
-        return acc
-      }, {})
+      dirtyValues = getDirtyValues(variables, editorValues)
     } else {
-      dirtyValues = getDirtyValues(dirtyFields, getValues)
+      dirtyValues = getRHFDirtyValues(dirtyFields, getValues)
     }
     if (currentServiceId && currentComponentId) {
       dispatch(
@@ -99,7 +90,7 @@ function ServiceVariables({ variables }: { variables: Object }) {
     if (currentServiceId && !currentComponentId) {
       dispatch(setServiceVariables(dirtyValues))
     }
-    reset(merge(variables, dirtyValues))
+    reset(flattenObject(merge(variables, dirtyValues)))
   }
 
   return (
@@ -112,6 +103,27 @@ function ServiceVariables({ variables }: { variables: Object }) {
       />
     </>
   )
+}
+
+function getDirtyValues(baseObject: Object, object: Object) {
+  const dirtyValues = {}
+  Object.keys(object).forEach((key) => {
+    if (baseObject.hasOwnProperty(key)) {
+      if (baseObject[key] !== object[key]) {
+        if (typeof baseObject[key] === 'object') {
+          const dirtySubValues = getDirtyValues(baseObject[key], object[key])
+          if (Object.keys(dirtySubValues).length > 0) {
+            dirtyValues[key] = dirtySubValues
+          }
+        } else {
+          dirtyValues[key] = object[key]
+        }
+      }
+    } else {
+      dirtyValues[key] = object[key]
+    }
+  })
+  return dirtyValues
 }
 
 function VariablesEditionZone({
@@ -139,7 +151,10 @@ function VariablesEditionZone({
   )
 }
 
-function getDirtyValues(dirtyFields: Object, getValues: (key: string) => any) {
+function getRHFDirtyValues(
+  dirtyFields: Object,
+  getValues: (key: string) => any
+) {
   const dirtyValues = {}
   Object.keys(dirtyFields).forEach((key) => {
     dirtyValues[key] = getValues(key)
