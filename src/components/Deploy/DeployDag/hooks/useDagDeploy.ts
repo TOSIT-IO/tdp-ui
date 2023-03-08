@@ -12,7 +12,7 @@ export function useDagDeploy() {
   async function deployDag(req: DeployRequest) {
     try {
       const res = await dagDeploy(req)
-      res && res?.state && toast.info(`Deploy id: ${res.id}`)
+      res && toast.info(`Deploy id: ${res.id}`)
     } catch (error) {
       toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
     }
