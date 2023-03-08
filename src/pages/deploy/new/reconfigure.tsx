@@ -23,6 +23,19 @@ export default function ReconfigurePage() {
     fetchPreview()
   }, [planDeployReconfigure])
 
+  async function reconfigureLaunch() {
+    const res = reconfigureDeploy()
+    try {
+      const res = await reconfigureDeploy()
+      console.log(res)
+      res && toast.info(`Deploy id: ${res.id}`)
+    } catch (error) {
+      error.status &&
+        toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
+      error.status === undefined && toast.error(String(error))
+    }
+  }
+
   return (
     <>
       <div className="mt-2 mb-5 border-b border-gray-200 pb-5">
@@ -43,7 +56,7 @@ export default function ReconfigurePage() {
         <Button
           as="button"
           variant={'filled'}
-          onClick={() => toast.info('Reconfiguring...') && reconfigureDeploy()}
+          onClick={() => reconfigureLaunch()}
         >
           Deploy Reconfigure
         </Button>

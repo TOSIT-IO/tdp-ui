@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { toast } from 'react-toastify'
 import { Button } from 'src/components/commons'
 import { usePutServiceConfig } from 'src/hooks'
 
@@ -11,7 +10,6 @@ export function ValidateBar() {
     event.preventDefault()
     sendVariables(validateMessage)
     setValidateMessage('')
-    toast.info('Validating configuration...')
   }
 
   return (
