@@ -10,7 +10,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "format": "npx prettier --write .",
-    "postinstall": "./scripts/generator.sh"
+    "generate": "./scripts/generator.sh"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
