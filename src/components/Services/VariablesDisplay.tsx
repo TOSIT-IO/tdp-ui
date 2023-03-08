@@ -7,6 +7,7 @@ import {
   useFieldArray,
 } from 'react-hook-form'
 import Editor from '@monaco-editor/react'
+import { merge } from 'mixme'
 import { Bars3CenterLeftIcon, EyeIcon } from '@heroicons/react/24/solid'
 import { Disclosure, Sidebar } from 'src/components/Layout'
 import { Button, IconButon } from 'src/components/commons'
@@ -59,7 +60,7 @@ function flattenObject(obj: Object) {
 function ServiceVariables({ variables }: { variables: Object }) {
   const { currentServiceId, currentComponentId } = useParamsContext()
   const dispatch = useAppDispatch()
-  const { getValues, control } = useFormContext()
+  const { getValues, control, reset } = useFormContext()
   const { dirtyFields } = useFormState({ control })
   const editorRef = useRef(null)
   const {
@@ -98,6 +99,7 @@ function ServiceVariables({ variables }: { variables: Object }) {
     if (currentServiceId && !currentComponentId) {
       dispatch(setServiceVariables(dirtyValues))
     }
+    reset(merge(variables, dirtyValues))
   }
 
   return (
