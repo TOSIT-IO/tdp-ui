@@ -11,7 +11,6 @@ export function usePastDeploymentsRichList() {
 
   useEffect(() => {
     async function fetchPastDeploymentsList() {
-      // const res = await getDeployments(15,18)
       const res = await getDeployments()
       setPastDeploymentsList(res)
     }

@@ -4,6 +4,7 @@ import { dateAndTime } from 'src/utils/dateAndTime'
 import { useState } from 'react'
 import { useDeployListPage } from 'src/hooks'
 import { classNames } from 'src/utils'
+import { Button } from 'src/components/commons'
 
 export function DeployLogsPages() {
   const DEPLOYLOGS_LIMIT = 15
@@ -18,93 +19,83 @@ export function DeployLogsPages() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="mt-8 flex flex-col">
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                      >
-                        Id Deploy
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Start Time Deploy
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        End Time Deploy
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        State Deploy
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6"
-                      >
-                        Deploy Detail
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {currentDeployLogsPage
-                      .filter(function (d) {
-                        return d.id < offset + limit + 1
-                      })
-                      .map((d) => (
-                        <DeployLog key={d.id} deploylog={d} />
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+      <div className="mt-8 flex flex-col">
+        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              <table className="min-w-full divide-y divide-gray-300">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                    >
+                      Id Deploy
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Start Time Deploy
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      End Time Deploy
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      State Deploy
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6"
+                    >
+                      Deploy Detail
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {currentDeployLogsPage
+                    .filter(function (d) {
+                      return d.id < offset + limit + 1
+                    })
+                    .map((d) => (
+                      <DeployLog key={d.id} deploylog={d} />
+                    ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-        <div className="mt-auto mb-3 flex items-center justify-center space-x-1 p-5 text-gray-700">
-          <button
-            type="button"
-            onClick={() => {
-              if (Math.floor(offset / limit) > 0) {
-                setOffset(offset - limit)
-              }
-            }}
-            className={classNames(
-              'bg-gray-200 text-gray-700',
-              'text-gray-500',
-              'flex items-center gap-1 px-2 py-[0.15rem] text-sm hover:bg-gray-200'
-            )}
-          >
-            {'< Page précédente'}
-          </button>
-          <p>Page courante : {Math.floor(offset / limit)}</p>
-          <button
-            type="button"
-            onClick={() => {
-              currentDeployLogsPage.length >= offset + limit + 1
-                ? setOffset(offset + limit)
-                : 'vrai'
-            }}
-            className={classNames(
-              'bg-gray-200 text-gray-700',
-              'text-gray-500',
-              'flex items-center gap-1 px-2 py-[0.15rem] text-sm hover:bg-gray-200'
-            )}
-          >
-            {'Page suivante >'}
-          </button>
-        </div>
+      </div>
+      <div className="mb-3 flex items-center justify-center gap-2 space-x-1 p-5 text-gray-700">
+        <Button
+          as="button"
+          disabled={Math.floor(offset / limit) === 0}
+          onClick={() => {
+            if (Math.floor(offset / limit) > 0) {
+              setOffset(offset - limit)
+            }
+          }}
+          className={classNames('hover:bg-gray-100 disabled:opacity-50')}
+        >
+          {'< Previous page'}
+        </Button>
+        <p>Current page : {Math.floor(offset / limit) + 1}</p>
+        <Button
+          as="button"
+          disabled={currentDeployLogsPage.length < offset + 1}
+          onClick={() => {
+            setOffset(offset + limit)
+          }}
+          className={classNames('hover:bg-gray-100 disabled:opacity-50')}
+        >
+          {'Next page >'}
+        </Button>
       </div>
     </div>
   )
