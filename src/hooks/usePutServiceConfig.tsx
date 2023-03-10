@@ -5,6 +5,7 @@ import { useSelectUserInput } from 'src/features/userInput/hooks'
 import { useAppDispatch } from 'src/store'
 import { clearUserInput } from 'src/features/userInput'
 import { setServiceValue } from 'src/features/variables'
+import Link from 'next/link'
 
 export function usePutServiceConfig() {
   const { patchService, patchComponent, getService } = useTdpClient()
@@ -53,7 +54,12 @@ export function usePutServiceConfig() {
       }
       fetchServices()
       dispatch(clearUserInput())
-      toast.success('Variables chanded')
+      toast.success(
+        <Link href="/deploy/new">
+          Variables successfully updated for {userInput.id}
+          <br /> click to configure a new deployment
+        </Link>
+      )
     } catch (error) {
       const parsedError = await error.json()
       toast.error(parsedError.detail)
