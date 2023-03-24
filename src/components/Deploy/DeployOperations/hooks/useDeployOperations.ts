@@ -1,6 +1,7 @@
 import { OperationsRequest } from 'src/clients/tdpClient'
 import { toast } from 'react-toastify'
 import { useTdpClient } from 'src/contexts'
+import router from 'next/router'
 
 /**
  * Hook to deploy operations.
@@ -11,8 +12,15 @@ export function useDeployOperations() {
 
   async function deployOperations(req: OperationsRequest) {
     try {
-      const res = await operationsDeploy(req)
-      res && toast.info(`Deploy id: ${res.id}`)
+      const deploymentLog = await operationsDeploy(req)
+      if (deploymentLog) {
+        toast.info(
+          `Deploy id: ${deploymentLog.id} ; redirecting to deploy log page...`
+        )
+        router.push(`/deploy/logs/${deploymentLog.id}`)
+      } else {
+        toast.error('Error: no response from server')
+      }
     } catch (error) {
       toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
     }
