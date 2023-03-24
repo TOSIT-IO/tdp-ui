@@ -6,6 +6,7 @@ import { Button } from 'src/components/commons'
 import { DeployPreview } from 'src/components/Deploy'
 import { NavigationBar } from 'src/components/Layout'
 import { toast } from 'react-toastify'
+import router from 'next/router'
 
 export default function ReconfigurePage() {
   const [preview, setPreview] = useState<Operation[]>([])
@@ -25,8 +26,15 @@ export default function ReconfigurePage() {
 
   async function reconfigureLaunch() {
     try {
-      const res = await reconfigureDeploy()
-      res && toast.info(`Deploy id: ${res.id}`)
+      const deploymentLog = await reconfigureDeploy()
+      if (deploymentLog) {
+        toast.info(
+          `Deploy id: ${deploymentLog.id} ; redirecting to deploy log page...`
+        )
+        router.push(`/deploy/logs/${deploymentLog.id}`)
+      } else {
+        toast.error('Error: no response from server')
+      }
     } catch (error) {
       if (error.status) {
         toast.error(`Error ${error.status} : ${error.statusText.toLowerCase()}`)
