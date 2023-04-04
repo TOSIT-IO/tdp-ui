@@ -1,51 +1,63 @@
+import Link from 'next/link'
+import { toast } from 'react-toastify'
+
 import { useTdpClient } from 'src/contexts'
 import type { ComponentUpdate, ServiceUpdate } from 'src/clients/tdpClient'
-import { toast } from 'react-toastify'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
 import { useAppDispatch } from 'src/store'
 import { setServiceValue } from 'src/features/variables'
-import Link from 'next/link'
 
 export function usePutServiceConfig() {
   const { patchService, patchComponent, getService } = useTdpClient()
   const userInput = useSelectUserInput()
   const dispatch = useAppDispatch()
 
-  async function sendServiceVariables(
-    serviceId: string,
-    serviceUpdate: ServiceUpdate
-  ) {
-    return await patchService(serviceId, serviceUpdate)
-  }
-
-  async function sendComponentsVariables(
-    componentId: string,
-    serviceId: string,
-    componentUpdate: ComponentUpdate
-  ) {
-    return await patchComponent(componentId, serviceId, componentUpdate)
-  }
-
   const refreshService = async () => {
     const service = await getService(userInput.id)
     dispatch(setServiceValue(service))
   }
 
-  async function sendVariables(message: string) {
-    if (!userInput.variables && !userInput.components) {
+  const sendServiceVariables = async (
+    serviceId: string,
+    serviceUpdate: ServiceUpdate
+  ) => await patchService(serviceId, serviceUpdate)
+
+  const sendComponentsVariables = async (
+    componentId: string,
+    serviceId: string,
+    componentUpdate: ComponentUpdate
+  ) => await patchComponent(componentId, serviceId, componentUpdate)
+
+  type UserInput = {
+    serviceId: string
+    variables: object
+    components: {
+      id: string
+      variables: object
+    }[]
+  }
+
+  const putVariablesServiceWide = ({
+    userInput,
+    message,
+  }: {
+    userInput: UserInput
+    message: string
+  }) => {
+    if (!userInput && !userInput.variables && !userInput.components) {
       toast.info('No variables to change')
       return
     }
     try {
-      if (userInput.variables) {
-        await sendServiceVariables(userInput.id, {
+      if (userInput) {
+        sendServiceVariables(userInput.serviceId, {
           message,
           variables: userInput.variables,
         })
       }
       if (userInput.components) {
         userInput.components.forEach(async (component) => {
-          await sendComponentsVariables(component.id, userInput.id, {
+          sendComponentsVariables(component.id, userInput.serviceId, {
             message,
             variables: component.variables,
           })
@@ -54,17 +66,15 @@ export function usePutServiceConfig() {
       refreshService()
       toast.success(
         <Link href="/deploy/new">
-          Variables successfully updated for {userInput.id}
+          Variables successfully updated for {userInput.serviceId}
           <br /> click to configure a new deployment
         </Link>
       )
     } catch (error) {
-      const parsedError = await error.json()
+      const parsedError = error.json()
       toast.error(parsedError.detail)
     }
   }
 
-  return {
-    sendVariables,
-  }
+  return putVariablesServiceWide
 }

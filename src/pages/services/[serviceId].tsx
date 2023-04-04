@@ -1,38 +1,57 @@
-import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { merge } from 'mixme'
+
 import { PageTitle } from 'src/components/Layout'
-import {
-  ParamsContextProvider,
-  VariablesDisplay,
-} from 'src/components/Services'
 import { useSelectService } from 'src/features/variables'
 import { NextPageWithLayout } from 'src/types'
-import { getFirstElementIfArray } from 'src/utils'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
+import {
+  ParamsContextProvider,
+  useParamsContext,
+} from 'src/components/Services/ParamsContext'
+import ServiceVariables from 'src/components/Services/ServiceVariables'
+import { useAppDispatch } from 'src/store'
+import { setServiceVariables } from 'src/features/userInput'
+import { usePutServiceConfig } from 'src/hooks'
 
 const ServicePage: NextPageWithLayout = () => {
+  const dispatch = useAppDispatch()
+  const putVariablesServiceWide = usePutServiceConfig()
+  const { currentServiceId } = useParamsContext()
   const {
-    isReady,
-    query: { serviceId: tempServiceId },
-  } = useRouter()
-  const serviceId = isReady && getFirstElementIfArray(tempServiceId)
+    value: { variables: initialVariables },
+  } = useSelectService(currentServiceId)
 
-  const {
-    value: { variables },
-  } = useSelectService(serviceId)
+  const userInput = useSelectUserInput()
 
-  const { variables: userInput } = useSelectUserInput()
+  function saveVariablesToStore(dirtyVariables: object) {
+    if (!dirtyVariables) return
+    dispatch(setServiceVariables(dirtyVariables))
+  }
 
-  if (!variables) return <p>Loading...</p>
+  function handleSubmit(dirtyVariables: object, message: string) {
+    if (!dirtyVariables) return
+    putVariablesServiceWide({
+      message,
+      userInput: {
+        serviceId: currentServiceId,
+        variables: dirtyVariables,
+        components: userInput.components,
+      },
+    })
+  }
+
+  if (!userInput.variables) return <p>Loading...</p>
 
   return (
     <>
       <PageTitle>Variables configuration</PageTitle>
       {/* key allows to re-render when changing page (as the ParamsContext is shared accross all services/components) */}
-      <VariablesDisplay
-        key={serviceId}
-        variables={merge(variables, userInput)}
+      <ServiceVariables
+        key={currentServiceId}
+        defaultValue={merge(initialVariables, userInput.variables)}
+        onSave={saveVariablesToStore}
+        onSubmit={handleSubmit}
       />
     </>
   )

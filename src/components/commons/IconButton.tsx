@@ -20,11 +20,11 @@ export function IconButon({
       onClick={onClick}
       className={classNames(
         isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-500',
-        'px-2 py-[0.15rem] hover:bg-gray-200 text-sm flex gap-1 items-center',
+        'flex items-center gap-1 px-2 py-[0.15rem] text-sm hover:bg-gray-200',
         additionalClassName
       )}
     >
-      <Icon className="w-4 h-4" />
+      <Icon className="h-4 w-4" />
       {text}
     </button>
   )
