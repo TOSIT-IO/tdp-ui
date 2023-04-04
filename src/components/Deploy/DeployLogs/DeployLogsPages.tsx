@@ -2,19 +2,23 @@ import { DeploymentLog } from 'src/clients/tdpClient'
 import Link from 'next/link'
 import { dateAndTime } from 'src/utils/dateAndTime'
 import { useState } from 'react'
-import { useDeployListPage } from 'src/hooks'
-import { classNames } from 'src/utils'
+import { useFetchLogsPage } from 'src/hooks'
 import { Button } from 'src/components/commons'
 
 export function DeployLogsPages() {
-  const DEPLOYLOGS_LIMIT = 15
-  const DEPLOYLOGS_OFFSET = 0
-  const limit = DEPLOYLOGS_LIMIT
-  const [offset, setOffset] = useState(DEPLOYLOGS_OFFSET)
+  const pageSize = 15
+  const [currentPage, setCurrentPage] = useState(0)
 
-  const currentDeployLogsPage: DeploymentLog[] = useDeployListPage(
-    limit + 1,
-    offset
+  const toggleNextPage = () => {
+    console.log(currentPage)
+    setCurrentPage((currentPage) => currentPage + 1)
+  }
+  const togglePreviousPage = () =>
+    currentPage > 0 && setCurrentPage((currentPage) => currentPage - 1)
+
+  const currentDeployLogsPage: DeploymentLog[] = useFetchLogsPage(
+    pageSize,
+    currentPage
   )
 
   return (
@@ -59,44 +63,58 @@ export function DeployLogsPages() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {currentDeployLogsPage
-                    .filter(function (d) {
-                      return d.id < offset + limit + 1
-                    })
-                    .map((d) => (
-                      <DeployLog key={d.id} deploylog={d} />
-                    ))}
+                  {currentDeployLogsPage.map((d) => (
+                    <DeployLog key={d.id} deploylog={d} />
+                  ))}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
-      <div className="mb-3 flex items-center justify-center gap-2 space-x-1 p-5 text-gray-700">
-        <Button
-          as="button"
-          disabled={Math.floor(offset / limit) === 0}
-          onClick={() => {
-            if (Math.floor(offset / limit) > 0) {
-              setOffset(offset - limit)
-            }
-          }}
-          className={classNames('hover:bg-gray-100 disabled:opacity-50')}
-        >
-          {'< Previous page'}
-        </Button>
-        <p>Current page : {Math.floor(offset / limit) + 1}</p>
-        <Button
-          as="button"
-          disabled={currentDeployLogsPage.length < offset + 1}
-          onClick={() => {
-            setOffset(offset + limit)
-          }}
-          className={classNames('hover:bg-gray-100 disabled:opacity-50')}
-        >
-          {'Next page >'}
-        </Button>
-      </div>
+      <Pagination
+        // TODO: Server should return the page size
+        totalPages={
+          currentDeployLogsPage.length < pageSize ? currentPage : 99999
+        }
+        currentPage={currentPage}
+        toggleNextPage={toggleNextPage}
+        togglePreviousPage={togglePreviousPage}
+      />
+    </div>
+  )
+}
+
+function Pagination({
+  totalPages,
+  currentPage,
+  toggleNextPage,
+  togglePreviousPage,
+}: {
+  totalPages: number
+  currentPage: number
+  toggleNextPage: () => void
+  togglePreviousPage: () => void
+}) {
+  return (
+    <div className="mb-3 flex items-center justify-center gap-2 space-x-1 p-5 text-gray-700">
+      <Button
+        as="button"
+        disabled={currentPage <= 0}
+        onClick={togglePreviousPage}
+        className={'hover:bg-gray-100 disabled:opacity-50'}
+      >
+        Previous
+      </Button>
+      <p>{currentPage + 1}</p>
+      <Button
+        as="button"
+        disabled={currentPage >= totalPages}
+        onClick={toggleNextPage}
+        className={'hover:bg-gray-100 disabled:opacity-50'}
+      >
+        Next
+      </Button>
     </div>
   )
 }

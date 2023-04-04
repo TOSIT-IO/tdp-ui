@@ -29,7 +29,6 @@ export default function PastDeployLogsPage() {
           - No past deployments to show -
         </div>
       ) : (
-        // <DeployLogs deployTab={pastDeploymentsRichList} />
         <DeployLogsPages />
       )}
     </>
