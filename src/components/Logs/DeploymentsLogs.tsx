@@ -18,21 +18,21 @@ const Pagination = ({
   togglePreviousPage: () => void
 }) => {
   return (
-    <div className="mb-3 flex items-center justify-center gap-2 space-x-1 p-5 text-gray-700">
+    <div className="mt-10 flex items-center justify-center gap-2">
       <Button
         as="button"
+        variant="text"
         disabled={currentPage <= 0}
         onClick={togglePreviousPage}
-        className={'hover:bg-gray-100 disabled:opacity-50'}
       >
         Previous
       </Button>
-      <p>{currentPage + 1}</p>
+      <p className="text-gray-700">{currentPage + 1}</p>
       <Button
         as="button"
+        variant="text"
         disabled={currentPage >= totalPages}
         onClick={toggleNextPage}
-        className={'hover:bg-gray-100 disabled:opacity-50'}
       >
         Next
       </Button>
@@ -125,7 +125,7 @@ const DeploymentsLogs = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="divide-y divide-gray-200">
                   {currentDeployLogsPage.map((d) => (
                     <DeploymentLog key={d.id} deploylog={d} />
                   ))}
@@ -138,7 +138,9 @@ const DeploymentsLogs = () => {
       <Pagination
         // TODO: Server should return the page size
         totalPages={
-          currentDeployLogsPage.length < pageSize ? currentPage : 99999
+          currentDeployLogsPage.length < pageSize
+            ? currentPage
+            : currentPage + 1
         }
         currentPage={currentPage}
         toggleNextPage={toggleNextPage}

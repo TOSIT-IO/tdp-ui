@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
 
 import { OperationLog as TOperationLog } from 'src/clients/tdpClient'
 import { useDeploymentOperation } from 'src/hooks'
@@ -10,8 +9,9 @@ import {
   classNames,
   getFirstElementIfArray,
 } from 'src/utils'
+import { Button } from '../commons'
 
-const LogViewButton = ({
+const ShowFullTextLogsButton = ({
   isOpen,
   setIsOpen,
 }: {
@@ -19,20 +19,14 @@ const LogViewButton = ({
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   return (
-    <button
-      type="button"
-      className={classNames(
-        'flex w-full items-center justify-between py-2 pl-4 text-right font-medium text-indigo-600 hover:text-indigo-900'
-      )}
+    <Button
+      as="button"
+      variant="text"
+      className="text-right text-indigo-600"
       onClick={() => setIsOpen((prev) => !prev)}
     >
-      <span className="overflow-x-hidden">View</span>
-      {isOpen ? (
-        <ChevronUpIcon className="h-5 w-5" />
-      ) : (
-        <ChevronDownIcon className="h-5 w-5" />
-      )}
-    </button>
+      <span className="text-right">{isOpen ? 'Hide' : 'Show'}</span>
+    </Button>
   )
 }
 
@@ -87,7 +81,7 @@ const OperationLog = ({ operation }: { operation: TOperationLog }) => {
         </div>
         <div className="w-1/12">{state}</div>
         <div className="w-1/12 text-right">
-          <LogViewButton isOpen={isOpen} setIsOpen={setIsOpen} />
+          <ShowFullTextLogsButton isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
       </div>
       <OperationFullTextLogs isOpen={isOpen} operationName={operationName} />

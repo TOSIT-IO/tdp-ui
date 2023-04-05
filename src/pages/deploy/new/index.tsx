@@ -54,7 +54,7 @@ function DeployOption({ title, description, href }: DeployMode) {
   return (
     <Link
       href={href}
-      className="p-5 cursor-pointer text-gray-500 border border-gray-200 rounded-md hover:text-gray-600 hover:bg-gray-50 hover:border-gray-400"
+      className="cursor-pointer rounded-md border border-gray-200 p-5 text-gray-500 hover:border-gray-400 hover:bg-gray-50 hover:text-gray-600"
       aria-label={title}
     >
       <div className="flex items-center justify-between">
