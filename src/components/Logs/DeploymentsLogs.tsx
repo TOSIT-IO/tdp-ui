@@ -1,11 +1,74 @@
-import { DeploymentLog } from 'src/clients/tdpClient'
-import Link from 'next/link'
-import { dateAndTime } from 'src/utils/dateAndTime'
 import { useState } from 'react'
+import Link from 'next/link'
+
+import { DeploymentLog as TDeploymentLog } from 'src/clients/tdpClient'
+import { dateAndTime } from 'src/utils/dateAndTime'
 import { useFetchLogsPage } from 'src/hooks'
 import { Button } from 'src/components/commons'
 
-export function DeployLogsPages() {
+const Pagination = ({
+  totalPages,
+  currentPage,
+  toggleNextPage,
+  togglePreviousPage,
+}: {
+  totalPages: number
+  currentPage: number
+  toggleNextPage: () => void
+  togglePreviousPage: () => void
+}) => {
+  return (
+    <div className="mb-3 flex items-center justify-center gap-2 space-x-1 p-5 text-gray-700">
+      <Button
+        as="button"
+        disabled={currentPage <= 0}
+        onClick={togglePreviousPage}
+        className={'hover:bg-gray-100 disabled:opacity-50'}
+      >
+        Previous
+      </Button>
+      <p>{currentPage + 1}</p>
+      <Button
+        as="button"
+        disabled={currentPage >= totalPages}
+        onClick={toggleNextPage}
+        className={'hover:bg-gray-100 disabled:opacity-50'}
+      >
+        Next
+      </Button>
+    </div>
+  )
+}
+
+const DeploymentLog = ({ deploylog }: { deploylog: TDeploymentLog }) => {
+  const { id, startTime, endTime, state } = deploylog
+  return (
+    <tr key={id}>
+      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+        {id}
+      </td>
+      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        {dateAndTime(startTime)}
+      </td>
+      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        {endTime && dateAndTime(endTime)}
+      </td>
+      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        {state}
+      </td>
+      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+        <Link
+          href={`/deploy/logs/${id}`}
+          className="text-indigo-600 hover:text-indigo-900"
+        >
+          Details
+        </Link>
+      </td>
+    </tr>
+  )
+}
+
+const DeploymentsLogs = () => {
   const pageSize = 15
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -16,7 +79,7 @@ export function DeployLogsPages() {
   const togglePreviousPage = () =>
     currentPage > 0 && setCurrentPage((currentPage) => currentPage - 1)
 
-  const currentDeployLogsPage: DeploymentLog[] = useFetchLogsPage(
+  const currentDeployLogsPage: TDeploymentLog[] = useFetchLogsPage(
     pageSize,
     currentPage
   )
@@ -64,7 +127,7 @@ export function DeployLogsPages() {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {currentDeployLogsPage.map((d) => (
-                    <DeployLog key={d.id} deploylog={d} />
+                    <DeploymentLog key={d.id} deploylog={d} />
                   ))}
                 </tbody>
               </table>
@@ -85,64 +148,4 @@ export function DeployLogsPages() {
   )
 }
 
-function Pagination({
-  totalPages,
-  currentPage,
-  toggleNextPage,
-  togglePreviousPage,
-}: {
-  totalPages: number
-  currentPage: number
-  toggleNextPage: () => void
-  togglePreviousPage: () => void
-}) {
-  return (
-    <div className="mb-3 flex items-center justify-center gap-2 space-x-1 p-5 text-gray-700">
-      <Button
-        as="button"
-        disabled={currentPage <= 0}
-        onClick={togglePreviousPage}
-        className={'hover:bg-gray-100 disabled:opacity-50'}
-      >
-        Previous
-      </Button>
-      <p>{currentPage + 1}</p>
-      <Button
-        as="button"
-        disabled={currentPage >= totalPages}
-        onClick={toggleNextPage}
-        className={'hover:bg-gray-100 disabled:opacity-50'}
-      >
-        Next
-      </Button>
-    </div>
-  )
-}
-
-function DeployLog({ deploylog }: { deploylog: DeploymentLog }) {
-  const { id, startTime, endTime, state } = deploylog
-  return (
-    <tr key={id}>
-      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-        {id}
-      </td>
-      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        {dateAndTime(startTime)}
-      </td>
-      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        {endTime && dateAndTime(endTime)}
-      </td>
-      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        {state}
-      </td>
-      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-        <Link
-          href={`/deploy/logs/${id}`}
-          className="text-indigo-600 hover:text-indigo-900"
-        >
-          Details
-        </Link>
-      </td>
-    </tr>
-  )
-}
+export default DeploymentsLogs

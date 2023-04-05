@@ -1,6 +1,6 @@
 import { usePastDeploymentsRichList } from 'src/hooks'
 import { Button } from 'src/components/commons'
-import { DeployLogsPages } from 'src/components/Deploy/DeployLogs/DeployLogsPages'
+import DeploymentsLogs from 'src/components/Logs/DeploymentsLogs'
 
 export default function PastDeployLogsPage() {
   const pastDeploymentsRichList = usePastDeploymentsRichList()
@@ -29,7 +29,7 @@ export default function PastDeployLogsPage() {
           - No past deployments to show -
         </div>
       ) : (
-        <DeployLogsPages />
+        <DeploymentsLogs />
       )}
     </>
   )

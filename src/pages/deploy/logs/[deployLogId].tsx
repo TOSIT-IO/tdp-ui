@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
+import DeploymentInfos from 'src/components/Logs/DeploymentInfos'
+import OperationsLogs from 'src/components/Logs/OperationsLogs'
 import { useDeployLogInfos } from 'src/hooks'
 import { getFirstElementIfArray } from 'src/utils'
-import { DeploysInfos, OperationsList } from 'src/components/Deploy/DeployLogs'
 
 export default function DeployLogPage() {
   const {
@@ -16,8 +17,8 @@ export default function DeployLogPage() {
 
   return (
     <>
-      <DeploysInfos deployInfos={deployLogInfosWithoutOperations} />
-      <OperationsList operations={operations} />
+      <DeploymentInfos deployInfos={deployLogInfosWithoutOperations} />
+      <OperationsLogs operations={operations} />
     </>
   )
 }
