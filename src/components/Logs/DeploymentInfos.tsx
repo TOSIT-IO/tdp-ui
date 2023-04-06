@@ -1,11 +1,11 @@
 import { DeploymentLogWithOperations } from 'src/clients/tdpClient'
 import { dateAndTime } from 'src/utils/dateAndTime'
 
-export function DeploysInfos({
+const DeploymentInfos = ({
   deployInfos,
 }: {
   deployInfos: Omit<DeploymentLogWithOperations, 'operations'>
-}) {
+}) => {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -62,3 +62,5 @@ export function DeploysInfos({
     </div>
   )
 }
+
+export default DeploymentInfos
