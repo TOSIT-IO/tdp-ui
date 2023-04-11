@@ -1,7 +1,6 @@
 import { ReactElement } from 'react'
 
 import { PageTitle } from 'src/components/Layout'
-import { useSelectService } from 'src/features/variables'
 import { NextPageWithLayout } from 'src/types'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
 import {
@@ -12,14 +11,16 @@ import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useAppDispatch } from 'src/store'
 import { setServiceVariables } from 'src/features/userInput'
 import { usePutServiceConfig } from 'src/hooks'
+import { useGetServiceApiV1ServiceServiceIdGetQuery } from 'src/features/api/tdpApi'
 
 const ServicePage: NextPageWithLayout = () => {
   const dispatch = useAppDispatch()
   const putVariablesServiceWide = usePutServiceConfig()
   const { currentServiceId } = useParamsContext()
-  const {
-    value: { variables: initialVariables },
-  } = useSelectService(currentServiceId)
+  const { data, isLoading, isSuccess } =
+    useGetServiceApiV1ServiceServiceIdGetQuery({
+      serviceId: currentServiceId,
+    })
 
   const userInput = useSelectUserInput()
 
@@ -40,20 +41,21 @@ const ServicePage: NextPageWithLayout = () => {
     })
   }
 
-  if (!initialVariables) return <p>Loading...</p>
+  if (isLoading) return <p>Loading...</p>
 
-  return (
-    <>
-      <PageTitle>Variables configuration</PageTitle>
-      {/* key allows to re-render when changing page (as the ParamsContext is shared accross all services/components) */}
-      <ServiceVariables
-        key={currentServiceId}
-        defaultValue={userInput.variables ?? initialVariables}
-        onSave={saveVariablesToStore}
-        onSubmit={handleSubmit}
-      />
-    </>
-  )
+  if (isSuccess)
+    return (
+      <>
+        <PageTitle>Variables configuration</PageTitle>
+        {/* key allows to re-render when changing page (as the ParamsContext is shared accross all services/components) */}
+        <ServiceVariables
+          key={currentServiceId}
+          variables={merge(data.variables, userInput.variables)}
+          onSave={saveVariablesToStore}
+          onSubmit={handleSubmit}
+        />
+      </>
+    )
 }
 
 ServicePage.getLayout = function getLayout(page: ReactElement) {

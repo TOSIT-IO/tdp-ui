@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { ComponentAsValue, useSelectService } from 'src/features/variables'
+import {
+  useGetServiceApiV1ServiceServiceIdGetQuery,
+  Component,
+} from 'src/features/api/tdpApi'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
 import { toogleShowUnusedTabs } from 'src/features/userInput'
 import { useAppDispatch } from 'src/store'
@@ -135,35 +138,37 @@ const ComponentsDropdown = ({
 
 const ServiceNav = ({ onChange }: { onChange?: () => void }) => {
   const { currentServiceId, currentComponentId } = useParamsContext()
-  const {
-    value: { components },
-  } = useSelectService(currentServiceId)
+  const { data, isSuccess } = useGetServiceApiV1ServiceServiceIdGetQuery({
+    serviceId: currentServiceId,
+  })
 
-  const [usedComponents, unusedComponents] = splitComponentsTabs(
-    components,
-    currentServiceId
-  )
+  if (isSuccess && data) {
+    const [usedComponents, unusedComponents] = splitComponentsTabs(
+      data.components,
+      currentServiceId
+    )
 
-  return (
-    <div className="mb-5">
-      <div className="sm:hidden">
-        <ComponentsDropdown
-          usedComponents={usedComponents}
-          unusedComponents={unusedComponents}
-          currentTabId={currentComponentId || currentServiceId}
-          onChange={onChange}
-        />
+    return (
+      <div className="mb-5">
+        <div className="sm:hidden">
+          <ComponentsDropdown
+            usedComponents={usedComponents}
+            unusedComponents={unusedComponents}
+            currentTabId={currentComponentId || currentServiceId}
+            onChange={onChange}
+          />
+        </div>
+        <div className="hidden sm:block">
+          <ComponentsTabs
+            usedComponents={usedComponents}
+            unusedComponents={unusedComponents}
+            currentTabId={currentComponentId || currentServiceId}
+            onChange={onChange}
+          />
+        </div>
       </div>
-      <div className="hidden sm:block">
-        <ComponentsTabs
-          usedComponents={usedComponents}
-          unusedComponents={unusedComponents}
-          currentTabId={currentComponentId || currentServiceId}
-          onChange={onChange}
-        />
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default ServiceNav
@@ -177,29 +182,23 @@ export default ServiceNav
  *
  * @returns [usedComponents, unusedComponents]
  */
-function splitComponentsTabs(
-  components: ComponentAsValue[],
-  serviceId: string
-) {
+function splitComponentsTabs(components: Component[], serviceId: string) {
   const defaultServiceTab = {
     id: serviceId,
     href: `/services/${serviceId}`,
   }
   return components.reduce(
-    ([usedComponents, unusedComponents], component) => {
-      const {
-        value: { id: componentId, variables },
-      } = component
+    ([usedComponents, unusedComponents], { id, variables }) => {
       const isUsed = Object.values(variables).length > 0
       if (isUsed) {
         usedComponents.push({
-          id: componentId,
-          href: `/services/${serviceId}/components/${componentId}`,
+          id: id,
+          href: `/services/${serviceId}/components/${id}`,
         })
       } else {
         unusedComponents.push({
-          id: componentId,
-          href: `/services/${serviceId}/components/${componentId}`,
+          id: id,
+          href: `/services/${serviceId}/components/${id}`,
         })
       }
       return [usedComponents, unusedComponents]
