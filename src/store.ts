@@ -4,6 +4,7 @@ import { setupListeners } from '@reduxjs/toolkit/query/react'
 import configReducer from './features/config/configSlice'
 import userInputReducer from './features/userInput/userInputSlice'
 import { emptyApi } from './features/api/emptyApi'
+import { rtkQueryErrorLogger } from './middlewares/rtkLogger'
 
 const store = configureStore({
   reducer: {
@@ -12,7 +13,9 @@ const store = configureStore({
     [emptyApi.reducerPath]: emptyApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(emptyApi.middleware),
+    getDefaultMiddleware()
+      .concat(emptyApi.middleware)
+      .concat(rtkQueryErrorLogger),
 })
 
 setupListeners(store.dispatch) // optional
