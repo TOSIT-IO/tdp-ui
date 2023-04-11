@@ -2,7 +2,6 @@ import { ReactElement } from 'react'
 
 import { PageTitle } from 'src/components/Layout'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
-import { useSelectComponent } from 'src/features/variables'
 import { NextPageWithLayout } from 'src/types'
 import {
   ParamsContextProvider,
@@ -12,14 +11,17 @@ import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useAppDispatch } from 'src/store'
 import { setComponent } from 'src/features/userInput'
 import { usePutServiceConfig } from 'src/hooks'
+import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from 'src/features/api/tdpApi'
 
 const ComponentPage: NextPageWithLayout = () => {
   const dispatch = useAppDispatch()
   const putVariablesServiceWide = usePutServiceConfig()
   const { currentServiceId, currentComponentId } = useParamsContext()
-  const {
-    value: { variables: initialVariables },
-  } = useSelectComponent(currentServiceId, currentComponentId)
+  const { data, isLoading, isSuccess } =
+    useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery({
+      serviceId: currentServiceId,
+      componentId: currentComponentId,
+    })
 
   const userInput = useSelectUserInput()
   const currentComponentVariables = userInput.components.find(
@@ -51,20 +53,21 @@ const ComponentPage: NextPageWithLayout = () => {
     })
   }
 
-  if (!initialVariables) return <p>Loading...</p>
+  if (isLoading) return <p>Loading...</p>
 
-  return (
-    <>
-      <PageTitle>Variables configuration</PageTitle>
-      <ServiceVariables
-        // key allows to re-render when changing page (as the ParamsContext is shared accross all services/components)
-        key={currentServiceId + currentComponentId}
-        defaultValue={currentComponentVariables ?? initialVariables}
-        onSave={saveVariablesToStore}
-        onSubmit={handleSubmit}
-      />
-    </>
-  )
+  if (isSuccess)
+    return (
+      <>
+        <PageTitle>Variables configuration</PageTitle>
+        <ServiceVariables
+          // key allows to re-render when changing page (as the ParamsContext is shared accross all services/components)
+          key={currentServiceId + currentComponentId}
+          variables={merge(data.variables, currentComponentVariables)}
+          onSave={saveVariablesToStore}
+          onSubmit={handleSubmit}
+        />
+      </>
+    )
 }
 
 ComponentPage.getLayout = function getLayout(page: ReactElement) {

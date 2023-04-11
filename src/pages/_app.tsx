@@ -2,10 +2,9 @@ import { Provider } from 'react-redux'
 import { AuthContextProvider, TdpClientContextProvider } from 'src/contexts'
 import store from 'src/store'
 import { LoadingConfig } from 'src/features/config'
-import { DashboardLayout } from 'src/components/Layout'
+import { DashboardLayout, Loading } from 'src/components/Layout'
 
 import '../styles/globals.css'
-import { LoadVariables } from 'src/features/variables/LoadVariables'
 import { AppProps } from 'next/app'
 import { NextPageWithLayout } from 'src/types'
 
@@ -22,11 +21,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <LoadingConfig>
         <AuthContextProvider>
           <TdpClientContextProvider>
-            <LoadVariables>
+            <Loading>
               <DashboardLayout>
                 {getLayout(<Component {...pageProps} />)}
               </DashboardLayout>
-            </LoadVariables>
+            </Loading>
           </TdpClientContextProvider>
         </AuthContextProvider>
       </LoadingConfig>

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { BeakerIcon, Cog6ToothIcon } from '@heroicons/react/24/solid'
 import { HeroIcon } from 'src/types'
 import { classNames } from 'src/utils'
-import { useSelectServices } from 'src/features/variables'
+import { useGetServicesApiV1ServiceGetQuery } from '../../features/api/tdpApi'
 
 export type TNavItem = {
   name: string
@@ -13,30 +13,39 @@ export type TNavItem = {
 }
 
 export function Menu() {
-  const menuItems = [
-    {
-      name: 'Services',
-      href: '#',
-      icon: BeakerIcon,
-      children: useSelectServices().value.map((v) => ({
-        name: v.value.id,
-        href: `/services/${v.value.id}`,
-      })),
-    },
-    {
-      name: 'Deployments',
-      href: '/deploy',
-      icon: Cog6ToothIcon,
-    },
-  ]
+  const { isError, isLoading, isSuccess, data, error } =
+    useGetServicesApiV1ServiceGetQuery()
 
-  return (
-    <nav className="flex flex-col">
-      {menuItems.map((v) => (
-        <MenuItem key={v.name} menuItem={v} />
-      ))}
-    </nav>
-  )
+  if (isError) throw error
+
+  if (isLoading) return <span>Loading...</span>
+
+  if (isSuccess && data) {
+    const menuItems = [
+      {
+        name: 'Services',
+        href: '#',
+        icon: BeakerIcon,
+        children: data.map((v) => ({
+          name: v.id,
+          href: `/services/${v.id}`,
+        })),
+      },
+      {
+        name: 'Deployments',
+        href: '/deploy',
+        icon: Cog6ToothIcon,
+      },
+    ]
+
+    return (
+      <nav className="flex flex-col">
+        {menuItems.map((v) => (
+          <MenuItem key={v.name} menuItem={v} />
+        ))}
+      </nav>
+    )
+  }
 }
 
 function MenuItem({ menuItem: item }: { menuItem: TNavItem }) {
