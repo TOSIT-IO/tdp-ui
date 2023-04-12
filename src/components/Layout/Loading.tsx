@@ -1,8 +1,7 @@
 import { useGetServicesApiV1ServiceGetQuery } from '../../features/api/tdpApi'
 
 export function Loading({ children }) {
-  const { isError, isLoading, isSuccess, error } =
-    useGetServicesApiV1ServiceGetQuery()
+  const { isLoading, isSuccess, error } = useGetServicesApiV1ServiceGetQuery()
 
   if (isSuccess) return children
 
@@ -13,10 +12,10 @@ export function Loading({ children }) {
       </div>
     )
 
-  if (isError)
+  if (error)
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="text-2xl">Error: {error}</div>
+        <div className="text-2xl">Error: {JSON.stringify(error)}</div>
       </div>
     )
 }
