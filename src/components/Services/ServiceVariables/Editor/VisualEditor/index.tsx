@@ -6,6 +6,16 @@ import { useParamsContext } from 'src/components/Services/ParamsContext'
 import { parseRecursively, splitVariables } from 'src/utils'
 import Field from './Field'
 
+const WipMessage = () => (
+  <p className="mb-4 rounded-md bg-yellow-100 p-2 text-center text-sm text-yellow-700">
+    <span className="italic">
+      <strong>Caution</strong>: visual mode is a work in progress and may not
+      work properly.
+    </span>
+    {' 👷'}
+  </p>
+)
+
 const NoVariableMessage = () => {
   const { currentServiceId, currentComponentId } = useParamsContext()
   return (
@@ -65,17 +75,20 @@ const VisualEditor = ({
 
   const { primitiveVariables, objectVariables } = splitVariables(variables)
   return (
-    <Form onChange={handleChange}>
-      <Variables variables={primitiveVariables} />
-      {objectVariables.map(([dictId, dictVariables]) => (
-        <Disclosure title={dictId} key={dictId}>
-          <Variables
-            dictId={dictId}
-            variables={Object.entries(dictVariables ?? {})}
-          />
-        </Disclosure>
-      ))}
-    </Form>
+    <>
+      <WipMessage />
+      <Form onChange={handleChange}>
+        <Variables variables={primitiveVariables} />
+        {objectVariables.map(([dictId, dictVariables]) => (
+          <Disclosure title={dictId} key={dictId}>
+            <Variables
+              dictId={dictId}
+              variables={Object.entries(dictVariables ?? {})}
+            />
+          </Disclosure>
+        ))}
+      </Form>
+    </>
   )
 }
 
