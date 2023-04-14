@@ -8,7 +8,7 @@ import { useAppDispatch } from 'src/store'
 import { setServiceValue } from 'src/features/variables'
 
 export function usePutServiceConfig() {
-  const { patchService, patchComponent, getService } = useTdpClient()
+  const { putService, putComponent, getService } = useTdpClient()
   const userInput = useSelectUserInput()
   const dispatch = useAppDispatch()
 
@@ -20,13 +20,13 @@ export function usePutServiceConfig() {
   const sendServiceVariables = async (
     serviceId: string,
     serviceUpdate: ServiceUpdate
-  ) => await patchService(serviceId, serviceUpdate)
+  ) => await putService(serviceId, serviceUpdate)
 
   const sendComponentsVariables = async (
     componentId: string,
     serviceId: string,
     componentUpdate: ComponentUpdate
-  ) => await patchComponent(componentId, serviceId, componentUpdate)
+  ) => await putComponent(componentId, serviceId, componentUpdate)
 
   type UserInput = {
     serviceId: string
