@@ -1,5 +1,4 @@
 import { ReactElement } from 'react'
-import { merge } from 'mixme'
 
 import { PageTitle } from 'src/components/Layout'
 import { useSelectUserInput } from 'src/features/userInput/hooks'
@@ -39,7 +38,6 @@ const ComponentPage: NextPageWithLayout = () => {
 
   function handleSubmit(dirtyVariables: object, message: string) {
     if (!dirtyVariables) return
-    saveVariablesToStore(dirtyVariables)
     putVariablesServiceWide({
       message,
       userInput: {
@@ -61,7 +59,7 @@ const ComponentPage: NextPageWithLayout = () => {
       <ServiceVariables
         // key allows to re-render when changing page (as the ParamsContext is shared accross all services/components)
         key={currentServiceId + currentComponentId}
-        defaultValue={merge(initialVariables, currentComponentVariables)}
+        defaultValue={currentComponentVariables ?? initialVariables}
         onSave={saveVariablesToStore}
         onSubmit={handleSubmit}
       />

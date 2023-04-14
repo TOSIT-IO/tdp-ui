@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form'
 
-import { diff } from 'src/utils'
 import ValidationBar from './ValidateBar'
 import Editor from './Editor'
 import ComponentsNav from './ComponentsNav'
@@ -18,12 +17,12 @@ const ServiceVariables = ({
   const { control, register, handleSubmit, getValues } = useForm<FormValues>()
 
   function saveVariables() {
-    const dirtyVariables = diff(defaultValue, getValues('variables'))
+    const dirtyVariables = getValues('variables')
     handleSave(dirtyVariables)
   }
 
   function submitVariables(formResult: FormValues) {
-    const dirtyVariables = diff(defaultValue, formResult.variables)
+    const dirtyVariables = getValues('variables')
     submit(dirtyVariables, formResult.message)
   }
 

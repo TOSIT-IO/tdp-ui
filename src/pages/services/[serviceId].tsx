@@ -1,5 +1,4 @@
 import { ReactElement } from 'react'
-import { merge } from 'mixme'
 
 import { PageTitle } from 'src/components/Layout'
 import { useSelectService } from 'src/features/variables'
@@ -41,7 +40,7 @@ const ServicePage: NextPageWithLayout = () => {
     })
   }
 
-  if (!userInput.variables) return <p>Loading...</p>
+  if (!initialVariables) return <p>Loading...</p>
 
   return (
     <>
@@ -49,7 +48,7 @@ const ServicePage: NextPageWithLayout = () => {
       {/* key allows to re-render when changing page (as the ParamsContext is shared accross all services/components) */}
       <ServiceVariables
         key={currentServiceId}
-        defaultValue={merge(initialVariables, userInput.variables)}
+        defaultValue={userInput.variables ?? initialVariables}
         onSave={saveVariablesToStore}
         onSubmit={handleSubmit}
       />

@@ -1,5 +1,3 @@
-import { clone } from 'mixme'
-
 export * from './arrayHelpers'
 export * from './classNames'
 export * from './dateAndTime'
@@ -97,49 +95,3 @@ export function flattenObject(obj: Object) {
   })
   return res
 }
-
-/**
- * Returns the difference between two objects
- * @param obj1 - object to compare
- * @param obj2 - object to compare
- * @returns the difference between the two objects
- * @example
- * ```ts
- * const obj1 = { a: 1, b: 2, c: 3 }
- * const obj2 = { a: 1, b: 2, c: 4 }
- * const result = diff(obj1, obj2)
- * // result = { c: 4 }
- * ```
- */
-export function diff(obj1: object, obj2: object) {
-  const result = {}
-  const obj2Copy = clone(obj2)
-  for (const key in obj1) {
-    if (obj1.hasOwnProperty(key)) {
-      if (obj2.hasOwnProperty(key)) {
-        if (isObject(obj1[key]) && isObject(obj2[key])) {
-          const diffResult = diff(obj1[key], obj2[key])
-          if (diffResult) {
-            result[key] = diffResult
-          } else {
-            delete obj2Copy[key]
-          }
-        } else if (obj1[key] !== obj2[key]) {
-          result[key] = obj2[key]
-        } else {
-          delete obj2Copy[key]
-        }
-      } else {
-        result[key] = null
-      }
-    }
-  }
-  for (const key in obj2Copy) {
-    if (obj2Copy.hasOwnProperty(key)) {
-      result[key] = obj2Copy[key]
-    }
-  }
-  return Object.keys(result).length > 0 ? result : null
-}
-
-const isObject = (item: any) => item && typeof item === 'object'
