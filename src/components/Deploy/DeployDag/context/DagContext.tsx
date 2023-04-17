@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react'
-import { FilterTypeEnum } from 'src/clients/tdpClient'
+import { FilterTypeEnum } from 'src/features/api/tdpApi'
 
 export enum DeployModeEnum {
   SOURCES = 'sources',
@@ -67,7 +67,7 @@ export function DagContextProvider({
   const [state, dispatch] = useReducer(reducer, {
     selectedDeployMode: initialState.selectedDeployMode ?? DeployModeEnum.ALL,
     operations: initialState.operations ?? [],
-    filterType: initialState.filterType ?? FilterTypeEnum.Glob,
+    filterType: initialState.filterType ?? 'glob',
     filterExpression: initialState.filterExpression ?? '',
     restart: initialState.restart ?? false,
   })

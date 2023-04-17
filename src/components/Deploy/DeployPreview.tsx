@@ -1,4 +1,4 @@
-import { Operation } from 'src/clients/tdpClient'
+import { Operation } from 'src/features/api/tdpApi'
 import { classNames } from 'src/utils'
 
 export function DeployPreview({ operations }: { operations: Operation[] }) {
@@ -28,7 +28,7 @@ function OperationRow({
   operation: Operation
   index: number
 }) {
-  const { name, collectionName, noop } = operation
+  const { name, collection_name, noop } = operation
   return (
     <tr
       key={index}
@@ -39,7 +39,7 @@ function OperationRow({
     >
       <td className="px-4 text-center">{index + 1}</td>
       <td className="px-4">{name}</td>
-      <td className="px-4 text-center">{collectionName}</td>
+      <td className="px-4 text-center">{collection_name}</td>
       <td className="px-4 text-center">{noop ? 'Yes' : 'No'}</td>
     </tr>
   )

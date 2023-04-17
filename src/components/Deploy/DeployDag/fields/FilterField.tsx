@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FilterTypeEnum } from 'src/clients/tdpClient'
+import { FilterTypeEnum } from 'src/features/api/tdpApi'
 import { classNames } from 'src/utils'
 import { FieldHeader } from 'src/components/commons'
 import { useFilterExpression, useFilterType } from '../hooks'
@@ -11,10 +11,10 @@ type FilterTypes = {
 }
 
 const filterTypes: FilterTypes = {
-  [FilterTypeEnum.Regex]: {
+  ['regex']: {
     placeholder: `.+config`,
   },
-  [FilterTypeEnum.Glob]: {
+  ['glob']: {
     placeholder: `*_config`,
   },
 }

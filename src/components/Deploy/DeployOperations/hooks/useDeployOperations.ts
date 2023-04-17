@@ -1,4 +1,4 @@
-import { OperationsRequest } from 'src/clients/tdpClient'
+import { OperationsRequest } from 'src/features/api/tdpApi'
 import { toast } from 'react-toastify'
 import { useTdpClient } from 'src/contexts'
 import router from 'next/router'

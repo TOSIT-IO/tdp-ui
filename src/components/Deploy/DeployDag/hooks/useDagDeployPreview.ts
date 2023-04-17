@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { DeployRequest, Operation } from 'src/clients/tdpClient'
+import { DeployRequest, Operation } from 'src/features/api/tdpApi'
 import { useTdpClient } from 'src/contexts'
 
 /**
