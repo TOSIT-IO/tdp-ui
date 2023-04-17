@@ -2,44 +2,50 @@ import Link from 'next/link'
 import { toast } from 'react-toastify'
 
 import { emptyApi } from 'src/features/api/emptyApi'
-import { useSelectUserInput } from 'src/features/userInput/hooks'
 import { useAppDispatch } from 'src/store'
 
+type UserInput = {
+  serviceId: string
+  variables: object
+  components: {
+    id: string
+    variables: object
+  }[]
+}
+
 export function usePutServiceConfig() {
-  const userInput = useSelectUserInput()
   const dispatch = useAppDispatch()
 
-  async function sendVariables(message: string) {
-    if (
-      Object.keys(userInput.variables).length === 0 &&
-      userInput.components.length === 0
-    ) {
+  async function putVariablesServiceWide({
+    userInput,
+    message,
+  }: {
+    userInput: UserInput
+    message: string
+  }) {
+    if (!userInput && !userInput.variables && !userInput.components) {
       toast.info('No variables to change')
       return
     }
-    if (Object.keys(userInput.variables).length !== 0) {
+    let patchedIds = []
+    if (userInput.variables) {
       const { data } = await dispatch(
         emptyApi.endpoints.patchServiceApiV1ServiceServiceIdPatch.initiate({
-          serviceId: userInput.id,
+          serviceId: userInput.serviceId,
           serviceUpdate: {
             message,
             variables: userInput.variables,
           },
         })
       )
-      if (data) toast.success(
-        <Link href="/deploy/new">
-          Variables successfully updated for {userInput.id}
-          <br /> click to configure a new deployment
-        </Link>
-      )
+      if (data) patchedIds.push(userInput.serviceId)
     }
-    if (userInput.components.length !== 0) {
+    if (userInput.components) {
       userInput.components.forEach(async (component) => {
         const { data } = await dispatch(
           emptyApi.endpoints.patchComponentApiV1ServiceServiceIdComponentComponentIdPatch.initiate(
             {
-              serviceId: userInput.id,
+              serviceId: userInput.serviceId,
               componentId: component.id,
               componentUpdate: {
                 message,
@@ -48,14 +54,16 @@ export function usePutServiceConfig() {
             }
           )
         )
-        if (data) toast.success(
-          <Link href="/deploy/new">
-            Variables successfully updated for {component.id}
-            <br /> click to configure a new deployment
-          </Link>
-        )
+        if (data) patchedIds.push(component.id)
       })
     }
+    if (patchedIds.length > 0)
+      toast.success(
+        <Link href="/deploy/new">
+          Variables successfully updated for {userInput.serviceId}. Click to
+          configure a new deployment
+        </Link>
+      )
   }
 
   return putVariablesServiceWide
