@@ -1,4 +1,4 @@
-import { OperationsRequest } from 'src/clients/tdpClient'
+import { OperationsRequest } from 'src/features/api/tdpApi'
 import { createContext, useReducer } from 'react'
 import {
   appendElementToList,

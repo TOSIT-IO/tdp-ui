@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { OperationLog as TOperationLog } from 'src/clients/tdpClient'
-import { useDeploymentOperation } from 'src/hooks'
+import {
+  useLazyGetDeploymentOperationApiV1DeployDeploymentIdOperationOperationGetQuery,
+  OperationLog,
+} from 'src/features/api/tdpApi'
 import {
   dateAndTime,
   onlyTime,
@@ -42,42 +44,51 @@ const OperationFullTextLogs = ({
   } = useRouter()
   const deployLogId = getFirstElementIfArray(tempDeployLogId)
 
-  const operationlogview = useDeploymentOperation(
-    Number(deployLogId),
-    operationName,
-    isOpen
-  )
+  const [getOperationLogView, { data, isLoading }] =
+    useLazyGetDeploymentOperationApiV1DeployDeploymentIdOperationOperationGetQuery()
+  useEffect(() => {
+    if (isOpen)
+      getOperationLogView({
+        deploymentId: Number(deployLogId),
+        operation: operationName,
+      })
+  }, [isOpen])
 
-  const logview = operationlogview?.logs?.toString() ?? '- no logs -'
+  if (isLoading) return <p>Loading...</p>
 
-  if (!logview) return <p>Loading</p>
-
-  return (
-    <pre
-      className={classNames(
-        !isOpen && 'hidden',
-        'm-2 border px-2 py-2 text-xs',
-        ' overflow-x-auto border-gray-300 font-mono'
-      )}
-    >
-      {logview}
-    </pre>
-  )
+  if (data) {
+    const logs =
+      data.logs.toString() !== '' ? data.logs.toString() : '- no logs -'
+    return (
+      <pre
+        className={classNames(
+          !isOpen && 'hidden',
+          'm-2 border px-2 py-2 text-xs',
+          ' overflow-x-auto border-gray-300 font-mono'
+        )}
+      >
+        {logs}
+      </pre>
+    )
+  }
 }
 
-const OperationLog = ({ operation }: { operation: TOperationLog }) => {
-  const { operation: operationName, startTime, endTime, state } = operation
+const OperationItem = ({ operation }: { operation: OperationLog }) => {
+  const { operation: operationName, start_time, end_time, state } = operation
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div className="flex flex-col">
       <div className="flex items-center px-3 py-3 text-sm text-gray-500">
         <div className="w-5/12">{operationName}</div>
-        <div title={dateAndTime(startTime)} className="w-3/12">
-          {onlyTime(startTime)}
+        <div title={dateAndTime(new Date(start_time))} className="w-3/12">
+          {onlyTime(new Date(start_time))}
         </div>
-        <div title={endTime && dateAndTime(endTime)} className="w-3/12">
-          {endTime && onlyTime(endTime)}
+        <div
+          title={end_time && dateAndTime(new Date(end_time))}
+          className="w-3/12"
+        >
+          {end_time && onlyTime(new Date(end_time))}
         </div>
         <div className="w-1/12">{state}</div>
         <div className="w-1/12 text-right">
@@ -89,7 +100,7 @@ const OperationLog = ({ operation }: { operation: TOperationLog }) => {
   )
 }
 
-const OperationsLogs = ({ operations }: { operations: TOperationLog[] }) => {
+const OperationsLogs = ({ operations }: { operations: OperationLog[] }) => {
   return (
     <div className="mt-8">
       <div className="py-2 md:px-6 lg:px-8">
@@ -103,7 +114,7 @@ const OperationsLogs = ({ operations }: { operations: TOperationLog[] }) => {
               <div className="w-1/12 text-right">Logs</div>
             </div>
             {operations.map((op) => (
-              <OperationLog key={op.operation} operation={op} />
+              <OperationItem key={op.operation} operation={op} />
             ))}
           </div>
         </div>

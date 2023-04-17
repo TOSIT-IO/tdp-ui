@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react'
-import { DeployRequest, FilterTypeEnum } from 'src/clients/tdpClient'
+import { DeployRequest, FilterTypeEnum } from 'src/features/api/tdpApi'
 import { DagActionEnum, DagContext, DeployModeEnum } from '../context'
 
 /**
@@ -166,8 +166,8 @@ export function useDeployDagRequest(): DeployRequest {
     } as DeployRequest
     if (deployMode !== DeployModeEnum.ALL) baseRequest[deployMode] = operations
     if (filterExpression) {
-      baseRequest.filterType = filterType
-      baseRequest.filterExpression = filterExpression
+      baseRequest.filter_type = filterType
+      baseRequest.filter_expression = filterExpression
     }
     return baseRequest
   }, [deployMode, filterExpression, filterType, operations, restart])

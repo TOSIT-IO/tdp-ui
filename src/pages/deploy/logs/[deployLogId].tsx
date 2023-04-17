@@ -1,24 +1,29 @@
 import { useRouter } from 'next/router'
-import DeploymentInfos from 'src/components/Logs/DeploymentInfos'
-import OperationsLogs from 'src/components/Logs/OperationsLogs'
-import { useDeployLogInfos } from 'src/hooks'
+
 import { getFirstElementIfArray } from 'src/utils'
+import OperationsLogs from 'src/components/Logs/OperationsLogs'
+import DeploymentInfos from 'src/components/Logs/DeploymentInfos'
+import { useGetDeploymentApiV1DeployDeploymentIdGetQuery } from 'src/features/api/tdpApi'
 
 export default function DeployLogPage() {
-  const {
-    query: { deployLogId: tempDeployLogId },
+  let {
+    query: { deployLogId },
   } = useRouter()
-  const deployLogId = getFirstElementIfArray(tempDeployLogId)
-  const deployLogInfos = useDeployLogInfos(Number(deployLogId))
+  deployLogId = getFirstElementIfArray(deployLogId)
 
-  if (!deployLogInfos) return <p>Loading</p>
+  const { data, isLoading } = useGetDeploymentApiV1DeployDeploymentIdGetQuery({
+    deploymentId: Number(deployLogId),
+  })
 
-  const { operations, ...deployLogInfosWithoutOperations } = deployLogInfos
+  if (isLoading) return <p>Loading</p>
 
-  return (
-    <>
-      <DeploymentInfos deployInfos={deployLogInfosWithoutOperations} />
-      <OperationsLogs operations={operations} />
-    </>
-  )
+  if (data) {
+    const { operations, ...deployLogInfosWithoutOperations } = data
+    return (
+      <>
+        <DeploymentInfos deployInfos={deployLogInfosWithoutOperations} />
+        <OperationsLogs operations={operations} />
+      </>
+    )
+  }
 }

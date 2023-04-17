@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { DeployRequest } from 'src/clients/tdpClient'
+import { DeployRequest } from 'src/features/api/tdpApi'
 import { useTdpClient } from 'src/contexts'
 import router from 'next/router'
 

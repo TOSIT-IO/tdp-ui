@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import { FilterTypeEnum, Operation } from 'src/clients/tdpClient'
+import { Operation } from 'src/features/api/tdpApi'
 import { Button } from 'src/components/commons'
 import { NavigationBar } from 'src/components/Layout/primitives'
 import { DagContextProvider, DeployModeEnum } from './context'
@@ -20,7 +20,7 @@ export function DeployDag() {
     <DagContextProvider
       initialState={{
         selectedDeployMode: DeployModeEnum.ALL,
-        filterType: FilterTypeEnum.Glob,
+        filterType: 'glob',
         restart: false,
       }}
     >
