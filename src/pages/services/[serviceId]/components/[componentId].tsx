@@ -1,7 +1,6 @@
 import { ReactElement } from 'react'
 
 import { PageTitle } from 'src/components/Layout'
-import { useSelectUserInput } from 'src/features/userInput/hooks'
 import { NextPageWithLayout } from 'src/types'
 import {
   ParamsContextProvider,
@@ -9,7 +8,7 @@ import {
 } from 'src/components/Services/ParamsContext'
 import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useAppDispatch } from 'src/store'
-import { setComponent } from 'src/features/userInput'
+import { setComponent, useSelectUserInput } from 'src/features/userInput'
 import { usePutServiceConfig } from 'src/hooks'
 import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from 'src/features/api/tdpApi'
 
@@ -62,7 +61,7 @@ const ComponentPage: NextPageWithLayout = () => {
         <ServiceVariables
           // key allows to re-render when changing page (as the ParamsContext is shared accross all services/components)
           key={currentServiceId + currentComponentId}
-          variables={merge(data.variables, currentComponentVariables)}
+          defaultValue={currentComponentVariables ?? data.variables}
           onSave={saveVariablesToStore}
           onSubmit={handleSubmit}
         />
