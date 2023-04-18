@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import configJson from '../../../config.json'
 
-type Config = {
+export type Config = {
   apiBasePath: string
   oidc?: {
     discoveryUrl: string

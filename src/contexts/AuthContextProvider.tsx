@@ -13,6 +13,7 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     async function createOidcConfig() {
+      // TODO: refactor "fetch" to RTK Query API
       const response = await fetch(oidc.discoveryUrl)
       const { issuer } = await response.json()
       setOidcConfig({
