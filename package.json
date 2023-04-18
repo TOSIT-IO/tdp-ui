@@ -10,8 +10,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "format": "npx prettier --write .",
-    "generate": "./scripts/generator.sh",
-    "generate-rtk-query": "npx @rtk-query/codegen-openapi ./scripts/openapi-config.ts"
+    "generate": "npx @rtk-query/codegen-openapi ./scripts/openapi-config.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
