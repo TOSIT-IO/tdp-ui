@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux'
-import { AuthContextProvider, TdpClientContextProvider } from 'src/contexts'
+import { AuthContextProvider } from 'src/contexts'
 import store from 'src/store'
 import { LoadingConfig } from 'src/features/config'
 import { DashboardLayout, Loading } from 'src/components/Layout'
@@ -20,13 +20,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <Provider store={store}>
       <LoadingConfig>
         <AuthContextProvider>
-          <TdpClientContextProvider>
-            <Loading>
-              <DashboardLayout>
-                {getLayout(<Component {...pageProps} />)}
-              </DashboardLayout>
-            </Loading>
-          </TdpClientContextProvider>
+          <Loading>
+            <DashboardLayout>
+              {getLayout(<Component {...pageProps} />)}
+            </DashboardLayout>
+          </Loading>
         </AuthContextProvider>
       </LoadingConfig>
     </Provider>

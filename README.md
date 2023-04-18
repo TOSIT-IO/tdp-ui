@@ -14,8 +14,6 @@ The following are required to **build and develop** `tdp-ui`. They aren't needed
 
 - [Node.js](https://nodejs.org/en/) 14.13.0 or later.  
   _The UI is based on [Next.js](https://nextjs.org/), which requires Node.js._
-- [Java](https://www.java.com/).  
-  _Java is used by the [OpenAPI generator](https://openapi-generator.tech/docs/generators/typescript-fetch) to [generate the API client SDK](docs/openapi-client.md)._
 
 ## Development and testing
 
@@ -27,13 +25,13 @@ The following are required to **build and develop** `tdp-ui`. They aren't needed
 
   A `skipAuth` option is available to skip the authentication process. It is useful for development purposes.
 
-- Generate the API client SDK:
+- Generate the [RTK Query OpenAPI](https://redux-toolkit.js.org/rtk-query/usage/code-generation#openapi) client:
 
   ```bash
   npm run generate
   ```
 
-  The SDK is generated in the `./build/tdp-sdk` folder.
+  The RTK Query OpenAPI client is generated in the `./src/features/api/tdpApi.ts` file using `./scripts/openapi-config.ts` and a schema in the `./schemas/` folder.
 
 - Install dependencies and start the app in development mode:
 
@@ -63,7 +61,6 @@ By default, Next.js uses a Node.js server to serve the app. `tdp-ui` doesn't nee
 
 ```bash
 npm install       # Install dependencies
-npm run generate  # Generate the API client SDK
 npm run export    # Build and export the project
 ```
 
