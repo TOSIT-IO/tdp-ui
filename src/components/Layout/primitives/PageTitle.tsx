@@ -12,7 +12,7 @@ export function PageTitle({
   return (
     <ComponentType
       className={classNames(
-        'mt-2 mb-5 border-b border-gray-200 pb-5 text-3xl font-medium text-gray-900',
+        'mb-5 mt-2 border-b border-gray-200 pb-5 text-3xl font-medium text-gray-900',
         additionalClassName
       )}
     >
