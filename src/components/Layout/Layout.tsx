@@ -1,8 +1,8 @@
+import Image from 'next/image'
 import 'react-toastify/dist/ReactToastify.css'
 import {
   Menu,
   ToastProvider,
-  TdpUiLogo,
   UserInfos,
   Sidebar,
   LegalNotice,
@@ -14,11 +14,15 @@ export function DashboardLayout({ children }) {
       <Sidebar sideWidth="13rem" space="0">
         {/* Sidebar */}
         <aside className="flex h-screen flex-col overflow-auto bg-gray-900">
-          <div className="mb-3 self-center py-3">
-            <TdpUiLogo width={100} height={40} />
-          </div>
+          <Image
+            className="my-5 mr-3 self-center"
+            src="/tdp-logo.svg"
+            alt="TDP logo"
+            width={110}
+            height={63}
+          />
           <Menu />
-          <div className="mt-auto mb-3 p-2">
+          <div className="mb-3 mt-auto px-2">
             <UserInfos />
           </div>
         </aside>
