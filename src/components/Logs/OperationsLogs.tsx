@@ -71,7 +71,7 @@ const OperationLog = ({ operation }: { operation: TOperationLog }) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center py-3 px-3 text-sm text-gray-500">
+      <div className="flex items-center px-3 py-3 text-sm text-gray-500">
         <div className="w-5/12">{operationName}</div>
         <div title={dateAndTime(startTime)} className="w-3/12">
           {onlyTime(startTime)}
@@ -95,7 +95,7 @@ const OperationsLogs = ({ operations }: { operations: TOperationLog[] }) => {
       <div className="py-2 md:px-6 lg:px-8">
         <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
           <div className="divide-y divide-gray-300">
-            <div className="flex bg-gray-50 py-3 px-3 text-sm font-semibold text-gray-900">
+            <div className="flex bg-gray-50 px-3 py-3 text-sm font-semibold text-gray-900">
               <div className="w-5/12">Operation name</div>
               <div className="w-3/12">Start Time</div>
               <div className="w-3/12">End Time</div>

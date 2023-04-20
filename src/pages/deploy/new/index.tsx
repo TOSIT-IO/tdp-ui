@@ -33,7 +33,7 @@ const deployModes: DeployModes = {
 export default function DeployModeStep() {
   return (
     <>
-      <div className="mt-2 mb-5 border-b border-gray-200 pb-5">
+      <div className="mb-5 mt-2 border-b border-gray-200 pb-5">
         <h1 className="text-3xl font-medium text-gray-900">New deployment</h1>
       </div>
       <div className="flex flex-col gap-3">

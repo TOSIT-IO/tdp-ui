@@ -30,7 +30,7 @@ export function Disclosure({
           <ChevronDownIcon className="h-5 w-5" />
         )}
       </button>
-      <div className={classNames(!isOpen && 'hidden', 'py-1 px-2')}>
+      <div className={classNames(!isOpen && 'hidden', 'px-2 py-1')}>
         {children}
       </div>
     </>
