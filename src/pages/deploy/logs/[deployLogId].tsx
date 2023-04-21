@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { getFirstElementIfArray } from 'src/utils'
 import OperationsLogs from 'src/components/Logs/OperationsLogs'
 import DeploymentInfos from 'src/components/Logs/DeploymentInfos'
-import { useGetDeploymentApiV1DeployDeploymentIdGetQuery } from 'src/features/api/tdpApi'
+import { useGetDeploymentApiV1DeployDeploymentIdGetQuery } from 'src/store/features/api/tdpApi'
 
 export default function DeployLogPage() {
   let {

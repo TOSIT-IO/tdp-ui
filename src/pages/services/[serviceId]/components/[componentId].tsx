@@ -8,9 +8,9 @@ import {
 } from 'src/components/Services/ParamsContext'
 import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useAppDispatch } from 'src/store'
-import { setComponent, useSelectUserInput } from 'src/features/userInput'
+import { setComponent, useSelectUserInput } from 'src/store/features/userInput'
 import { usePutServiceConfig } from 'src/hooks'
-import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from 'src/features/api/tdpApi'
+import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from 'src/store/features/api/tdpApi'
 
 const ComponentPage: NextPageWithLayout = () => {
   const dispatch = useAppDispatch()

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { BeakerIcon, Cog6ToothIcon } from '@heroicons/react/24/solid'
 import { HeroIcon } from 'src/types'
 import { classNames } from 'src/utils'
-import { useGetServicesApiV1ServiceGetQuery } from '../../features/api/tdpApi'
+import { useGetServicesApiV1ServiceGetQuery } from '../../store/features/api/tdpApi'
 
 export type TNavItem = {
   name: string

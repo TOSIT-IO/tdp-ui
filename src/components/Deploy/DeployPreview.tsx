@@ -1,4 +1,4 @@
-import { Operation } from 'src/features/api/tdpApi'
+import { Operation } from 'src/store/features/api/tdpApi'
 import { classNames } from 'src/utils'
 
 export function DeployPreview({ operations }: { operations: Operation[] }) {

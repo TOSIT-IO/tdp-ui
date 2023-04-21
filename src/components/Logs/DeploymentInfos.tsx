@@ -1,4 +1,4 @@
-import { DeploymentLogWithOperations } from 'src/features/api/tdpApi'
+import { DeploymentLogWithOperations } from 'src/store/features/api/tdpApi'
 import { dateAndTime } from 'src/utils/dateAndTime'
 
 const DeploymentInfos = ({

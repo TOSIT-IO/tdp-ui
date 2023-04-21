@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react'
-import { FilterTypeEnum } from 'src/features/api/tdpApi'
+import { FilterTypeEnum } from 'src/store/features/api/tdpApi'
 
 export enum DeployModeEnum {
   SOURCES = 'sources',

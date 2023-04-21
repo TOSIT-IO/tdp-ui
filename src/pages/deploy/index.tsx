@@ -1,4 +1,4 @@
-import { useGetDeploymentsApiV1DeployGetQuery } from 'src/features/api/tdpApi'
+import { useGetDeploymentsApiV1DeployGetQuery } from 'src/store/features/api/tdpApi'
 import { Button } from 'src/components/commons'
 import DeploymentsLogs from 'src/components/Logs/DeploymentsLogs'
 

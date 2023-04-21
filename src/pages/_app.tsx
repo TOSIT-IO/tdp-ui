@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { AuthContextProvider } from 'src/contexts'
 import store from 'src/store'
-import { LoadingConfig } from 'src/features/config'
+import { LoadingConfig } from 'src/store/features/config'
 import { DashboardLayout, Loading } from 'src/components/Layout'
 
 import '../styles/globals.css'

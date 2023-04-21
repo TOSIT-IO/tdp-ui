@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useSelectConfig } from 'src/features/config/hooks'
+import { useSelectConfig } from 'src/store/features/config/hooks'
 
 export function useServerStatus() {
   const [data, setData] = useState(null)

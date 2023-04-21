@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { useAppDispatch } from 'src/store'
-import { clearUserInput, setServiceId } from 'src/features/userInput'
+import { clearUserInput, setServiceId } from 'src/store/features/userInput'
 import { getFirstElementIfArray } from 'src/utils'
 
 type ParamContextProps = {
