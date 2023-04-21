@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import { Operation } from 'src/features/api/tdpApi'
+import { Operation } from 'src/store/features/api/tdpApi'
 import { Button } from 'src/components/commons'
 import { NavigationBar } from 'src/components/Layout/primitives'
 import { DagContextProvider, DeployModeEnum } from './context'

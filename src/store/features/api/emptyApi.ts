@@ -7,7 +7,7 @@ import type {
 import { User } from 'oidc-client-ts'
 
 import type { RootState } from 'src/store'
-import type { Config } from 'src/features/config'
+import type { Config } from 'src/store/features/config'
 
 const getUser = async (oidc: Config['oidc']) => {
   // TODO: refactor to RTK Query and fetch `issuer` from `oidc.discoveryUrl`

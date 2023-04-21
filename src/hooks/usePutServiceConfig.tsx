@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 
-import { emptyApi } from 'src/features/api/emptyApi'
+import { emptyApi } from 'src/store/features/api/emptyApi'
 import { useAppDispatch } from 'src/store'
 
 type UserInput = {

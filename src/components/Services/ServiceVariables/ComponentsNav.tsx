@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import {
   useGetServiceApiV1ServiceServiceIdGetQuery,
   Component,
-} from 'src/features/api/tdpApi'
-import { useSelectUserInput } from 'src/features/userInput/hooks'
-import { toogleShowUnusedTabs } from 'src/features/userInput'
+} from 'src/store/features/api/tdpApi'
+import { useSelectUserInput } from 'src/store/features/userInput/hooks'
+import { toogleShowUnusedTabs } from 'src/store/features/userInput'
 import { useAppDispatch } from 'src/store'
 import { classNames } from 'src/utils'
 import { Button } from 'src/components/commons'

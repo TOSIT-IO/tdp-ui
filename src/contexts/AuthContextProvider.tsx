@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { WebStorageStateStore } from 'oidc-client-ts'
 import { AuthProvider, AuthProviderProps } from 'react-oidc-context'
 import { LoginPortal } from 'src/components/Login'
-import { useSelectConfig } from 'src/features/config/hooks'
+import { useSelectConfig } from 'src/store/features/config/hooks'
 import router from 'next/router'
 
 export function AuthContextProvider({ children }) {

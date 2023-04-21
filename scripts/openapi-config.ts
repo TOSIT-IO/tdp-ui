@@ -3,9 +3,9 @@ import { resolve } from 'path'
 
 const config: ConfigFile = {
   schemaFile: resolve(__dirname, '../schemas/tdp-server_0.1.0_openapi.json'),
-  apiFile: '../src/features/api/emptyApi.ts',
+  apiFile: '../src/store/features/api/emptyApi.ts',
   apiImport: 'emptyApi',
-  outputFile: '../src/features/api/tdpApi.ts',
+  outputFile: '../src/store/features/api/tdpApi.ts',
   exportName: 'tdpApi',
   tag: true,
   hooks: {

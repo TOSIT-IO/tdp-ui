@@ -1,4 +1,4 @@
-import { OperationsRequest } from 'src/features/api/tdpApi'
+import { OperationsRequest } from 'src/store/features/api/tdpApi'
 import { useContext } from 'react'
 import { OperationsActionEnum, OperationsContext } from '../context'
 
