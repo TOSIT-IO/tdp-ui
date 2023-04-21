@@ -35,8 +35,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# OpenAPI Generator
-openapi-generator-cli.jar
+# Generated OpenAPI file
+/src/features/api/tdpApi.ts
 
 # TDP-UI config
 config.json
