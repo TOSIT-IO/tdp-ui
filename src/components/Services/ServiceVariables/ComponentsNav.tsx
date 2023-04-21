@@ -10,7 +10,6 @@ import { toogleShowUnusedTabs } from 'src/store/features/userInput'
 import { useAppDispatch } from 'src/store'
 import { classNames } from 'src/utils'
 import { Button } from 'src/components/commons'
-import { useParamsContext } from '../ParamsContext'
 
 type ComponentNavItem = {
   id: string
@@ -137,7 +136,12 @@ const ComponentsDropdown = ({
 }
 
 const ServiceNav = ({ onChange }: { onChange?: () => void }) => {
-  const { currentServiceId, currentComponentId } = useParamsContext()
+  const {
+    query: { serviceId, componentId },
+  } = useRouter()
+  const currentServiceId = serviceId.toString()
+  const currentComponentId = componentId?.toString()
+
   const { data, isSuccess } = useGetServiceApiV1ServiceServiceIdGetQuery({
     serviceId: currentServiceId,
   })

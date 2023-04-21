@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
+import { useRouter } from 'next/router'
 
 import { Disclosure } from 'src/components/Layout'
-import { useParamsContext } from 'src/components/Services/ParamsContext'
 import { parseRecursively, splitVariables } from 'src/utils'
 import Field from './Field'
 
@@ -15,12 +15,14 @@ const WipMessage = () => (
     {' 👷'}
   </p>
 )
-
 const NoVariableMessage = () => {
-  const { currentServiceId, currentComponentId } = useParamsContext()
+  const {
+    query: { serviceId, componentId },
+  } = useRouter()
+
   return (
     <p className="text-slate-600">
-      No variable defined for {currentComponentId ?? currentServiceId}
+      No variable defined for {componentId?.toString() ?? serviceId?.toString()}
     </p>
   )
 }

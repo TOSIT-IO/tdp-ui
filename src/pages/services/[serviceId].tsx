@@ -1,28 +1,44 @@
-import { ReactElement } from 'react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import { PageTitle } from 'src/components/Layout'
-import { NextPageWithLayout } from 'src/types'
-import {
-  ParamsContextProvider,
-  useParamsContext,
-} from 'src/components/Services/ParamsContext'
 import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useAppDispatch } from 'src/store'
 import {
   setServiceVariables,
   useSelectUserInput,
+  clearUserInput,
+  setServiceId,
 } from 'src/store/features/userInput'
 import { usePutServiceConfig } from 'src/hooks'
-import { useGetServiceApiV1ServiceServiceIdGetQuery } from 'src/store/features/api/tdpApi'
+import { useLazyGetServiceApiV1ServiceServiceIdGetQuery } from 'src/store/features/api/tdpApi'
 
-const ServicePage: NextPageWithLayout = () => {
+const ServicePage = () => {
   const dispatch = useAppDispatch()
   const putVariablesServiceWide = usePutServiceConfig()
-  const { currentServiceId } = useParamsContext()
-  const { data, isLoading, isSuccess } =
-    useGetServiceApiV1ServiceServiceIdGetQuery({
-      serviceId: currentServiceId,
-    })
+  const {
+    isReady,
+    query: { serviceId },
+  } = useRouter()
+  const currentServiceId = serviceId.toString()
+
+  const [getVariables, { data, isLoading, isSuccess, isFetching }] =
+    useLazyGetServiceApiV1ServiceServiceIdGetQuery()
+
+  // Cleanup on switching a service
+  useEffect(() => {
+    dispatch(clearUserInput())
+    dispatch(setServiceId(currentServiceId))
+  }, [dispatch, currentServiceId])
+
+  // Update variables
+  useEffect(() => {
+    if (isReady) {
+      getVariables({
+        serviceId: currentServiceId,
+      })
+    }
+  }, [isReady, currentServiceId])
 
   const userInput = useSelectUserInput()
 
@@ -43,7 +59,8 @@ const ServicePage: NextPageWithLayout = () => {
     })
   }
 
-  if (isLoading) return <p>Loading...</p>
+  // TODO: improve behavior, make refreshing smooth
+  if (isLoading || isFetching) return <p>Loading...</p>
 
   if (isSuccess)
     return (
@@ -51,17 +68,12 @@ const ServicePage: NextPageWithLayout = () => {
         <PageTitle>Variables configuration</PageTitle>
         {/* key allows to re-render when changing page (as the ParamsContext is shared accross all services/components) */}
         <ServiceVariables
-          key={currentServiceId}
           defaultValue={userInput.variables ?? data.variables}
           onSave={saveVariablesToStore}
           onSubmit={handleSubmit}
         />
       </>
     )
-}
-
-ServicePage.getLayout = function getLayout(page: ReactElement) {
-  return <ParamsContextProvider>{page}</ParamsContextProvider>
 }
 
 export default ServicePage
