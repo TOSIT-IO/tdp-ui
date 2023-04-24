@@ -59,10 +59,12 @@ export function usePutServiceConfig() {
     }
     if (patchedIds.length > 0)
       toast.success(
-        <Link href="/deploy/new">
-          Variables successfully updated for {userInput.serviceId}. Click to
-          configure a new deployment
-        </Link>
+        <div>
+          <Link href="/deploy/new">
+            Variables successfully updated for {userInput.serviceId}. Click to
+            configure a new deployment
+          </Link>
+        </div>
       )
   }
 
