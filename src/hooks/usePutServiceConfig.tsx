@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 
 import { emptyApi } from 'src/store/features/api/emptyApi'
 import { useAppDispatch } from 'src/store'
+import { clearUserInput } from 'src/store/features/userInput'
 
 type UserInput = {
   serviceId: string
@@ -23,11 +24,6 @@ export function usePutServiceConfig() {
     userInput: UserInput
     message: string
   }) {
-    console.log('userInput', userInput)
-    if (!userInput && !userInput.variables && !userInput.components) {
-      toast.info('No variables to change')
-      return
-    }
     let patchedIds = []
     if (userInput.variables) {
       const { data } = await dispatch(
@@ -42,31 +38,36 @@ export function usePutServiceConfig() {
       if (data) patchedIds.push(userInput.serviceId)
     }
     if (userInput.components) {
-      userInput.components.forEach(async (component) => {
-        const { data } = await dispatch(
-          emptyApi.endpoints.patchComponentApiV1ServiceServiceIdComponentComponentIdPatch.initiate(
-            {
-              serviceId: userInput.serviceId,
-              componentId: component.id,
-              componentUpdate: {
-                message,
-                variables: component.variables,
-              },
-            }
+      await Promise.all(
+        userInput.components.map(async (component) => {
+          const { data } = await dispatch(
+            emptyApi.endpoints.patchComponentApiV1ServiceServiceIdComponentComponentIdPatch.initiate(
+              {
+                serviceId: userInput.serviceId,
+                componentId: component.id,
+                componentUpdate: {
+                  message,
+                  variables: component.variables,
+                },
+              }
+            )
           )
-        )
-        if (data) patchedIds.push(component.id)
-      })
+          if (data) patchedIds.push(component.id)
+        })
+      )
     }
     if (patchedIds.length > 0)
       toast.success(
         <div>
           <Link href="/deploy/new">
-            Variables successfully updated for {userInput.serviceId}. Click to
-            configure a new deployment
+            Variables successfully updated for the &quot;
+            <b>{userInput.serviceId}</b>&quot; service. Click to configure a new
+            deployment.
           </Link>
         </div>
       )
+    // Cleanup userInput
+    dispatch(clearUserInput())
   }
 
   return putVariablesServiceWide
