@@ -23,6 +23,7 @@ export function usePutServiceConfig() {
     userInput: UserInput
     message: string
   }) {
+    console.log('userInput', userInput)
     if (!userInput && !userInput.variables && !userInput.components) {
       toast.info('No variables to change')
       return

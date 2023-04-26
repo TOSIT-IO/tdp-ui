@@ -1,19 +1,25 @@
 import MonacoEditor from '@monaco-editor/react'
+import { debounce } from 'src/utils'
 
 export const RawEditorMode = ({
   variables,
   onChange,
+  onSave: handleSave,
 }: {
   variables: Object
   onChange: (value: Object) => void
+  onSave: (newVariables: object) => void
 }) => {
-  function handleChange(value: string) {
+  const handleChange = (value: string) => {
     try {
-      onChange(JSON.parse(value))
+      let json = JSON.parse(value)
+      handleSave(json)
+      onChange(json)
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
+  const debouncedHandleChange = debounce((value) => handleChange(value))
 
   return (
     <div className="overflow-hidden rounded-md border border-gray-400">
@@ -21,7 +27,7 @@ export const RawEditorMode = ({
         height="60vh"
         defaultLanguage="json"
         defaultValue={JSON.stringify(variables, null, 2)}
-        onChange={handleChange}
+        onChange={debouncedHandleChange}
         options={{
           autoClosingQuotes: 'always',
           autoIndent: 'full',
