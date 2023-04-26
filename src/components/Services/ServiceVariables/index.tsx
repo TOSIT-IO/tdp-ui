@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
+import { compare } from 'mixme'
 
 import ValidationBar from './ValidateBar'
 import Editor from './Editor'
@@ -7,7 +8,12 @@ import ComponentsNav from './ComponentsNav'
 import type { FormValues } from './types'
 import { usePutServiceConfig } from 'src/hooks'
 import { useAppSelector } from 'src/store'
-import { setComponent, setServiceVariables } from 'src/store/features/userInput'
+import {
+  setComponent,
+  setServiceVariables,
+  clearComponent,
+  clearServiceVariables,
+} from 'src/store/features/userInput'
 import { useAppDispatch } from 'src/store'
 import type { Component, Service } from 'src/store/features/api/tdpApi'
 
@@ -37,13 +43,19 @@ const ServiceVariables = ({
   }
 
   function saveVariablesToStore(dirtyVariables: object) {
+    // TODO: apply schema to validate variables
     if (!dirtyVariables) return
-    // console.log(dirtyVariables)
-    dispatch(
-      componentId
-        ? setComponent({ componentId, variables: dirtyVariables })
-        : setServiceVariables(dirtyVariables)
-    )
+    // Store in `userInput` only modified variables
+    if (compare(dirtyVariables, data.variables))
+      dispatch(
+        componentId ? clearComponent({ componentId }) : clearServiceVariables()
+      )
+    else
+      dispatch(
+        componentId
+          ? setComponent({ componentId, variables: dirtyVariables })
+          : setServiceVariables(dirtyVariables)
+      )
   }
 
   // Update variables
