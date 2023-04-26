@@ -35,6 +35,9 @@ export const userInputSlice = createSlice({
       if (isVariablesEmpty) return
       state.variables = action.payload
     },
+    clearServiceVariables: (state) => {
+      delete state.variables
+    },
     setComponent: (
       state,
       action: PayloadAction<{
@@ -57,6 +60,17 @@ export const userInputSlice = createSlice({
         })
       }
     },
+    clearComponent: (
+      state,
+      action: PayloadAction<{
+        componentId: string
+      }>
+    ) => {
+      const { componentId } = action.payload
+      state.components = state.components.filter(
+        (component) => component.id !== componentId
+      )
+    },
     toogleShowUnusedTabs: (state) => {
       state.settings.showUnusedTabs = !state.settings.showUnusedTabs
     },
@@ -70,7 +84,9 @@ export const {
   clearUserInput,
   setServiceId,
   setServiceVariables,
+  clearServiceVariables,
   setComponent,
+  clearComponent,
   toogleShowUnusedTabs,
   setRawMode,
 } = userInputSlice.actions
