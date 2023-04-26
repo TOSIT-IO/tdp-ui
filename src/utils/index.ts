@@ -95,3 +95,28 @@ export function flattenObject(obj: Object) {
   })
   return res
 }
+
+/**
+ * Creates a debounced function that delays invoking `func` until after wait milliseconds
+ * have elapsed since the last time the debounced function was invoked.
+ * @param func - the debounced function
+ * @param wait - timeout to wait in milliseconds
+ * @returns the flattened object
+ * @example
+ * ```ts
+ * debounce(() => {
+ *  console.log('Saving data')
+ * }, 250)
+ * // Returns:
+ * // () => void
+ * ```
+ */
+export function debounce(func: (a: any) => void, wait = 300) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, wait)
+  }
+}

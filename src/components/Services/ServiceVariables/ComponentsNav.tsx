@@ -5,7 +5,7 @@ import {
   useGetServiceApiV1ServiceServiceIdGetQuery,
   Component,
 } from 'src/store/features/api/tdpApi'
-import { useSelectUserInput } from 'src/store/features/userInput/hooks'
+import { useAppSelector } from 'src/store'
 import { toogleShowUnusedTabs } from 'src/store/features/userInput'
 import { useAppDispatch } from 'src/store'
 import { classNames } from 'src/utils'
@@ -20,23 +20,19 @@ type ComponentsNav = {
   usedComponents: ComponentNavItem[]
   unusedComponents: ComponentNavItem[]
   currentTabId: string
-  onChange: () => void
 }
 
 const ComponentTab = ({
   tab,
   isCurrentTab,
-  onChange,
 }: {
   tab: ComponentNavItem
   isCurrentTab: boolean
-  onChange: () => void
 }) => {
   return (
     <Link
       key={tab.id}
       href={tab.href}
-      onClick={onChange}
       className={classNames(
         isCurrentTab
           ? 'bg-gray-700 text-white'
@@ -54,11 +50,10 @@ const ComponentsTabs = ({
   usedComponents,
   unusedComponents,
   currentTabId,
-  onChange,
 }: ComponentsNav) => {
   const {
     settings: { showUnusedTabs },
-  } = useSelectUserInput()
+  } = useAppSelector((state) => state.userInput)
   const dispatch = useAppDispatch()
 
   const isCurrentTab = (tab: string) => {
@@ -80,7 +75,6 @@ const ComponentsTabs = ({
               key={tab.id}
               tab={tab}
               isCurrentTab={isCurrentTab(tab.id)}
-              onChange={onChange}
             />
           )
         })}
@@ -100,7 +94,6 @@ const ComponentsDropdown = ({
   usedComponents,
   unusedComponents,
   currentTabId,
-  onChange,
 }: ComponentsNav) => {
   const { push, isReady } = useRouter()
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -120,13 +113,13 @@ const ComponentsDropdown = ({
         onChange={handleChange}
       >
         {usedComponents.map((tab) => (
-          <option key={tab.id} value={tab.href} onClick={onChange}>
+          <option key={tab.id} value={tab.href}>
             {tab.id}
           </option>
         ))}
         <option disabled>──────────</option>
         {unusedComponents.map((tab) => (
-          <option key={tab.id} value={tab.href} onClick={onChange}>
+          <option key={tab.id} value={tab.href}>
             {tab.id}
           </option>
         ))}
@@ -135,7 +128,7 @@ const ComponentsDropdown = ({
   )
 }
 
-const ServiceNav = ({ onChange }: { onChange?: () => void }) => {
+const ServiceNav = () => {
   const {
     query: { serviceId, componentId },
   } = useRouter()
@@ -159,7 +152,6 @@ const ServiceNav = ({ onChange }: { onChange?: () => void }) => {
             usedComponents={usedComponents}
             unusedComponents={unusedComponents}
             currentTabId={currentComponentId || currentServiceId}
-            onChange={onChange}
           />
         </div>
         <div className="hidden sm:block">
@@ -167,7 +159,6 @@ const ServiceNav = ({ onChange }: { onChange?: () => void }) => {
             usedComponents={usedComponents}
             unusedComponents={unusedComponents}
             currentTabId={currentComponentId || currentServiceId}
-            onChange={onChange}
           />
         </div>
       </div>

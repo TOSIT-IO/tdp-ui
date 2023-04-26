@@ -6,40 +6,18 @@ import VisualEditor from './VisualEditor'
 import Toolbar from './Toolbar'
 import { FormValues } from '../types'
 
-const EditorControlled = ({
+const Editor = ({
   control,
-  defaultValue,
-  isRawEditorMode,
+  onSave: handleSave,
+  serviceId,
+  componentId,
 }: {
   control: Control<FormValues>
-  defaultValue: Object
-  isRawEditorMode: boolean
-}) => {
-  return (
-    <Controller
-      name="variables"
-      control={control}
-      defaultValue={defaultValue}
-      render={({ field: { value, onChange } }) =>
-        isRawEditorMode ? (
-          <RawEditor variables={value} onChange={onChange} />
-        ) : (
-          <VisualEditor variables={value} onChange={onChange} />
-        )
-      }
-    />
-  )
-}
-
-const EditorWithToolbar = ({
-  control,
-  defaultValue,
-}: {
-  control: Control<FormValues>
-  defaultValue: Object
+  onSave: (newVariables: object) => void
+  serviceId: string
+  componentId: string
 }) => {
   const [isRawEditorMode, setIsRawEditorMode] = useState(true)
-
   const showRawMode = () => setIsRawEditorMode(true)
   const showVisualMode = () => setIsRawEditorMode(false)
 
@@ -50,13 +28,28 @@ const EditorWithToolbar = ({
         showRawMode={showRawMode}
         showVisualMode={showVisualMode}
       />
-      <EditorControlled
+      <Controller
+        name="variables"
         control={control}
-        defaultValue={defaultValue}
-        isRawEditorMode={isRawEditorMode}
+        render={({ field: { value, onChange } }) =>
+          isRawEditorMode ? (
+            <RawEditor
+              key={serviceId + componentId}
+              variables={value}
+              onChange={onChange}
+              onSave={handleSave}
+            />
+          ) : (
+            <VisualEditor
+              key={serviceId + componentId}
+              variables={value}
+              onChange={onChange}
+            />
+          )
+        }
       />
     </>
   )
 }
 
-export default EditorWithToolbar
+export default Editor
