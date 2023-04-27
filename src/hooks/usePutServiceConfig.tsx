@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 
-import { emptyApi } from 'src/store/features/api/emptyApi'
+import { emptyApi } from 'src/store/api/emptyApi'
 import { useAppDispatch } from 'src/store'
-import { clearUserInput } from 'src/store/features/userInput'
+import { clearUserInput } from 'src/store/userInput'
 
 type UserInput = {
   serviceId: string

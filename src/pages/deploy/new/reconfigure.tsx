@@ -9,7 +9,7 @@ import { NavigationBar } from 'src/components/Layout'
 import {
   useReconfigureApiV1DeployReconfigurePostMutation,
   useReconfigureApiV1PlanReconfigurePostMutation,
-} from 'src/store/features/api/tdpApi'
+} from 'src/store/api/tdpApi'
 
 export default function ReconfigurePage() {
   const [deployReconfigure, deployResult] =

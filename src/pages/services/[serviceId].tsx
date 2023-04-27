@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 import { PageTitle } from 'src/components/Layout'
 import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { clearUserInput, setServiceId } from 'src/store/features/userInput'
-import { useGetServiceApiV1ServiceServiceIdGetQuery } from 'src/store/features/api/tdpApi'
+import { clearUserInput, setServiceId } from 'src/store/userInput'
+import { useGetServiceApiV1ServiceServiceIdGetQuery } from 'src/store/api/tdpApi'
 
 const ServicePage = () => {
   const dispatch = useAppDispatch()

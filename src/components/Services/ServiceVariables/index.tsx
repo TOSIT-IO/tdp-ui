@@ -13,9 +13,9 @@ import {
   setServiceVariables,
   clearComponent,
   clearServiceVariables,
-} from 'src/store/features/userInput'
+} from 'src/store/userInput'
 import { useAppDispatch } from 'src/store'
-import type { Component, Service } from 'src/store/features/api/tdpApi'
+import type { Component, Service } from 'src/store/api/tdpApi'
 
 const ServiceVariables = ({
   data,
