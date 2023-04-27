@@ -12,8 +12,6 @@ export enum OperationsActionEnum {
   REMOVE_OPERATION = 'REMOVE_OPERATION',
 }
 
-type OperationsState = OperationsRequest
-
 type OperationsActionPayload = {
   [OperationsActionEnum.ADD_OPERATION]: { newOperation: string }
   [OperationsActionEnum.SWITCH_OPERATIONS]: {
@@ -31,13 +29,13 @@ type OperationsAction = {
 }[OperationsActionEnum]
 
 type OperationsContextValue = {
-  state: OperationsState
+  state: OperationsRequest
   dispatch: React.Dispatch<OperationsAction>
 }
 
 type OperationsContextProviderProps = {
   children: React.ReactNode
-  initialState: OperationsState
+  initialState: OperationsRequest
 }
 
 export const OperationsContext = createContext<OperationsContextValue>(null)
@@ -58,9 +56,9 @@ export function OperationsContextProvider({
 }
 
 function reducer(
-  state: OperationsState,
+  state: OperationsRequest,
   action: OperationsAction
-): OperationsState {
+): OperationsRequest {
   switch (action.type) {
     case OperationsActionEnum.ADD_OPERATION:
       const { newOperation } = action.payload

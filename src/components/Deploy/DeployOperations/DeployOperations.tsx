@@ -1,8 +1,13 @@
+import { useEffect } from 'react'
+import router from 'next/router'
+import { toast } from 'react-toastify'
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
+
 import { Button } from 'src/components/commons'
 import { NavigationBar } from 'src/components/Layout/primitives'
 import { OperationsContextProvider, ScrollContextProvider } from './context'
-import { useDeployOperations, useDeployOperationsRequest } from './hooks'
+import { useDeployOperationsRequest } from './hooks'
+import { useOperationsApiV1DeployOperationsPostMutation } from 'src/store/api/tdpApi'
 import { OperationInput } from './OperationInput'
 import { OperationsList } from './OperationsList'
 
@@ -22,7 +27,17 @@ export function DeployOperations() {
 
 function Navigation() {
   const deployOperationsRequest = useDeployOperationsRequest()
-  const { deployOperations } = useDeployOperations()
+  const [deployOperations, result] =
+    useOperationsApiV1DeployOperationsPostMutation()
+
+  useEffect(() => {
+    if (result.data) {
+      toast.info(
+        `Deployment ID: ${result.data.id}. Redirecting to deploy log page...`
+      )
+      router.push(`/deploy/logs/${result.data.id}`)
+    }
+  }, [result])
 
   return (
     <NavigationBar>
@@ -33,7 +48,9 @@ function Navigation() {
       <Button
         variant="filled"
         disabled={deployOperationsRequest.operations.length === 0}
-        onClick={() => deployOperations(deployOperationsRequest)}
+        onClick={() =>
+          deployOperations({ operationsRequest: deployOperationsRequest })
+        }
       >
         Deploy
       </Button>

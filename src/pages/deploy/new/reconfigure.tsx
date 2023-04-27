@@ -22,9 +22,6 @@ export default function ReconfigurePage() {
   }, [])
 
   useEffect(() => {
-    if (deployResult.error) {
-      toast.error(String(deployResult.error))
-    }
     if (deployResult.data) {
       toast.info(
         `Deploy id: ${deployResult.data.id} ; redirecting to deploy log page...`
