@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import { Operation } from 'src/store/api/tdpApi'
+import { toast } from 'react-toastify'
+import router from 'next/router'
+
+import {
+  Operation,
+  useDagApiV1PlanDagPostMutation,
+  useDagApiV1DeployDagPostMutation,
+} from 'src/store/api/tdpApi'
 import { Button } from 'src/components/commons'
 import { NavigationBar } from 'src/components/Layout/primitives'
 import { DagContextProvider, DeployModeEnum } from './context'
-import { useDagDeploy, useDeployDagRequest } from './hooks'
+import { useDeployDagRequest } from './hooks'
 import {
   DeployModeField,
   FilterField,
@@ -12,7 +19,6 @@ import {
   RestartField,
 } from './fields'
 import { DeployPreview } from '../DeployPreview'
-import { useTdpClient } from 'src/contexts'
 
 export function DeployDag() {
   const [displayPreview, setDisplayPreview] = useState(false)
@@ -54,16 +60,18 @@ function DagForm() {
 
 function DagPreview() {
   const [operationsPreview, setOperationsPreview] = useState<Operation[]>([])
-  const { planDeployDag } = useTdpClient()
+  const [planDag, result] = useDagApiV1PlanDagPostMutation()
   const dagRequest = useDeployDagRequest()
 
   useEffect(() => {
-    const fetchPreview = async () => {
-      const operations = await planDeployDag(dagRequest)
-      setOperationsPreview(operations)
-    }
-    fetchPreview()
-  }, [planDeployDag, dagRequest])
+    planDag({
+      body: dagRequest,
+    })
+  }, [dagRequest])
+
+  useEffect(() => {
+    if (result.data) setOperationsPreview(result.data)
+  }, [result])
 
   return <DeployPreview operations={operationsPreview} />
 }
@@ -90,14 +98,23 @@ const BackToNewButton = () => (
 )
 
 function DeployButton() {
-  const deployDag = useDagDeploy()
+  const [deployDag, result] = useDagApiV1DeployDagPostMutation()
   const dagRequest = useDeployDagRequest()
+
+  useEffect(() => {
+    if (result.data) {
+      toast.info(
+        `Deploy id: ${result.data.id} ; redirecting to deploy log page...`
+      )
+      router.push(`/deploy/logs/${result.data.id}`)
+    }
+  }, [result])
 
   return (
     <Button
       as="button"
       variant={'filled'}
-      onClick={() => deployDag(dagRequest)}
+      onClick={() => deployDag({ body: dagRequest })}
     >
       Deploy
     </Button>
