@@ -3,9 +3,9 @@ import { useEffect } from 'react'
 
 import { PageTitle } from 'src/components/Layout'
 import ServiceVariables from 'src/components/Services/ServiceVariables'
-import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from 'src/store/features/api/tdpApi'
+import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from 'src/store/api/tdpApi'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setServiceId } from 'src/store/features/userInput'
+import { setServiceId } from 'src/store/userInput'
 
 const ComponentPage = () => {
   const dispatch = useAppDispatch()

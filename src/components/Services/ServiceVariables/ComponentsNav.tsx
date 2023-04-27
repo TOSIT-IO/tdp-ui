@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import {
   useGetServiceApiV1ServiceServiceIdGetQuery,
   Component,
-} from 'src/store/features/api/tdpApi'
+} from 'src/store/api/tdpApi'
 import { useAppSelector } from 'src/store'
-import { toogleShowUnusedTabs } from 'src/store/features/userInput'
+import { toogleShowUnusedTabs } from 'src/store/userInput'
 import { useAppDispatch } from 'src/store'
 import { classNames } from 'src/utils'
 import { Button } from 'src/components/commons'

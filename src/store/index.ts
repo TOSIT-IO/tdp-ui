@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
 import { setupListeners } from '@reduxjs/toolkit/query/react'
-import configReducer from './features/config/configSlice'
-import userInputReducer from './features/userInput/userInputSlice'
-import { emptyApi } from './features/api/emptyApi'
+import configReducer from './config/configSlice'
+import userInputReducer from './userInput/userInputSlice'
+import { emptyApi } from './api/emptyApi'
 import { rtkQueryErrorLogger } from './middlewares'
 
 const store = configureStore({

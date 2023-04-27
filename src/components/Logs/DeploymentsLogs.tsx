@@ -6,7 +6,7 @@ import { Button } from 'src/components/commons'
 import {
   useGetDeploymentsApiV1DeployGetQuery,
   DeploymentLog,
-} from 'src/store/features/api/tdpApi'
+} from 'src/store/api/tdpApi'
 
 const Pagination = ({
   totalPages,

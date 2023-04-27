@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import {
   useLazyGetDeploymentOperationApiV1DeployDeploymentIdOperationOperationGetQuery,
   OperationLog,
-} from 'src/store/features/api/tdpApi'
+} from 'src/store/api/tdpApi'
 import {
   dateAndTime,
   onlyTime,
