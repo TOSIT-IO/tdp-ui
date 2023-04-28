@@ -71,7 +71,7 @@ const DeploymentItem = ({ deploylog }: { deploylog: DeploymentLog }) => {
 }
 
 const DeploymentsLogs = () => {
-  const pageSize = 3
+  const pageSize = 15
   const [currentPage, setCurrentPage] = useState(0)
 
   const toggleNextPage = () => {
@@ -90,7 +90,7 @@ const DeploymentsLogs = () => {
   if (data)
     return (
       <>
-        {data.length === 0 ? (
+        {data.length === 0 && currentPage === 0 ? (
           <div className="mt-2 text-center text-sm text-gray-700">
             - No past deployments to show -
           </div>
