@@ -65,7 +65,7 @@ const ServiceVariables = ({
         ? userInput.components.find((c) => c.id === componentId)?.variables
         : userInput.variables) ?? data.variables
     setValue('variables', defaultValue)
-  }, [serviceId, data, componentId, userInput])
+  }, [serviceId, data, componentId, userInput, setValue])
 
   return (
     <>

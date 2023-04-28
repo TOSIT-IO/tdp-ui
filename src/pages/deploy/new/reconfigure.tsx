@@ -19,7 +19,7 @@ export default function ReconfigurePage() {
 
   useEffect(() => {
     planReconfigure()
-  }, [])
+  }, [planReconfigure])
 
   useEffect(() => {
     if (deployResult.data) {

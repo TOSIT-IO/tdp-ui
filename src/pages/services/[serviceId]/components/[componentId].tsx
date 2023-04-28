@@ -26,7 +26,7 @@ const ComponentPage = () => {
   useEffect(() => {
     if (currentServiceId == userInput.id) return
     dispatch(setServiceId(currentServiceId))
-  }, [currentServiceId])
+  }, [currentServiceId, dispatch, userInput])
 
   if (data)
     return (

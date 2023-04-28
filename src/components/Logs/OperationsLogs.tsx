@@ -52,7 +52,7 @@ const OperationFullTextLogs = ({
         deploymentId: Number(deployLogId),
         operation: operationName,
       })
-  }, [isOpen])
+  }, [isOpen, getOperationLogView, deployLogId, operationName])
 
   if (isLoading) return <p>Loading...</p>
 
