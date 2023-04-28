@@ -67,7 +67,7 @@ function DagPreview() {
     planDag({
       body: dagRequest,
     })
-  }, [dagRequest])
+  }, [dagRequest, planDag])
 
   useEffect(() => {
     if (result.data) setOperationsPreview(result.data)

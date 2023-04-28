@@ -23,7 +23,7 @@ const ServicePage = () => {
     if (currentServiceId == userInput.id) return
     dispatch(clearUserInput())
     dispatch(setServiceId(currentServiceId))
-  }, [currentServiceId])
+  }, [currentServiceId, userInput, dispatch])
 
   if (data)
     return (
