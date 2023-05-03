@@ -112,8 +112,9 @@ export const flattenObject = (obj: Object) => {
  * ```
  */
 export const debounce = (func: (a: any) => void, wait = 300) => {
-  let timer
-  return (...args) => {
+  let timer: ReturnType<typeof setTimeout>
+  return (...args: any[]) => {
+    console.log(args)
     clearTimeout(timer)
     timer = setTimeout(() => {
       func.apply(this, args)
