@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
-import { setupListeners } from '@reduxjs/toolkit/query/react'
 import configReducer from './config/configSlice'
 import userInputReducer from './userInput/userInputSlice'
 import { emptyApi } from './api/emptyApi'
@@ -17,8 +16,6 @@ const store = configureStore({
       .concat(emptyApi.middleware)
       .concat(rtkQueryErrorLogger),
 })
-
-setupListeners(store.dispatch) // optional
 
 export type RootState = ReturnType<typeof store.getState>
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
