@@ -4,10 +4,7 @@ import { AppProps } from 'next/app'
 import { AuthContextProvider } from 'src/contexts'
 import store from 'src/store'
 import { LoadingConfig } from 'src/store/config'
-import {
-  DashboardLayout,
-  Loading as LoadingServices,
-} from 'src/components/Layout'
+import { DashboardLayout, LoadingServices } from 'src/components/Layout'
 
 import '../styles/globals.css'
 import { NextPageWithLayout } from 'src/types'

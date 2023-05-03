@@ -1,6 +1,6 @@
 import { useGetServicesApiV1ServiceGetQuery } from '../../store/api/tdpApi'
 
-export const Loading = ({ children }) => {
+export const LoadingServices = ({ children }) => {
   const { isLoading, isSuccess, error } = useGetServicesApiV1ServiceGetQuery()
 
   if (isSuccess) return children
