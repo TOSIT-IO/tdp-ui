@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export function LegalNotice() {
+export const LegalNotice = () => {
   const currentYear = new Date().getFullYear()
 
   const tositLink = (

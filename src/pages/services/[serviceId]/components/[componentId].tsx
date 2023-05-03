@@ -7,7 +7,7 @@ import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setServiceId } from 'src/store/userInput'
 
-const ComponentPage = () => {
+const Page = () => {
   const dispatch = useAppDispatch()
   const {
     query: { serviceId, componentId },
@@ -41,4 +41,4 @@ const ComponentPage = () => {
     )
 }
 
-export default ComponentPage
+export default Page

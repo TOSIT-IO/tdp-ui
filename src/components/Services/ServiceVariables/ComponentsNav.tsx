@@ -28,23 +28,21 @@ const ComponentTab = ({
 }: {
   tab: ComponentNavItem
   isCurrentTab: boolean
-}) => {
-  return (
-    <Link
-      key={tab.id}
-      href={tab.href}
-      className={classNames(
-        isCurrentTab
-          ? 'bg-gray-700 text-white'
-          : 'bg-gray-200 text-gray-500 hover:bg-gray-700 hover:text-white',
-        'px-3 py-2 text-center text-sm font-medium'
-      )}
-      aria-current={isCurrentTab ? 'page' : undefined}
-    >
-      {tab.id}
-    </Link>
-  )
-}
+}) => (
+  <Link
+    key={tab.id}
+    href={tab.href}
+    className={classNames(
+      isCurrentTab
+        ? 'bg-gray-700 text-white'
+        : 'bg-gray-200 text-gray-500 hover:bg-gray-700 hover:text-white',
+      'px-3 py-2 text-center text-sm font-medium'
+    )}
+    aria-current={isCurrentTab ? 'page' : undefined}
+  >
+    {tab.id}
+  </Link>
+)
 
 const ComponentsTabs = ({
   usedComponents,
@@ -61,7 +59,7 @@ const ComponentsTabs = ({
     return false
   }
 
-  function toggleShowUnused() {
+  const toggleShowUnused = () => {
     dispatch(toogleShowUnusedTabs())
   }
 
@@ -96,7 +94,7 @@ const ComponentsDropdown = ({
   currentTabId,
 }: ComponentsNav) => {
   const { push, isReady } = useRouter()
-  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault()
     isReady && push(e.target.value)
   }
@@ -128,46 +126,6 @@ const ComponentsDropdown = ({
   )
 }
 
-const ServiceNav = () => {
-  const {
-    query: { serviceId, componentId },
-  } = useRouter()
-  const currentServiceId = serviceId.toString()
-  const currentComponentId = componentId?.toString()
-
-  const { data, isSuccess } = useGetServiceApiV1ServiceServiceIdGetQuery({
-    serviceId: currentServiceId,
-  })
-
-  if (isSuccess && data) {
-    const [usedComponents, unusedComponents] = splitComponentsTabs(
-      data.components,
-      currentServiceId
-    )
-
-    return (
-      <div className="mb-5">
-        <div className="sm:hidden">
-          <ComponentsDropdown
-            usedComponents={usedComponents}
-            unusedComponents={unusedComponents}
-            currentTabId={currentComponentId || currentServiceId}
-          />
-        </div>
-        <div className="hidden sm:block">
-          <ComponentsTabs
-            usedComponents={usedComponents}
-            unusedComponents={unusedComponents}
-            currentTabId={currentComponentId || currentServiceId}
-          />
-        </div>
-      </div>
-    )
-  }
-}
-
-export default ServiceNav
-
 /**
  * Split components into used and unused components. Unused components are
  * components that have no variables.
@@ -177,7 +135,7 @@ export default ServiceNav
  *
  * @returns [usedComponents, unusedComponents]
  */
-function splitComponentsTabs(components: Component[], serviceId: string) {
+const splitComponentsTabs = (components: Component[], serviceId: string) => {
   const defaultServiceTab = {
     id: serviceId,
     href: `/services/${serviceId}`,
@@ -201,3 +159,42 @@ function splitComponentsTabs(components: Component[], serviceId: string) {
     [[defaultServiceTab], []]
   )
 }
+
+const ComponentsNav = () => {
+  const {
+    query: { serviceId, componentId },
+  } = useRouter()
+  const currentServiceId = serviceId.toString()
+  const currentComponentId = componentId?.toString()
+
+  const { data, isSuccess } = useGetServiceApiV1ServiceServiceIdGetQuery({
+    serviceId: currentServiceId,
+  })
+
+  if (isSuccess && data) {
+    const [usedComponents, unusedComponents] = splitComponentsTabs(
+      data.components,
+      currentServiceId
+    )
+    return (
+      <div className="mb-5">
+        <div className="sm:hidden">
+          <ComponentsDropdown
+            usedComponents={usedComponents}
+            unusedComponents={unusedComponents}
+            currentTabId={currentComponentId || currentServiceId}
+          />
+        </div>
+        <div className="hidden sm:block">
+          <ComponentsTabs
+            usedComponents={usedComponents}
+            unusedComponents={unusedComponents}
+            currentTabId={currentComponentId || currentServiceId}
+          />
+        </div>
+      </div>
+    )
+  }
+}
+
+export default ComponentsNav

@@ -12,7 +12,7 @@ export const ScrollContextProvider = ({ children }) => {
   const [enableScrollDown, setEnableScrollDown] = useState(true)
   const divToScroll = useRef<HTMLDivElement>(null)
 
-  function scrollDown() {
+  const scrollDown = () => {
     if (enableScrollDown)
       divToScroll.current.scrollTop = divToScroll.current.scrollHeight
   }

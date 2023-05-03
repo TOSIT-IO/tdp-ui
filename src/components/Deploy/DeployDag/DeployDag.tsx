@@ -20,7 +20,7 @@ import {
 } from './fields'
 import { DeployPreview } from '../DeployPreview'
 
-export function DeployDag() {
+export const DeployDag = () => {
   const [displayPreview, setDisplayPreview] = useState(false)
   return (
     <DagContextProvider
@@ -47,7 +47,7 @@ export function DeployDag() {
   )
 }
 
-function DagForm() {
+const DagForm = () => {
   return (
     <form className="flex flex-col gap-7">
       <DeployModeField />
@@ -58,7 +58,7 @@ function DagForm() {
   )
 }
 
-function DagPreview() {
+const DagPreview = () => {
   const [operationsPreview, setOperationsPreview] = useState<Operation[]>([])
   const [planDag, result] = useDagApiV1PlanDagPostMutation()
   const dagRequest = useDeployDagRequest()
@@ -97,7 +97,7 @@ const BackToNewButton = () => (
   </Button>
 )
 
-function DeployButton() {
+const DeployButton = () => {
   const [deployDag, result] = useDagApiV1DeployDagPostMutation()
   const dagRequest = useDeployDagRequest()
 

@@ -20,7 +20,7 @@ type CardProps = {
   className?: string
 }
 
-export function DeployModeField() {
+export const DeployModeField = () => {
   const [selectedDeployMode, setSelectedDeployMode] = useSelectedDeployMode()
 
   return (
@@ -47,25 +47,23 @@ export function DeployModeField() {
 }
 
 //TODO: use radio input instead of button
-function Card({
+const Card = ({
   children,
   isSelected,
   onClick,
   className: additionalClassname,
-}: CardProps) {
-  return (
-    <button
-      type="button"
-      className={classNames(
-        'rounded-md border border-gray-200 p-4 font-medium text-gray-500',
-        'hover:border-gray-400 hover:bg-gray-50 hover:text-gray-600',
-        'focus:outline-none',
-        isSelected && 'border-gray-400 bg-gray-50 text-gray-600',
-        additionalClassname
-      )}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  )
-}
+}: CardProps) => (
+  <button
+    type="button"
+    className={classNames(
+      'rounded-md border border-gray-200 p-4 font-medium text-gray-500',
+      'hover:border-gray-400 hover:bg-gray-50 hover:text-gray-600',
+      'focus:outline-none',
+      isSelected && 'border-gray-400 bg-gray-50 text-gray-600',
+      additionalClassname
+    )}
+    onClick={onClick}
+  >
+    {children}
+  </button>
+)

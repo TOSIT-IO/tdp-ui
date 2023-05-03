@@ -1,10 +1,10 @@
 import { FieldHeader } from 'src/components/commons'
 import { useRestart } from '../hooks'
 
-export function RestartField() {
+export const RestartField = () => {
   const [restart, toggleRestart] = useRestart()
 
-  function handleOnCheck() {
+  const handleOnCheck = () => {
     toggleRestart()
   }
 

@@ -33,15 +33,13 @@ const Variables = ({
 }: {
   variables: [string, unknown][]
   dictId?: string
-}) => {
-  return (
-    <div className="flex flex-col gap-1">
-      {variables.map(([k, v]) => (
-        <Field key={k} property={k} dictId={dictId} value={v} />
-      ))}
-    </div>
-  )
-}
+}) => (
+  <div className="flex flex-col gap-1">
+    {variables.map(([k, v]) => (
+      <Field key={k} property={k} dictId={dictId} value={v} />
+    ))}
+  </div>
+)
 
 const Form = ({
   onChange,

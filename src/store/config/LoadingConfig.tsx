@@ -3,7 +3,7 @@ import { useAppDispatch } from 'src/store'
 import { fetchConfig } from './configSlice'
 import { useSelectConfig } from './hooks'
 
-export function LoadingConfig({ children }) {
+export const LoadingConfig = ({ children }) => {
   const dispatch = useAppDispatch()
   const { status, error } = useSelectConfig()
 

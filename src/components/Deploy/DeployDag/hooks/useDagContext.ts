@@ -8,7 +8,7 @@ import { DagActionEnum, DagContext, DeployModeEnum } from '../context'
  * @throws Error if used outside of a DagContextProvider
  * @see DagContext
  */
-function useDagContext() {
+const useDagContext = () => {
   const dagContext = useContext(DagContext)
 
   if (!dagContext) {
@@ -23,7 +23,10 @@ function useDagContext() {
  * the deploy mode.
  * @returns Operations getter and setter.
  */
-export function useOperations(): [string[], (newOperations: string[]) => void] {
+export const useOperations = (): [
+  string[],
+  (newOperations: string[]) => void
+] => {
   const {
     state: { operations },
     dispatch,
@@ -48,10 +51,10 @@ export function useOperations(): [string[], (newOperations: string[]) => void] {
  * Returns the selected deployment mode and a function to update it.
  * @returns Deploy mode getter and setter.
  */
-export function useSelectedDeployMode(): [
+export const useSelectedDeployMode = (): [
   DeployModeEnum,
   (newMode: DeployModeEnum) => void
-] {
+] => {
   const {
     state: { selectedDeployMode },
     dispatch,
@@ -76,7 +79,7 @@ export function useSelectedDeployMode(): [
  * Returns the restart flag and a function to update it.
  * @returns Restart flag getter and setter.
  */
-export function useRestart(): [boolean, () => void] {
+export const useRestart = (): [boolean, () => void] => {
   const {
     state: { restart },
     dispatch,
@@ -95,10 +98,10 @@ export function useRestart(): [boolean, () => void] {
  * Returns the filter type and a function to update it.
  * @returns Filter type getter and setter.
  */
-export function useFilterType(): [
+export const useFilterType = (): [
   FilterTypeEnum,
   (newFilterType: FilterTypeEnum) => void
-] {
+] => {
   const {
     state: { filterType },
     dispatch,
@@ -123,10 +126,10 @@ export function useFilterType(): [
  * Returns the filter expression and a function to update it.
  * @returns Filter expression getter and setter.
  */
-export function useFilterExpression(): [
+export const useFilterExpression = (): [
   string,
   (newFilterExpression: string) => void
-] {
+] => {
   const {
     state: { filterExpression },
     dispatch,
@@ -152,7 +155,7 @@ export function useFilterExpression(): [
  * @returns Deploy request object.
  * @see DeployRequest
  */
-export function useDeployDagRequest(): DeployRequest {
+export const useDeployDagRequest = (): DeployRequest => {
   const [restart] = useRestart()
   const [filterExpression] = useFilterExpression()
   const [filterType] = useFilterType()

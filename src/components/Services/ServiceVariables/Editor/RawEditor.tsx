@@ -1,7 +1,7 @@
 import MonacoEditor from '@monaco-editor/react'
 import { debounce } from 'src/utils'
 
-export const RawEditorMode = ({
+const RowEditor = ({
   variables,
   onChange,
   onSave: handleSave,
@@ -47,4 +47,4 @@ export const RawEditorMode = ({
   )
 }
 
-export default RawEditorMode
+export default RowEditor

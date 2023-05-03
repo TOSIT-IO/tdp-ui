@@ -18,29 +18,27 @@ const Pagination = ({
   currentPage: number
   toggleNextPage: () => void
   togglePreviousPage: () => void
-}) => {
-  return (
-    <div className="mt-10 flex items-center justify-center gap-2">
-      <Button
-        as="button"
-        variant="text"
-        disabled={currentPage <= 0}
-        onClick={togglePreviousPage}
-      >
-        Previous
-      </Button>
-      <p className="text-gray-700">{currentPage + 1}</p>
-      <Button
-        as="button"
-        variant="text"
-        disabled={currentPage >= totalPages}
-        onClick={toggleNextPage}
-      >
-        Next
-      </Button>
-    </div>
-  )
-}
+}) => (
+  <div className="mt-10 flex items-center justify-center gap-2">
+    <Button
+      as="button"
+      variant="text"
+      disabled={currentPage <= 0}
+      onClick={togglePreviousPage}
+    >
+      Previous
+    </Button>
+    <p className="text-gray-700">{currentPage + 1}</p>
+    <Button
+      as="button"
+      variant="text"
+      disabled={currentPage >= totalPages}
+      onClick={toggleNextPage}
+    >
+      Next
+    </Button>
+  </div>
+)
 
 const DeploymentItem = ({ deploylog }: { deploylog: DeploymentLog }) => {
   const { id, start_time, end_time, state } = deploylog

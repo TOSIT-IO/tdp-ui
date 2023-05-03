@@ -15,7 +15,7 @@ export * from './dateAndTime'
  * // { primitiveVariables: [['a', 1]], objectVariables: [['b', { c: 2 }]] }
  * ```
  */
-export function splitVariables(variables: Object = {}) {
+export const splitVariables = (variables: Object = {}) => {
   type SplitObjectVariables = {
     primitiveVariables: [string, string | number | boolean | unknown[]][]
     objectVariables: [string, Object][]
@@ -46,7 +46,7 @@ export function splitVariables(variables: Object = {}) {
  * // { a: 1, b: { c: 2 } }
  * ```
  */
-export function parseRecursively(obj: Object) {
+export const parseRecursively = (obj: Object) => {
   const res = {}
   Object.entries(obj).forEach((o) => {
     const [k, v] = o
@@ -76,7 +76,7 @@ export function parseRecursively(obj: Object) {
  * // { 'a': 1, 'b.c': 2 }
  * ```
  */
-export function flattenObject(obj: Object) {
+export const flattenObject = (obj: Object) => {
   const res = {}
   Object.entries(obj).forEach((o) => {
     const [k, v] = o
@@ -111,7 +111,7 @@ export function flattenObject(obj: Object) {
  * // () => void
  * ```
  */
-export function debounce(func: (a: any) => void, wait = 300) {
+export const debounce = (func: (a: any) => void, wait = 300) => {
   let timer
   return (...args) => {
     clearTimeout(timer)

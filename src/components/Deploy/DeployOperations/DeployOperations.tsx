@@ -11,7 +11,7 @@ import { useOperationsApiV1DeployOperationsPostMutation } from 'src/store/api/td
 import { OperationInput } from './OperationInput'
 import { OperationsList } from './OperationsList'
 
-export function DeployOperations() {
+export const DeployOperations = () => {
   return (
     <OperationsContextProvider initialState={{ operations: [] }}>
       <ScrollContextProvider>
@@ -25,7 +25,7 @@ export function DeployOperations() {
   )
 }
 
-function Navigation() {
+const Navigation = () => {
   const deployOperationsRequest = useDeployOperationsRequest()
   const [deployOperations, result] =
     useOperationsApiV1DeployOperationsPostMutation()

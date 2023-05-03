@@ -5,9 +5,9 @@ type OperationInputProps = {
   className?: string
 }
 
-export function OperationInput({
+export const OperationInput = ({
   className: additionalClassNames,
-}: OperationInputProps) {
+}: OperationInputProps) => {
   const { addOperations } = useOperations()
   const { setEnableScrollDown } = useScrollContext()
 

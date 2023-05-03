@@ -1,7 +1,7 @@
-export default function DashboardPage() {
-  return (
-    <>
-      <p>Page content</p>
-    </>
-  )
-}
+const Page = () => (
+  <>
+    <p>Page content</p>
+  </>
+)
+
+export default Page

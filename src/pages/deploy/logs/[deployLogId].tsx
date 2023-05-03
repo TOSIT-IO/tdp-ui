@@ -4,7 +4,7 @@ import OperationsLogs from 'src/components/Logs/OperationsLogs'
 import DeploymentInfos from 'src/components/Logs/DeploymentInfos'
 import { useGetDeploymentApiV1DeployDeploymentIdGetQuery } from 'src/store/api/tdpApi'
 
-export default function DeployLogPage() {
+const Page = () => {
   let {
     query: { deployLogId },
   } = useRouter()
@@ -26,3 +26,5 @@ export default function DeployLogPage() {
     )
   }
 }
+
+export default Page

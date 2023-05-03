@@ -60,10 +60,10 @@ type DagContextProviderProps = {
 
 export const DagContext = createContext<DagContextValue>(null)
 
-export function DagContextProvider({
+export const DagContextProvider = ({
   children,
   initialState,
-}: DagContextProviderProps) {
+}: DagContextProviderProps) => {
   const [state, dispatch] = useReducer(reducer, {
     selectedDeployMode: initialState.selectedDeployMode ?? DeployModeEnum.ALL,
     operations: initialState.operations ?? [],
@@ -79,7 +79,7 @@ export function DagContextProvider({
   )
 }
 
-function reducer(state: DagState, action: DagAction): DagState {
+const reducer = (state: DagState, action: DagAction): DagState => {
   switch (action.type) {
     case DagActionEnum.SET_OPERATIONS:
       const { newOperations } = action.payload

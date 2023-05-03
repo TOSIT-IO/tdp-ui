@@ -8,7 +8,7 @@ import { OperationsActionEnum, OperationsContext } from '../context'
  * @throws Error if used outside of a OperationsContextProvider
  * @see OperationsContext
  */
-function useOperationsContext() {
+const useOperationsContext = () => {
   const operationsContext = useContext(OperationsContext)
   if (operationsContext === null) {
     throw new Error(
@@ -22,7 +22,7 @@ function useOperationsContext() {
  * Returns the list of selected operations and functions to update it.
  * @returns Operations getter and setter.
  */
-export function useOperations() {
+export const useOperations = () => {
   const {
     state: { operations },
     dispatch,
@@ -60,7 +60,7 @@ export function useOperations() {
  * @returns Deploy operations request object.
  * @see OperationsRequest
  */
-export function useDeployOperationsRequest(): OperationsRequest {
+export const useDeployOperationsRequest = (): OperationsRequest => {
   const {
     state: { operations },
   } = useOperationsContext()
