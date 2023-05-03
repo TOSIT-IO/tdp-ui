@@ -10,7 +10,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "format": "npx prettier --write .",
-    "generate": "npx @rtk-query/codegen-openapi ./config/openapi-config.json",
+    "generate": "npx @rtk-query/codegen-openapi ./config/openapi.json",
     "postinstall": "npm run generate"
   },
   "dependencies": {
