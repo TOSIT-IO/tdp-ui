@@ -4,10 +4,6 @@ import { useRestart } from '../hooks'
 export const RestartField = () => {
   const [restart, toggleRestart] = useRestart()
 
-  const handleOnCheck = () => {
-    toggleRestart()
-  }
-
   return (
     <fieldset>
       <FieldHeader
@@ -20,7 +16,7 @@ export const RestartField = () => {
         id="default-checkbox"
         type="checkbox"
         checked={restart}
-        onChange={handleOnCheck}
+        onChange={() => toggleRestart()}
         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600"
       />
       <label
