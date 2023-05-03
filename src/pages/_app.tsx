@@ -1,4 +1,6 @@
 import { Provider } from 'react-redux'
+import { AppProps } from 'next/app'
+
 import { AuthContextProvider } from 'src/contexts'
 import store from 'src/store'
 import { LoadingConfig } from 'src/store/config'
@@ -8,7 +10,6 @@ import {
 } from 'src/components/Layout'
 
 import '../styles/globals.css'
-import { AppProps } from 'next/app'
 import { NextPageWithLayout } from 'src/types'
 
 type AppPropsWithLayout = AppProps & {

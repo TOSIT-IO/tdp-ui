@@ -1,7 +1,7 @@
 import { DeploymentLogWithOperations } from 'src/store/api/tdpApi'
 import { dateAndTime } from 'src/utils/dateAndTime'
 
-const DeploymentInfos = ({
+export const DeploymentInfos = ({
   deployInfos,
 }: {
   deployInfos: Omit<DeploymentLogWithOperations, 'operations'>
@@ -60,5 +60,3 @@ const DeploymentInfos = ({
     </div>
   </div>
 )
-
-export default DeploymentInfos

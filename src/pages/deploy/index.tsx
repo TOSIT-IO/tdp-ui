@@ -1,5 +1,5 @@
 import { Button } from 'src/components/commons'
-import DeploymentsLogs from 'src/components/Logs/DeploymentsLogs'
+import { DeploymentsLogs } from 'src/components/Logs'
 
 const Page = () => (
   <>

@@ -5,9 +5,8 @@ import {
   useGetServiceApiV1ServiceServiceIdGetQuery,
   Component,
 } from 'src/store/api/tdpApi'
-import { useAppSelector } from 'src/store'
 import { toogleShowUnusedTabs } from 'src/store/userInput'
-import { useAppDispatch } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { classNames } from 'src/utils'
 import { Button } from 'src/components/commons'
 import { useEffect } from 'react'

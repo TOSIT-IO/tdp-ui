@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 
-import OperationsLogs from 'src/components/Logs/OperationsLogs'
-import DeploymentInfos from 'src/components/Logs/DeploymentInfos'
+import { OperationsLogs, DeploymentInfos } from 'src/components/Logs'
 import { useGetDeploymentApiV1DeployDeploymentIdGetQuery } from 'src/store/api/tdpApi'
 
 const Page = () => {
