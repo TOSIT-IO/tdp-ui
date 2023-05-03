@@ -11,7 +11,7 @@ import {
   useReconfigureApiV1PlanReconfigurePostMutation,
 } from 'src/store/api/tdpApi'
 
-export default function ReconfigurePage() {
+const Page = () => {
   const [deployReconfigure, deployResult] =
     useReconfigureApiV1DeployReconfigurePostMutation()
   const [planReconfigure, planResult] =
@@ -62,3 +62,5 @@ export default function ReconfigurePage() {
     </>
   )
 }
+
+export default Page

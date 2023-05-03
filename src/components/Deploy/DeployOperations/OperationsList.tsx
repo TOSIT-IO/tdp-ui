@@ -8,9 +8,9 @@ type OperationsListProps = {
   className?: string
 }
 
-export function OperationsList({
+export const OperationsList = ({
   className: additionalClassNames,
-}: OperationsListProps) {
+}: OperationsListProps) => {
   const { operations, switchOperations } = useOperations()
   const { divToScroll, scrollDown, setEnableScrollDown } = useScrollContext()
 
@@ -18,7 +18,7 @@ export function OperationsList({
     scrollDown()
   }, [operations, scrollDown])
 
-  function handleOnDragEnd(result: DropResult) {
+  const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return
     }

@@ -7,7 +7,7 @@ import { ScrollContext } from '../context'
  * @throws Error if used outside of a ScrollContextProvider
  * @see ScrollContext
  */
-export function useScrollContext() {
+export const useScrollContext = () => {
   const scrollContext = useContext(ScrollContext)
   if (!scrollContext)
     throw new Error(

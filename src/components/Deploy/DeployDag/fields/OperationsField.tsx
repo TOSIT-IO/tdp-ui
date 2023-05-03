@@ -22,7 +22,7 @@ const createOption = (label: string) => ({
   value: label,
 })
 
-export function OperationsField() {
+export const OperationsField = () => {
   const [_, setOperations] = useOperations()
   const [selectedDeployMode] = useSelectedDeployMode()
   const [inputValue, setInputValue] = useState('')

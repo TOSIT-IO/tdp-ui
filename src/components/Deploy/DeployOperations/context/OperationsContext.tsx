@@ -40,10 +40,10 @@ type OperationsContextProviderProps = {
 
 export const OperationsContext = createContext<OperationsContextValue>(null)
 
-export function OperationsContextProvider({
+export const OperationsContextProvider = ({
   children,
   initialState,
-}: OperationsContextProviderProps) {
+}: OperationsContextProviderProps) => {
   const [state, dispatch] = useReducer(reducer, {
     operations: initialState.operations ?? [],
   })
@@ -55,10 +55,10 @@ export function OperationsContextProvider({
   )
 }
 
-function reducer(
+const reducer = (
   state: OperationsRequest,
   action: OperationsAction
-): OperationsRequest {
+): OperationsRequest => {
   switch (action.type) {
     case OperationsActionEnum.ADD_OPERATION:
       const { newOperation } = action.payload

@@ -3,7 +3,7 @@
 import { useAuth } from 'react-oidc-context'
 import { Login } from './Login'
 
-export function LoginPortal({ children }) {
+export const LoginPortal = ({ children }) => {
   const auth = useAuth()
 
   switch (auth.activeNavigator) {

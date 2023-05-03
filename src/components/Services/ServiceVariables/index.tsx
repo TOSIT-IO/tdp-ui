@@ -31,7 +31,7 @@ const ServiceVariables = ({
   const putVariablesServiceWide = usePutServiceConfig()
   const { control, register, handleSubmit, setValue } = useForm<FormValues>()
 
-  function submitVariables(formResult: FormValues) {
+  const submitVariables = (formResult: FormValues) => {
     putVariablesServiceWide({
       message: formResult.message,
       userInput: {
@@ -42,7 +42,7 @@ const ServiceVariables = ({
     })
   }
 
-  function saveVariablesToStore(dirtyVariables: object) {
+  const saveVariablesToStore = (dirtyVariables: object) => {
     // TODO: apply schema to validate variables
     if (!dirtyVariables) return
     // Store in `userInput` only modified variables

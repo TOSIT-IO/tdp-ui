@@ -2,7 +2,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { classNames } from 'src/utils'
 
-export function Disclosure({
+export const Disclosure = ({
   title,
   className: additionalClassName,
   children,
@@ -10,7 +10,7 @@ export function Disclosure({
   title: string
   className?: string
   children: JSX.Element
-}) {
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (

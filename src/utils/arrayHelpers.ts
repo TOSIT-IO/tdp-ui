@@ -5,7 +5,11 @@
  * @param element - The element to add
  * @returns A new array with the element at the given index added
  */
-export function addElementToList<T>(list: T[], index: number, element: T): T[] {
+export const addElementToList = <T>(
+  list: T[],
+  index: number,
+  element: T
+): T[] => {
   return [...list.slice(0, index), element, ...list.slice(index)]
 }
 
@@ -15,7 +19,7 @@ export function addElementToList<T>(list: T[], index: number, element: T): T[] {
  * @param element - The element to append
  * @returns A new array with the element appended to the end
  */
-export function appendElementToList<T>(list: T[], element: T): T[] {
+export const appendElementToList = <T>(list: T[], element: T): T[] => {
   return [...list, element]
 }
 
@@ -25,7 +29,7 @@ export function appendElementToList<T>(list: T[], element: T): T[] {
  * @param index - The index of the element to remove
  * @returns A new array without the element at the given index
  */
-export function removeElementFromList<T>(list: T[], index: number): T[] {
+export const removeElementFromList = <T>(list: T[], index: number): T[] => {
   return [...list.slice(0, index), ...list.slice(index + 1)]
 }
 
@@ -36,11 +40,11 @@ export function removeElementFromList<T>(list: T[], index: number): T[] {
  * @param destinationIndex - The index to move the element to
  * @returns A new array with the element moved to the given index
  */
-export function moveElementInList<T>(
+export const moveElementInList = <T>(
   list: T[],
   sourceIndex: number,
   destinationIndex: number
-): T[] {
+): T[] => {
   const [removed] = list.splice(sourceIndex, 1)
   return addElementToList(list, destinationIndex, removed)
 }

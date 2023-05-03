@@ -2,7 +2,7 @@ import { cloneElement } from 'react'
 import { classNames } from 'src/utils'
 
 //TODO: use classNames and Tailwind types instead of inline styles
-export function Sidebar({
+export const Sidebar = ({
   side = 'left',
   sideWidth = '20rem',
   contentMin = '50%',
@@ -18,14 +18,14 @@ export function Sidebar({
   noStretch?: boolean
   className?: string
   children: [React.ReactElement, React.ReactElement]
-}) {
+}) => {
   if (!contentMin.includes('%')) {
     console.warn(
       'The value for `contentMin` property should be a percentage. Otherwise overflow is likely to occur'
     )
   }
 
-  function getSideContent(children: React.ReactElement) {
+  const getSideContent = (children: React.ReactElement) => {
     return cloneElement(children, {
       className: [children.props.className, 'flex-grow-0'].join(' '),
       style: {
@@ -35,7 +35,7 @@ export function Sidebar({
     })
   }
 
-  function getMainContent(children: React.ReactElement) {
+  const getMainContent = (children: React.ReactElement) => {
     return cloneElement(children, {
       className: [children.props.className, 'basis-0 flex-grow-[999]'].join(
         ' '

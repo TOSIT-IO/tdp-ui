@@ -12,7 +12,7 @@ export type TNavItem = {
   children?: TNavItem[]
 }
 
-export function Menu() {
+export const Menu = () => {
   const { isError, isLoading, isSuccess, data, error } =
     useGetServicesApiV1ServiceGetQuery()
 
@@ -48,26 +48,24 @@ export function Menu() {
   }
 }
 
-function MenuItem({ menuItem: item }: { menuItem: TNavItem }) {
-  return (
-    <div>
-      <Link
-        href={item.href}
-        className="flex items-center gap-2 px-2 py-2 text-white hover:bg-gray-800"
-      >
-        {item.icon && <item.icon className="h-5 w-5" />}
-        {item.name}
-      </Link>
-      <div className="flex flex-col">
-        {item.children?.map((v) => (
-          <MenuSubItem key={v.name} menuItem={v} />
-        ))}
-      </div>
+const MenuItem = ({ menuItem: item }: { menuItem: TNavItem }) => (
+  <div>
+    <Link
+      href={item.href}
+      className="flex items-center gap-2 px-2 py-2 text-white hover:bg-gray-800"
+    >
+      {item.icon && <item.icon className="h-5 w-5" />}
+      {item.name}
+    </Link>
+    <div className="flex flex-col">
+      {item.children?.map((v) => (
+        <MenuSubItem key={v.name} menuItem={v} />
+      ))}
     </div>
-  )
-}
+  </div>
+)
 
-function MenuSubItem({ menuItem: item }: { menuItem: TNavItem }) {
+const MenuSubItem = ({ menuItem: item }: { menuItem: TNavItem }) => {
   const router = useRouter()
   const isItemSelected = item.name === router.query.serviceId
   return (

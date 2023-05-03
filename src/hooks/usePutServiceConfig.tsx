@@ -14,16 +14,16 @@ type UserInput = {
   }[]
 }
 
-export function usePutServiceConfig() {
+export const usePutServiceConfig = () => {
   const dispatch = useAppDispatch()
 
-  async function putVariablesServiceWide({
+  const putVariablesServiceWide = async ({
     userInput,
     message,
   }: {
     userInput: UserInput
     message: string
-  }) {
+  }) => {
     let patchedIds = []
     if (userInput.variables) {
       const { data } = await dispatch(

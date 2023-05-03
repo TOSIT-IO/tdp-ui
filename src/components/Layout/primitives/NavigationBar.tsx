@@ -5,10 +5,10 @@ type NavigationProps = {
   className?: string
 }
 
-export function NavigationBar({
+export const NavigationBar = ({
   children,
   className: additionalClassNames,
-}: NavigationProps) {
+}: NavigationProps) => {
   if (Array.isArray(children)) {
     const [leftItem, rightItem] = children
     return (

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'src/store'
 import { clearUserInput, setServiceId } from 'src/store/userInput'
 import { useGetServiceApiV1ServiceServiceIdGetQuery } from 'src/store/api/tdpApi'
 
-const ServicePage = () => {
+const Page = () => {
   const dispatch = useAppDispatch()
   const {
     query: { serviceId },
@@ -34,4 +34,4 @@ const ServicePage = () => {
     )
 }
 
-export default ServicePage
+export default Page

@@ -5,14 +5,14 @@ import { LoginPortal } from 'src/components/Login'
 import { useSelectConfig } from 'src/store/config/hooks'
 import router from 'next/router'
 
-export function AuthContextProvider({ children }) {
+export const AuthContextProvider = ({ children }) => {
   const {
     value: { oidc, skipAuth },
   } = useSelectConfig()
   const [oidcConfig, setOidcConfig] = useState<AuthProviderProps>(null)
 
   useEffect(() => {
-    async function createOidcConfig() {
+    const createOidcConfig = async () => {
       // TODO: refactor "fetch" to RTK Query API
       const response = await fetch(oidc.discoveryUrl)
       const { issuer } = await response.json()

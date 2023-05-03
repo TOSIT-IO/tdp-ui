@@ -19,16 +19,16 @@ const filterTypes: FilterTypes = {
   },
 }
 
-export function FilterField() {
+export const FilterField = () => {
   const [filterType, setFilterType] = useFilterType()
   const [filterExpression, setFilterExpression] = useFilterExpression()
   const [isFilterExpressionValid, setIsFilterExpressionValid] = useState(true)
 
-  function handleOnSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+  const handleOnSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterType(e.target.value as FilterTypeEnum)
   }
 
-  function handleOnInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       new RegExp(e.target.value)
       setIsFilterExpressionValid(true)
@@ -77,6 +77,6 @@ export function FilterField() {
   )
 }
 
-function FilterTypeOption({ value }: { value: string }) {
+const FilterTypeOption = ({ value }: { value: string }) => {
   return <option value={value}>{value}</option>
 }

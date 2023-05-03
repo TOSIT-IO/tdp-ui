@@ -7,11 +7,11 @@ type OperationProps = {
   index: number
 }
 
-export function ListItem({ operation, index }: OperationProps) {
+export const ListItem = ({ operation, index }: OperationProps) => {
   const { removeOperations } = useOperations()
   const { setEnableScrollDown } = useScrollContext()
 
-  function handleRemoveOperation() {
+  const handleRemoveOperation = () => {
     setEnableScrollDown(false)
     removeOperations(index)
   }

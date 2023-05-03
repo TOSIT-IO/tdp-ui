@@ -14,18 +14,16 @@ const ShowFullTextLogsButton = ({
 }: {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
-  return (
-    <Button
-      as="button"
-      variant="text"
-      className="text-right text-indigo-600"
-      onClick={() => setIsOpen((prev) => !prev)}
-    >
-      <span className="text-right">{isOpen ? 'Hide' : 'Show'}</span>
-    </Button>
-  )
-}
+}) => (
+  <Button
+    as="button"
+    variant="text"
+    className="text-right text-indigo-600"
+    onClick={() => setIsOpen((prev) => !prev)}
+  >
+    <span className="text-right">{isOpen ? 'Hide' : 'Show'}</span>
+  </Button>
+)
 
 const OperationFullTextLogs = ({
   isOpen,
@@ -95,27 +93,25 @@ const OperationItem = ({ operation }: { operation: OperationLog }) => {
   )
 }
 
-const OperationsLogs = ({ operations }: { operations: OperationLog[] }) => {
-  return (
-    <div className="mt-8">
-      <div className="py-2 md:px-6 lg:px-8">
-        <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-          <div className="divide-y divide-gray-300">
-            <div className="flex bg-gray-50 px-3 py-3 text-sm font-semibold text-gray-900">
-              <div className="w-5/12">Operation name</div>
-              <div className="w-3/12">Start Time</div>
-              <div className="w-3/12">End Time</div>
-              <div className="w-1/12">State</div>
-              <div className="w-1/12 text-right">Logs</div>
-            </div>
-            {operations.map((op) => (
-              <OperationItem key={op.operation} operation={op} />
-            ))}
+const OperationsLogs = ({ operations }: { operations: OperationLog[] }) => (
+  <div className="mt-8">
+    <div className="py-2 md:px-6 lg:px-8">
+      <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+        <div className="divide-y divide-gray-300">
+          <div className="flex bg-gray-50 px-3 py-3 text-sm font-semibold text-gray-900">
+            <div className="w-5/12">Operation name</div>
+            <div className="w-3/12">Start Time</div>
+            <div className="w-3/12">End Time</div>
+            <div className="w-1/12">State</div>
+            <div className="w-1/12 text-right">Logs</div>
           </div>
+          {operations.map((op) => (
+            <OperationItem key={op.operation} operation={op} />
+          ))}
         </div>
       </div>
     </div>
-  )
-}
+  </div>
+)
 
 export default OperationsLogs

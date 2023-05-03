@@ -5,6 +5,6 @@
  * @example
  * classNames('foo', false && 'bar') // 'foo'
  */
-export function classNames(...classes: any[]) {
+export const classNames = (...classes: any[]) => {
   return classes.filter(Boolean).join(' ')
 }

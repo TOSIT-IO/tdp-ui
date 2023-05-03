@@ -31,11 +31,11 @@ type ButtonAsAnchor = BaseProps &
 
 type ButtonProps = ButtonAsButton | ButtonAsAnchor | ButtonAsLink
 
-export function Button({
+export const Button = ({
   variant = 'outlined',
   children,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   props.className = classNames(
     variantStyles[variant ?? 'filled'],
     props.disabled && 'opacity-50 pointer-events-none',

@@ -4,7 +4,7 @@
  * @returns The time parameter with date and time format
  * @example format as "Fri, Jan 20, 2023, 7:44:02 PM"
  */
-export function dateAndTime(time: Date) {
+export const dateAndTime = (time: Date) => {
   return time.toLocaleString('en-EN', {
     weekday: 'short',
     year: 'numeric',
@@ -22,7 +22,7 @@ export function dateAndTime(time: Date) {
  * @returns The time parameter with date and time format
  * @example format as "Fri, Jan 20, 2023, 7:44:02 PM"
  */
-export function onlyTime(time: Date) {
+export const onlyTime = (time: Date) => {
   return time.toLocaleString('en-EN', {
     hour12: true,
     hour: 'numeric',
