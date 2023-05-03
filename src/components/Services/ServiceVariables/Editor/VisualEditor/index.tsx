@@ -22,7 +22,8 @@ const NoVariableMessage = () => {
 
   return (
     <p className="text-slate-600">
-      No variable defined for {componentId?.toString() ?? serviceId?.toString()}
+      No variables defined for{' '}
+      {componentId?.toString() ?? serviceId?.toString()}
     </p>
   )
 }
@@ -70,8 +71,8 @@ const VisualEditor = ({
   variables: Object
   onChange: (newVariables: Object) => void
 }) => {
-  const isVariableEmpty = !Object.entries(variables).length
-  if (isVariableEmpty) return <NoVariableMessage />
+  if (variables && !Object.entries(variables).length)
+    return <NoVariableMessage />
 
   const { primitiveVariables, objectVariables } = splitVariables(variables)
   return (

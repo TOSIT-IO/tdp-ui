@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { Control, Controller } from 'react-hook-form'
 
 import RawEditor from './RawEditor'
 import VisualEditor from './VisualEditor'
 import Toolbar from './Toolbar'
 import { FormValues } from '../types'
+import { useAppSelector } from 'src/store'
 
 const Editor = ({
   control,
@@ -17,22 +17,17 @@ const Editor = ({
   serviceId: string
   componentId: string
 }) => {
-  const [isRawEditorMode, setIsRawEditorMode] = useState(true)
-  const showRawMode = () => setIsRawEditorMode(true)
-  const showVisualMode = () => setIsRawEditorMode(false)
-
+  const {
+    settings: { showRawMode },
+  } = useAppSelector((state) => state.userInput)
   return (
     <>
-      <Toolbar
-        isRawMode={isRawEditorMode}
-        showRawMode={showRawMode}
-        showVisualMode={showVisualMode}
-      />
+      <Toolbar />
       <Controller
         name="variables"
         control={control}
         render={({ field: { value, onChange } }) =>
-          isRawEditorMode ? (
+          showRawMode ? (
             <RawEditor
               key={serviceId + componentId}
               variables={value}

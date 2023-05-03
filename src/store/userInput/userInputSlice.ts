@@ -15,7 +15,10 @@ type userInput = {
 
 const initialState = {
   components: [],
-  settings: { showUnusedTabs: false, showRawMode: false },
+  settings: {
+    showUnusedTabs: false,
+    showRawMode: true,
+  },
 } as userInput
 
 export const userInputSlice = createSlice({
