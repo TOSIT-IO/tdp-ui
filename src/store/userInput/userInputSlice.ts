@@ -60,7 +60,7 @@ export const userInputSlice = createSlice({
         })
       }
     },
-    clearComponent: (
+    deleteComponent: (
       state,
       action: PayloadAction<{
         componentId: string
@@ -86,7 +86,7 @@ export const {
   setServiceVariables,
   clearServiceVariables,
   setComponent,
-  clearComponent,
+  deleteComponent,
   toogleShowUnusedTabs,
   setRawMode,
 } = userInputSlice.actions

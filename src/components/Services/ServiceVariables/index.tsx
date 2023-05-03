@@ -11,7 +11,7 @@ import { useAppSelector } from 'src/store'
 import {
   setComponent,
   setServiceVariables,
-  clearComponent,
+  deleteComponent,
   clearServiceVariables,
 } from 'src/store/userInput'
 import { useAppDispatch } from 'src/store'
@@ -48,7 +48,7 @@ const ServiceVariables = ({
     // Store in `userInput` only modified variables
     if (compare(dirtyVariables, data.variables))
       dispatch(
-        componentId ? clearComponent({ componentId }) : clearServiceVariables()
+        componentId ? deleteComponent({ componentId }) : clearServiceVariables()
       )
     else
       dispatch(
