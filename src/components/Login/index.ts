@@ -1,1 +1,1 @@
-export * from './LoginPortal'
+export * from './Login'

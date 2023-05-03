@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { WebStorageStateStore } from 'oidc-client-ts'
 import { AuthProvider, AuthProviderProps } from 'react-oidc-context'
-import { LoginPortal } from 'src/components/Login'
+import { Login } from 'src/components/Login'
 import { useSelectConfig } from 'src/store/config/hooks'
 import router from 'next/router'
 
@@ -37,7 +37,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthProvider {...oidcConfig}>
-      {!skipAuth ? <LoginPortal>{children}</LoginPortal> : children}
+      {!skipAuth ? <Login>{children}</Login> : children}
     </AuthProvider>
   )
 }
