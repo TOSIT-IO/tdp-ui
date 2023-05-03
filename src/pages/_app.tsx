@@ -2,7 +2,10 @@ import { Provider } from 'react-redux'
 import { AuthContextProvider } from 'src/contexts'
 import store from 'src/store'
 import { LoadingConfig } from 'src/store/config'
-import { DashboardLayout, Loading } from 'src/components/Layout'
+import {
+  DashboardLayout,
+  Loading as LoadingServices,
+} from 'src/components/Layout'
 
 import '../styles/globals.css'
 import { AppProps } from 'next/app'
@@ -20,11 +23,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <Provider store={store}>
       <LoadingConfig>
         <AuthContextProvider>
-          <Loading>
+          <LoadingServices>
             <DashboardLayout>
               {getLayout(<Component {...pageProps} />)}
             </DashboardLayout>
-          </Loading>
+          </LoadingServices>
         </AuthContextProvider>
       </LoadingConfig>
     </Provider>
