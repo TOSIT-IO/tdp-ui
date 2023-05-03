@@ -1,13 +1,4 @@
 /**
- * Returns the first element of an array if it is an array, otherwise returns the value.
- * @param value - The value to check
- * @returns The first element of the array or the value
- */
-export function getFirstElementIfArray<T>(value: T | T[]) {
-  return Array.isArray(value) ? value[0] : value
-}
-
-/**
  * Returns a new array with the element at the given index added.
  * @param list - The list to add the element to
  * @param index - The index to add the element at

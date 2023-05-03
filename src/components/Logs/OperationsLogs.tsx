@@ -5,12 +5,7 @@ import {
   useLazyGetDeploymentOperationApiV1DeployDeploymentIdOperationOperationGetQuery,
   OperationLog,
 } from 'src/store/api/tdpApi'
-import {
-  dateAndTime,
-  onlyTime,
-  classNames,
-  getFirstElementIfArray,
-} from 'src/utils'
+import { dateAndTime, onlyTime, classNames } from 'src/utils'
 import { Button } from '../commons'
 
 const ShowFullTextLogsButton = ({
@@ -39,10 +34,10 @@ const OperationFullTextLogs = ({
   isOpen: boolean
   operationName: string
 }) => {
-  const {
-    query: { deployLogId: tempDeployLogId },
+  let {
+    query: { deployLogId },
   } = useRouter()
-  const deployLogId = getFirstElementIfArray(tempDeployLogId)
+  deployLogId = deployLogId.toString()
 
   const [getOperationLogView, { data, isLoading }] =
     useLazyGetDeploymentOperationApiV1DeployDeploymentIdOperationOperationGetQuery()
