@@ -7,14 +7,13 @@ import Editor from './Editor'
 import ComponentsNav from './ComponentsNav'
 import type { FormValues } from './types'
 import { usePutServiceConfig } from 'src/hooks'
-import { useAppSelector } from 'src/store'
 import {
   setComponent,
   setServiceVariables,
   deleteComponent,
   clearServiceVariables,
 } from 'src/store/userInput'
-import { useAppDispatch } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import type { Component, Service } from 'src/store/api/tdpApi'
 
 const ServiceVariables = ({

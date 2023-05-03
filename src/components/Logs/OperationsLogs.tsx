@@ -93,7 +93,11 @@ const OperationItem = ({ operation }: { operation: OperationLog }) => {
   )
 }
 
-const OperationsLogs = ({ operations }: { operations: OperationLog[] }) => (
+export const OperationsLogs = ({
+  operations,
+}: {
+  operations: OperationLog[]
+}) => (
   <div className="mt-8">
     <div className="py-2 md:px-6 lg:px-8">
       <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -113,5 +117,3 @@ const OperationsLogs = ({ operations }: { operations: OperationLog[] }) => (
     </div>
   </div>
 )
-
-export default OperationsLogs

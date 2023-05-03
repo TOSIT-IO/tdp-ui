@@ -68,7 +68,7 @@ const DeploymentItem = ({ deploylog }: { deploylog: DeploymentLog }) => {
   )
 }
 
-const DeploymentsLogs = () => {
+export const DeploymentsLogs = () => {
   const pageSize = 15
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -157,5 +157,3 @@ const DeploymentsLogs = () => {
       </>
     )
 }
-
-export default DeploymentsLogs
