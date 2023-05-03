@@ -24,6 +24,7 @@ export const userInputSlice = createSlice({
   reducers: {
     clearUserInput: (state) => {
       state.components = []
+      state.settings.showUnusedTabs = false
       delete state.variables
       delete state.id
     },

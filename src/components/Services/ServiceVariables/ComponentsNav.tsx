@@ -10,6 +10,7 @@ import { toogleShowUnusedTabs } from 'src/store/userInput'
 import { useAppDispatch } from 'src/store'
 import { classNames } from 'src/utils'
 import { Button } from 'src/components/commons'
+import { useEffect } from 'react'
 
 type ComponentNavItem = {
   id: string
@@ -52,16 +53,21 @@ const ComponentsTabs = ({
   const {
     settings: { showUnusedTabs },
   } = useAppSelector((state) => state.userInput)
+
   const dispatch = useAppDispatch()
-
-  const isCurrentTab = (tab: string) => {
-    if (currentTabId === tab) return true
-    return false
-  }
-
   const toggleShowUnused = () => {
     dispatch(toogleShowUnusedTabs())
   }
+
+  // Display unused components tabs on the unused components route
+  useEffect(() => {
+    if (
+      !showUnusedTabs &&
+      unusedComponents.some((component) => component.id === currentTabId)
+    ) {
+      toggleShowUnused()
+    }
+  })
 
   return (
     <nav className="flex flex-wrap items-center gap-1" aria-label="Tabs">
@@ -72,7 +78,7 @@ const ComponentsTabs = ({
             <ComponentTab
               key={tab.id}
               tab={tab}
-              isCurrentTab={isCurrentTab(tab.id)}
+              isCurrentTab={currentTabId === tab.id}
             />
           )
         })}
