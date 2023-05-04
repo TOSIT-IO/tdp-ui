@@ -6,7 +6,7 @@ import ValidationBar from './ValidateBar'
 import Editor from './Editor'
 import ComponentsNav from './ComponentsNav'
 import type { FormValues } from './types'
-import { usePutServiceConfig } from 'src/hooks'
+import { usePatchVariables } from './hooks'
 import {
   setComponent,
   setServiceVariables,
@@ -27,11 +27,11 @@ const ServiceVariables = ({
 }) => {
   const dispatch = useAppDispatch()
   const userInput = useAppSelector((state) => state.userInput)
-  const putVariablesServiceWide = usePutServiceConfig()
+  const patchVariables = usePatchVariables()
   const { control, register, handleSubmit, setValue } = useForm<FormValues>()
 
   const submitVariables = (formResult: FormValues) => {
-    putVariablesServiceWide({
+    patchVariables({
       message: formResult.message,
       userInput: {
         serviceId: serviceId,
