@@ -5,7 +5,7 @@ import {
   useGetServiceApiV1ServiceServiceIdGetQuery,
   Component,
 } from 'src/store/api/tdpApi'
-import { toogleShowUnusedTabs } from 'src/store/userInput'
+import { toogleShowUnusedTabs } from 'src/store/slices/userInput'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { classNames } from 'src/utils'
 import { Button } from 'src/components/commons'

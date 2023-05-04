@@ -12,7 +12,7 @@ import {
   setServiceVariables,
   deleteComponent,
   clearServiceVariables,
-} from 'src/store/userInput'
+} from 'src/store/slices/userInput'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import type { Component, Service } from 'src/store/api/tdpApi'
 

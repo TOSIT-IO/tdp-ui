@@ -5,7 +5,7 @@ import { PageTitle } from 'src/components/Layout'
 import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useGetComponentApiV1ServiceServiceIdComponentComponentIdGetQuery } from 'src/store/api/tdpApi'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setServiceId } from 'src/store/userInput'
+import { setServiceId } from 'src/store/slices/userInput'
 
 const Page = () => {
   const dispatch = useAppDispatch()

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 
 import { emptyApi } from 'src/store/api/emptyApi'
 import { useAppDispatch } from 'src/store'
-import { clearUserInput } from 'src/store/userInput'
+import { clearUserInput } from 'src/store/slices/userInput'
 
 type UserInput = {
   serviceId: string
