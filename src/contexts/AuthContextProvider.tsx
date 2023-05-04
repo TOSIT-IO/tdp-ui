@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import { WebStorageStateStore } from 'oidc-client-ts'
 import { AuthProvider, AuthProviderProps } from 'react-oidc-context'
 import { Login } from 'src/components/Login'
-import { useSelectConfig } from 'src/store/config/hooks'
+import { useAppSelector } from 'src/store'
 import router from 'next/router'
 
 export const AuthContextProvider = ({ children }) => {
   const {
     value: { oidc, skipAuth },
-  } = useSelectConfig()
+  } = useAppSelector((state) => state.config)
   const [oidcConfig, setOidcConfig] = useState<AuthProviderProps>(null)
 
   useEffect(() => {

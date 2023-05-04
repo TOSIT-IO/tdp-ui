@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
-import { useAppDispatch } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { fetchConfig } from './configSlice'
-import { useSelectConfig } from './hooks'
 
 export const LoadingConfig = ({ children }) => {
   const dispatch = useAppDispatch()
-  const { status, error } = useSelectConfig()
+  const { status, error } = useAppSelector((state) => state.config)
 
   useEffect(() => {
     dispatch(fetchConfig())

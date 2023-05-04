@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useSelectConfig } from 'src/store/config/hooks'
+import { useAppSelector } from 'src/store'
 
 export const useServerStatus = () => {
   const [data, setData] = useState(null)
@@ -7,7 +7,7 @@ export const useServerStatus = () => {
   const [error, setError] = useState<Error>(null)
   const {
     value: { apiBasePath },
-  } = useSelectConfig()
+  } = useAppSelector((state) => state.config)
 
   const fetchServerStatus = useCallback(async () => {
     try {
