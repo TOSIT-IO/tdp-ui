@@ -30,17 +30,6 @@ const ServiceVariables = ({
   const patchVariables = usePatchVariables()
   const { control, register, handleSubmit, setValue } = useForm<FormValues>()
 
-  const submitVariables = (formResult: FormValues) => {
-    patchVariables({
-      message: formResult.message,
-      userInput: {
-        serviceId: serviceId,
-        variables: userInput.variables,
-        components: userInput.components,
-      },
-    })
-  }
-
   const saveVariablesToStore = (dirtyVariables: object) => {
     // TODO: apply schema to validate variables
     if (!dirtyVariables) return
@@ -69,7 +58,11 @@ const ServiceVariables = ({
   return (
     <>
       <ComponentsNav />
-      <form onSubmit={handleSubmit(submitVariables)}>
+      <form
+        onSubmit={handleSubmit((formResult: FormValues) => {
+          patchVariables({ message: formResult.message })
+        })}
+      >
         {data &&
           (componentId ? data.id == componentId : data.id == serviceId) && (
             <Editor
