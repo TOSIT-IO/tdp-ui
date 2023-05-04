@@ -2,7 +2,7 @@ import { Bars3CenterLeftIcon, EyeIcon } from '@heroicons/react/24/solid'
 
 import { IconButon } from 'src/components/commons'
 import { useAppSelector, useAppDispatch } from 'src/store'
-import { setRawMode } from 'src/store/userInput'
+import { setRawMode } from 'src/store/slices/userInput'
 
 const Toolbar = () => {
   const {

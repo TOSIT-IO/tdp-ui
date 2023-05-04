@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { fetchConfig } from './configSlice'
+import { fetchConfig } from 'src/store/slices/config'
 
 export const LoadingConfig = ({ children }) => {
   const dispatch = useAppDispatch()

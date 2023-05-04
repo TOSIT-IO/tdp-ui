@@ -3,15 +3,18 @@ import { AppProps } from 'next/app'
 
 import { AuthContextProvider } from 'src/contexts'
 import store from 'src/store'
-import { LoadingConfig } from 'src/store/config'
-import { DashboardLayout, LoadingServices } from 'src/components/Layout'
-
+import {
+  DashboardLayout,
+  LoadingServices,
+  LoadingConfig,
+} from 'src/components/Layout'
 import '../styles/globals.css'
 import { NextPageWithLayout } from 'src/types'
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
+
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   // Use the layout defined at the page level, if available
   // see https://nextjs.org/docs/basic-features/layouts#with-typescript

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { PageTitle } from 'src/components/Layout'
 import ServiceVariables from 'src/components/Services/ServiceVariables'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { clearUserInput, setServiceId } from 'src/store/userInput'
+import { clearUserInput, setServiceId } from 'src/store/slices/userInput'
 import { useGetServiceApiV1ServiceServiceIdGetQuery } from 'src/store/api/tdpApi'
 
 const Page = () => {
