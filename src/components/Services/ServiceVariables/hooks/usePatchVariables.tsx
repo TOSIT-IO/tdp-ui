@@ -5,47 +5,33 @@ import {
   usePatchServiceApiV1ServiceServiceIdPatchMutation,
   usePatchComponentApiV1ServiceServiceIdComponentComponentIdPatchMutation,
 } from 'src/store/api/tdpApi'
-import { useAppDispatch } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { clearUserInput } from 'src/store/slices/userInput'
-
-type UserInput = {
-  serviceId: string
-  variables: object
-  components: {
-    id: string
-    variables: object
-  }[]
-}
 
 export const usePatchVariables = () => {
   const dispatch = useAppDispatch()
   const [patchService] = usePatchServiceApiV1ServiceServiceIdPatchMutation()
   const [patchComponent] =
     usePatchComponentApiV1ServiceServiceIdComponentComponentIdPatchMutation()
+  const userInput = useAppSelector((state) => state.userInput)
 
-  const patchVariables = async ({
-    userInput,
-    message,
-  }: {
-    userInput: UserInput
-    message: string
-  }) => {
+  const patchVariables = async ({ message }: { message: string }) => {
     let patchedIds = []
     if (userInput.variables) {
       const result = await patchService({
-        serviceId: userInput.serviceId,
+        serviceId: userInput.id,
         serviceUpdate: {
           message,
           variables: userInput.variables,
         },
       })
-      if ('data' in result && result.data) patchedIds.push(userInput.serviceId)
+      if ('data' in result && result.data) patchedIds.push(userInput.id)
     }
     if (userInput.components) {
       await Promise.all(
         userInput.components.map(async (component) => {
           const result = await patchComponent({
-            serviceId: userInput.serviceId,
+            serviceId: userInput.id,
             componentId: component.id,
             componentUpdate: {
               message,
@@ -61,7 +47,7 @@ export const usePatchVariables = () => {
         <div>
           <Link href="/deploy/new">
             Variables successfully updated for the &quot;
-            <b>{userInput.serviceId}</b>&quot; service. Click to configure a new
+            <b>{userInput.id}</b>&quot; service. Click to configure a new
             deployment.
           </Link>
         </div>
@@ -69,6 +55,5 @@ export const usePatchVariables = () => {
     // Cleanup userInput
     dispatch(clearUserInput())
   }
-
   return patchVariables
 }
