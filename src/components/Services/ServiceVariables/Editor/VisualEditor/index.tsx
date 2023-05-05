@@ -53,7 +53,13 @@ const Form = ({
   const { watch } = methods
 
   useEffect(() => {
-    const subscription = watch((value) => onChange(parseRecursively(value)))
+    const subscription = watch((value) => {
+      try {
+        onChange(parseRecursively(value))
+      } catch (e) {
+        console.error(e)
+      }
+    })
     return () => subscription.unsubscribe()
   }, [watch, onChange])
 
