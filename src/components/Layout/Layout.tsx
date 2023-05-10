@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import 'react-toastify/dist/ReactToastify.css'
 import {
   Menu,
@@ -13,13 +14,15 @@ export const DashboardLayout = ({ children }) => (
     <Sidebar sideWidth="13rem" space="0">
       {/* Sidebar */}
       <aside className="flex h-screen flex-col overflow-auto bg-gray-900">
-        <Image
-          className="my-5 mr-3 self-center"
-          src="/tdp-logo.svg"
-          alt="TDP logo"
-          width={110}
-          height={63}
-        />
+        <Link href="/" className="self-center">
+          <Image
+            className="my-5 mr-3"
+            src="/tdp-logo.svg"
+            alt="TDP logo"
+            width={110}
+            height={63}
+          />
+        </Link>
         <Menu />
         <div className="mb-3 mt-auto px-2">
           <UserInfos />

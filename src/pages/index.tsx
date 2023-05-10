@@ -1,7 +1,17 @@
-const Page = () => (
-  <>
-    <p>Page content</p>
-  </>
-)
+import {
+  DeploySection,
+  LogsSection,
+  ServicesSection,
+} from 'src/components/Dashboard'
 
-export default Page
+const DashboardPage = () => {
+  return (
+    <div className="mt-10 space-y-10">
+      <LogsSection />
+      <DeploySection />
+      <ServicesSection />
+    </div>
+  )
+}
+
+export default DashboardPage
