@@ -1,1 +1,1 @@
-export * from './usePatchVariables'
+export * from './usePutVariables'
