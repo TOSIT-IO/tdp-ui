@@ -15,6 +15,7 @@ const WipMessage = () => (
     {' 👷'}
   </p>
 )
+
 const NoVariableMessage = () => {
   const {
     query: { serviceId, componentId },
@@ -42,20 +43,23 @@ const Variables = ({
   </div>
 )
 
-const Form = ({
+const VisualEditor = ({
+  variables,
   onChange,
-  children,
+  onSave: handleSave,
 }: {
-  onChange: (newVariables: Object) => void
-  children: React.ReactNode
+  variables: Object
+  onChange: (value: Object) => void
+  onSave: (newVariables: object) => void
 }) => {
   const methods = useForm()
   const { watch } = methods
-
   useEffect(() => {
     const subscription = watch((value) => {
       try {
-        onChange(parseRecursively(value))
+        let json = parseRecursively(value)
+        handleSave(json)
+        onChange(json)
       } catch (e) {
         console.error(e)
       }
@@ -63,20 +67,6 @@ const Form = ({
     return () => subscription.unsubscribe()
   }, [watch, onChange])
 
-  return (
-    <FormProvider {...methods}>
-      <div className="flex flex-col gap-3">{children}</div>
-    </FormProvider>
-  )
-}
-
-const VisualEditor = ({
-  variables,
-  onChange: handleChange,
-}: {
-  variables: Object
-  onChange: (newVariables: Object) => void
-}) => {
   if (variables && !Object.entries(variables).length)
     return <NoVariableMessage />
 
@@ -84,17 +74,19 @@ const VisualEditor = ({
   return (
     <>
       <WipMessage />
-      <Form onChange={handleChange}>
-        <Variables variables={primitiveVariables} />
-        {objectVariables.map(([dictId, dictVariables]) => (
-          <Disclosure title={dictId} key={dictId}>
-            <Variables
-              dictId={dictId}
-              variables={Object.entries(dictVariables ?? {})}
-            />
-          </Disclosure>
-        ))}
-      </Form>
+      <FormProvider {...methods}>
+        <div className="flex flex-col gap-3">
+          <Variables variables={primitiveVariables} />
+          {objectVariables.map(([dictId, dictVariables]) => (
+            <Disclosure title={dictId} key={dictId}>
+              <Variables
+                dictId={dictId}
+                variables={Object.entries(dictVariables ?? {})}
+              />
+            </Disclosure>
+          ))}
+        </div>
+      </FormProvider>
     </>
   )
 }
