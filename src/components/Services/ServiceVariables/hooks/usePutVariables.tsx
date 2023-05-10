@@ -2,23 +2,23 @@ import Link from 'next/link'
 import { toast } from 'react-toastify'
 
 import {
-  usePatchServiceApiV1ServiceServiceIdPatchMutation,
-  usePatchComponentApiV1ServiceServiceIdComponentComponentIdPatchMutation,
+  usePutServiceApiV1ServiceServiceIdPutMutation,
+  usePutComponentApiV1ServiceServiceIdComponentComponentIdPutMutation,
 } from 'src/store/api/tdpApi'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { clearUserInput } from 'src/store/slices/userInput'
 
-export const usePatchVariables = () => {
+export const usePutVariables = () => {
   const dispatch = useAppDispatch()
-  const [patchService] = usePatchServiceApiV1ServiceServiceIdPatchMutation()
-  const [patchComponent] =
-    usePatchComponentApiV1ServiceServiceIdComponentComponentIdPatchMutation()
+  const [putService] = usePutServiceApiV1ServiceServiceIdPutMutation()
+  const [putComponent] =
+    usePutComponentApiV1ServiceServiceIdComponentComponentIdPutMutation()
   const userInput = useAppSelector((state) => state.userInput)
 
-  const patchVariables = async ({ message }: { message: string }) => {
+  const putVariables = async ({ message }: { message: string }) => {
     let patchedIds = []
     if (userInput.variables) {
-      const result = await patchService({
+      const result = await putService({
         serviceId: userInput.id,
         serviceUpdate: {
           message,
@@ -30,7 +30,7 @@ export const usePatchVariables = () => {
     if (userInput.components) {
       await Promise.all(
         userInput.components.map(async (component) => {
-          const result = await patchComponent({
+          const result = await putComponent({
             serviceId: userInput.id,
             componentId: component.id,
             componentUpdate: {
@@ -55,5 +55,5 @@ export const usePatchVariables = () => {
     // Cleanup userInput
     dispatch(clearUserInput())
   }
-  return patchVariables
+  return putVariables
 }
