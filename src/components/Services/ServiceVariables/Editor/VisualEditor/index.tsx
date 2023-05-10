@@ -65,7 +65,7 @@ const VisualEditor = ({
       }
     })
     return () => subscription.unsubscribe()
-  }, [watch, onChange])
+  })
 
   if (variables && !Object.entries(variables).length)
     return <NoVariableMessage />
