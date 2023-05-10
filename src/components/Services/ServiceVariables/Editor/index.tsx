@@ -39,6 +39,7 @@ const Editor = ({
               key={serviceId + componentId}
               variables={value}
               onChange={onChange}
+              onSave={handleSave}
             />
           )
         }
