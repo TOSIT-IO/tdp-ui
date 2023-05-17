@@ -68,8 +68,8 @@ const DeploymentItem = ({ deploylog }: { deploylog: DeploymentLog }) => {
   )
 }
 
-export const DeploymentsLogs = () => {
-  const pageSize = 15
+export const DeploymentsLogs = ({ limit }: { limit?: number }) => {
+  const pageSize = limit ?? 15
   const [currentPage, setCurrentPage] = useState(0)
 
   const toggleNextPage = () => {
@@ -94,7 +94,7 @@ export const DeploymentsLogs = () => {
           </div>
         ) : (
           <div className="px-4 sm:px-6 lg:px-8">
-            <div className="mt-8 flex flex-col">
+            <div className="flex flex-col">
               <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                   <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -143,15 +143,17 @@ export const DeploymentsLogs = () => {
                 </div>
               </div>
             </div>
-            <Pagination
-              // TODO: Server should return the page size
-              totalPages={
-                data.length < pageSize ? currentPage : currentPage + 1
-              }
-              currentPage={currentPage}
-              toggleNextPage={toggleNextPage}
-              togglePreviousPage={togglePreviousPage}
-            />
+            {!limit && (
+              <Pagination
+                // TODO: Server should return the page size
+                totalPages={
+                  data.length < pageSize ? currentPage : currentPage + 1
+                }
+                currentPage={currentPage}
+                toggleNextPage={toggleNextPage}
+                togglePreviousPage={togglePreviousPage}
+              />
+            )}
           </div>
         )}
       </>

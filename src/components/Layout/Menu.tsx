@@ -1,6 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { BeakerIcon, Cog6ToothIcon } from '@heroicons/react/24/solid'
+import {
+  BeakerIcon,
+  Cog6ToothIcon,
+  RectangleGroupIcon,
+} from '@heroicons/react/24/solid'
 import { HeroIcon } from 'src/types'
 import { classNames } from 'src/utils'
 import { useGetServicesApiV1ServiceGetQuery } from '../../store/api/tdpApi'
@@ -22,6 +26,11 @@ export const Menu = () => {
 
   if (isSuccess && data) {
     const menuItems = [
+      {
+        name: 'Dashboard',
+        href: '/',
+        icon: RectangleGroupIcon,
+      },
       {
         name: 'Services',
         href: '#',
