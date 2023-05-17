@@ -52,23 +52,19 @@ const ServiceCard = ({ service }: { service: Service }) => (
   </Link>
 )
 
-const RunningServices = () => {
-  const { data: services } = useGetServicesApiV1ServiceGetQuery()
+export const ServicesSection = () => {
+  const { data } = useGetServicesApiV1ServiceGetQuery()
 
   return (
-    <ul className="mx-8 grid grid-flow-row gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {services?.map((service) => (
-        <ServiceCard key={service.id} service={service} />
-      ))}
-    </ul>
+    <section>
+      <h2 className="mb-5 text-2xl font-medium text-gray-900">
+        Running services
+      </h2>
+      <ul className="mx-8 grid grid-flow-row gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {data?.map((service) => (
+          <ServiceCard key={service.id} service={service} />
+        ))}
+      </ul>
+    </section>
   )
 }
-
-export const ServicesSection = () => (
-  <section>
-    <h2 className="mb-5 text-2xl font-medium text-gray-900">
-      Running services
-    </h2>
-    <RunningServices />
-  </section>
-)
