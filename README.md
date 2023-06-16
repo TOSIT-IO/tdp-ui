@@ -47,7 +47,7 @@ The following are required to **build and develop** `tdp-ui`. They aren't needed
 A Docker environment is provided with the required dependencies for development. It contains both `tdp-server` and Keycloak as the identity provider:
 
 ```bash
-docker compose -f env/dev/compose.yml up -d
+docker compose -f env/dev-with-keycloak/compose.yml up -d
 ```
 
 An user is provisioned in Keycloak to access the app. The credentials are:

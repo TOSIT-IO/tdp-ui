@@ -13,6 +13,26 @@ services:
     volumes:
       - ./config/init_script.sql:/docker-entrypoint-initdb.d/init_script.sql
 
+  keycloak:
+    command: start-dev --import-realm --hostname-strict=false
+    depends_on:
+      - db
+    environment:
+      KC_DB_PASSWORD: keycloak
+      KC_DB_SCHEMA: keycloak
+      KC_DB_URL: jdbc:postgresql://db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB: postgres
+      KC_HOSTNAME_URL: http://localhost:8080/auth
+      KC_HTTP_RELATIVE_PATH: /auth
+      KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
+      KEYCLOAK_ADMIN: admin
+    image: quay.io/keycloak/keycloak:20.0
+    ports:
+      - 8080:8080
+    volumes:
+      - ./config/realm.json:/opt/keycloak/data/import/realm.json
+
   tdp_server:
     build:
       context: https://github.com/TOSIT-IO/tdp-server.git
@@ -20,12 +40,12 @@ services:
     command: ["uvicorn", "--host", "0.0.0.0", "tdp_server.main:app"]
     depends_on:
       - db
+      - keycloak
     entrypoint: ["bash", "/entrypoint-ui.sh"]
     env_file:
       - ./config/tdp_server.env
     environment:
       MOCK_DEPLOY: true
-      DO_NOT_USE_IN_PRODUCTION_DISABLE_TOKEN_CHECK: true
     ports:
       - 8000:8000
     volumes:
